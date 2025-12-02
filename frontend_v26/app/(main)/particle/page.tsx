@@ -21,7 +21,7 @@ const ParticlesPage = () => {
     console.log(container);
   };
 
-  const options: ISourceOptions = useMemo(
+  const options: any = useMemo(
     () => ({
   "autoPlay": true,
   "background": {
