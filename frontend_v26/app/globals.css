@@ -1,9 +1,24 @@
 @import "tailwindcss";
+@plugin "@iconify/tailwind4" {
+ scale: 1.2;
+}
+
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
+
+@theme {
+  --color-version-indigo-ink: #371768ff;
+  --color-version-lavender-purple: #8b5ad7ff;
+  --color-version-mauve: #d5bbfdff;
+  --color-version-periwinkle: #e4d4feff;
+  --color-version-white: #ffffffff;
+  --drop-shadow-5xl: 0 100px 100px rgba(0, 0, 0, 0.25);
+}
+
+
 
 @theme inline {
   --color-background: var(--background);
