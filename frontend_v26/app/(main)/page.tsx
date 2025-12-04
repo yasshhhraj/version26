@@ -1,34 +1,32 @@
 import Image from "next/image";
 import Navbar from "../components/navbar";
-import ParticlesPage from "./particle/page";
+import { memo } from "react";
 
 export default function Home() {
   return (
-    <div className="h-full w-full overflow-x-clip bg-[url('/Assets/grid_hero.png')]  ">
-      <main className="flex h-full w-full relative flex-col bg-[url('/Assets/background.png')] bg-cover ">
+    <div className="h-auto w-full overflow-x-clip   ">
+      <main className="flex h-full w-full relative flex-col  ">
         <Navbar />
-        <div className=" w-full h-fit shrink-0 relative ">
+        <div className=" w-full max-h-screen h-[1013] shrink-0 relative bg-[url('/Assets/background.png'),url('/Assets/grid_hero.png')] bg-cover ">
           <div className="rounded-full w-72 h-72  bg-[#4600BE] absolute top-1/6 right-1/6 blur-[300px] "></div>
           <div className="rounded-full w-72 h-72  bg-[#4600BE] absolute bottom-1 -left-18 blur-[300px] "></div>
           <div >
             <Image src={'/Assets/hero_palm.png'} alt="Hero Palm" width={745} height={0} className="absolute -z-10 right-1/6 transform translate-x-1/3" />
-            {/* <ParticlesPage /> */}
           </div>
           
           <HeroSection />
 
         </div>
-        <div className="bg-blue-700 shrink-0 w-full h-full relative ">
-          <div className="rounded-full w-52 h-52  bg-gray-800  absolute top-1/3 right-1/4 blur-[128px] "></div>
-          <div className="rounded-full w-52 h-52  bg-gray-800  absolute bottom-1/4 left-1/5 blur-[128px] "></div>
-          <div></div>
-        </div>
+
+        <HeroSection2 />
       </main>
     </div>
   );
 }
 
-const HeroSection = () => {
+
+
+const HeroSection = memo(function HeroSection() {
   return (
     // CONTAINER: Use Flexbox to center/position, use padding (px/py) for spacing.
     // min-h-screen ensures it takes up full view height (optional).
@@ -95,5 +93,77 @@ const HeroSection = () => {
       </div>
     </div>
   );
-};
+});
+
+const HeroSection2 = memo(function HeroSection2() {
+  return (
+    <div className="relative w-full flex flex-col overflow-hidden bg-[#0a0a0a] pt-20 md:pt-32 pb-20">
+      
+      {/* --- BACKGROUNDS --- */}
+      
+      {/* 1. Grid: Now covers full background (inset-0) but very subtle (opacity-30) */}
+      <div className="absolute right-0 top-0 h-1/2 md:h-full w-full md:w-[45%] bg-[url('/Assets/perspective_grid_hero.png')] bg-cover bg-right opacity-60 pointer-events-none z-0 mix-blend-screen" />
+      
+      {/* 2. Ribbon: High Priority. 
+          - h-full: Forces it to stretch top-to-bottom.
+          - w-full/md:w-[80%]: Gives it horizontal room.
+          - bg-[length:auto_100%]: Key fix. Sets height to 100% and calculates width automatically to keep ratio.
+      */}
+      <div className="absolute left-0 top-0 h-full w-full md:w-[85%] bg-[url('/Assets/ribbion.png')] bg-no-repeat bg-left bg-[length:auto_100%] pointer-events-none z-0" />
+
+      {/* --- CONTENT CONTAINER --- */}
+      {/* Added z-10 to ensure text sits ABOVE the ribbon/grid */}
+      <div className="relative z-10 w-[90%] max-w-[1400px] mx-auto mt-0 flex flex-col gap-12 md:gap-24">
+        
+        {/* TYPOGRAPHY */}
+        <div className="w-full">
+          <h1 className="text-white text-5xl sm:text-7xl md:text-8xl lg:text-[150px] font-bold leading-[0.9] tracking-tighter drop-shadow-2xl">
+            Beyond Intelligence
+            <br />
+            <span className="block mt-4 md:mt-0 md:ml-[20%] lg:ml-[35%]">
+              Toward Infinity
+            </span>
+          </h1>
+
+          <div className="mt-8 flex justify-end">
+            <p className="text-gray-200 text-lg md:text-xl lg:text-2xl w-full md:w-1/2 lg:w-[45%] leading-relaxed drop-shadow-md bg-black/5  p-4 rounded-xl ">
+              As we move into the age of AGI, intelligence is no longer confined
+              to predefined tasks. It grows, adapts, and evolves. Our theme,
+              “Beyond Intelligence Toward Infinity,” highlights this transition—a
+              future where computational systems approach human versatility.
+            </p>
+          </div>
+        </div>
+
+        {/* MEDIA & ACTION */}
+        <div className="w-full flex flex-col xl:flex-row items-center gap-10 lg:gap-16">
+          
+          {/* Video Container */}
+          <div className="w-full xl:w-[986px] aspect-video rounded-xl border border-amber-50/20 overflow-hidden bg-zinc-900 shadow-2xl relative z-20">
+            <iframe
+              className="w-full h-full"
+              src="https://www.youtube.com/embed/wPSnOqOJYM4?autoplay=1&mute=1&loop=1&playlist=wPSnOqOJYM4"
+              title="Version'25 After movie"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+
+          {/* Button */}
+          <a
+            href="#"
+            className="group w-full md:w-auto xl:min-w-[420px] bg-black/50 backdrop-blur-md hover:bg-white/10 border border-[#2E2F2F] text-white rounded-full transition-all duration-300 flex gap-4 items-center justify-center py-6 px-8 z-20"
+          >
+            <div className="w-4 h-4 bg-[#77ff00] rounded-full shadow-[0_0_10px_#77ff00] group-hover:scale-125 transition-transform" />
+            <span className="text-xl md:text-2xl lg:text-3xl font-semibold">
+              Version’25 After movie
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+});
+
+
 
