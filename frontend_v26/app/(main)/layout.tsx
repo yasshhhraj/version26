@@ -1,23 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Roboto } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/app/components/navbar";
+import {ReactNode} from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const dm_sans = DM_Sans({
+    variable: "--font-dm-sans",
+    subsets: ["latin"],
+    preload: true,
+    fallback: ["sans-serif", "roboto", "ui-sans-serif", "system-ui"],
+})
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
-const roboto = Roboto({
-  weight: ['400', '700'], // Or a single weight like '400'
-  subsets: ['latin'],
-  display: 'swap', // Recommended for better performance
-});
+
 
 export const metadata: Metadata = {
   title: "Version'26",
@@ -27,12 +22,12 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${roboto.className} antialiased w-full h-svh `}
+        className={`${dm_sans.className} {roboto.className} antialiased w-full h-svh `}
       >
         <Navbar />
         {children}

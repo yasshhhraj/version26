@@ -1,5 +1,6 @@
 'use client';
-import React, { useEffect, useRef, useState } from "react";
+import React, {useCallback, useEffect, useRef, useState} from "react";
+import Image from "next/image";
 
 interface CircularCarouselProps {
     items: React.ReactNode[];
@@ -7,13 +8,15 @@ interface CircularCarouselProps {
 
 export default function CircularCarousel({ items }: CircularCarouselProps) {
     const [index, setIndex] = useState(0);
+    const [isVertical, setIsVertical] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const wheelLockRef = useRef<boolean>(false);
     const touchStartXRef = useRef<number | null>(null);
+    const touchStartYRef = useRef<number | null>(null);
     const keyLockRef = useRef<boolean>(false);
 
-    const prev = () => setIndex((i) => (i - 1 + items.length) % items.length);
-    const next = () => setIndex((i) => (i + 1) % items.length);
+    const prev = useCallback(() => setIndex((i) => (i - 1 + items.length) % items.length), [items.length]);
+    const next = useCallback(() => setIndex((i) => (i + 1) % items.length), [items.length]);
 
     const getPosition = (i: number): "center" | "left" | "right" | "hidden" => {
         if (i === index) return "center";
@@ -22,15 +25,35 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
         return "hidden";
     };
 
-    // Keyboard navigation: Left/Right arrows
+    // Determine orientation: portrait -> vertical carousel behavior
+    useEffect(() => {
+        const updateOrientation = () => {
+            const portrait = typeof window !== 'undefined' &&
+                (window.matchMedia && window.matchMedia('(orientation: portrait)').matches);
+            // Fallback to small width if matchMedia not available
+            const smallWidth = typeof window !== 'undefined' && window.innerWidth < 768;
+            setIsVertical(Boolean(portrait || smallWidth));
+        };
+        updateOrientation();
+        window.addEventListener('resize', updateOrientation);
+        const mm = window.matchMedia ? window.matchMedia('(orientation: portrait)') : null;
+        const mmListener = () => updateOrientation();
+        if (mm) mm.addEventListener('change', mmListener);
+        return () => {
+            window.removeEventListener('resize', updateOrientation);
+            if (mm) mm.removeEventListener('change', mmListener);
+        };
+    }, []);
+
+    // Keyboard navigation: Arrow keys
     useEffect(() => {
         const onKeyDown = (e: KeyboardEvent) => {
             if (keyLockRef.current) return;
-            if (e.key === 'ArrowLeft') {
+            if (e.key === 'ArrowLeft' || (isVertical && e.key === 'ArrowUp')) {
                 prev();
                 keyLockRef.current = true;
                 setTimeout(() => (keyLockRef.current = false), 250);
-            } else if (e.key === 'ArrowRight') {
+            } else if (e.key === 'ArrowRight' || (isVertical && e.key === 'ArrowDown')) {
                 next();
                 keyLockRef.current = true;
                 setTimeout(() => (keyLockRef.current = false), 250);
@@ -38,7 +61,7 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
         };
         window.addEventListener('keydown', onKeyDown);
         return () => window.removeEventListener('keydown', onKeyDown);
-    }, [items.length]);
+    }, [items.length, next, prev, isVertical]);
 
     // Wheel navigation (scroll): up -> prev, down -> next (throttled)
     const handleWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
@@ -51,35 +74,55 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
             prev();
         }
         wheelLockRef.current = true;
-        // lock briefly to avoid skipping multiple cards on a single wheel gesture
+        // lock briefly to avoid skipping multiple cards on a single-wheel gesture
         setTimeout(() => (wheelLockRef.current = false), 300);
     };
 
     // Touch swipe navigation for mobile
     const handleTouchStart: React.TouchEventHandler<HTMLDivElement> = (e) => {
-        touchStartXRef.current = e.touches[0]?.clientX ?? null;
+        const t = e.touches[0];
+        touchStartXRef.current = t?.clientX ?? null;
+        touchStartYRef.current = t?.clientY ?? null;
     };
     const handleTouchEnd: React.TouchEventHandler<HTMLDivElement> = (e) => {
         const startX = touchStartXRef.current;
+        const startY = touchStartYRef.current;
         touchStartXRef.current = null;
+        touchStartYRef.current = null;
         if (startX == null) return;
-        const endX = e.changedTouches[0]?.clientX ?? startX;
+        const endTouch = e.changedTouches[0];
+        const endX = endTouch?.clientX ?? startX;
+        const endY = endTouch?.clientY ?? startY ?? 0;
         const deltaX = endX - startX;
+        const deltaY = (startY == null ? 0 : endY - startY);
         const threshold = 40; // px swipe threshold
-        if (Math.abs(deltaX) < threshold) return;
-        if (deltaX > 0) {
-            // swipe right -> go to previous
-            prev();
+
+        // Determine dominant axis to avoid diagonal misfires
+        if (isVertical) {
+            if (Math.abs(deltaY) < threshold || Math.abs(deltaY) < Math.abs(deltaX)) return;
+            if (deltaY > 0) {
+                // swipe down -> previous
+                prev();
+            } else {
+                // swipe up -> next
+                next();
+            }
         } else {
-            // swipe left -> go to next
-            next();
+            if (Math.abs(deltaX) < threshold || Math.abs(deltaX) < Math.abs(deltaY)) return;
+            if (deltaX > 0) {
+                // swipe right -> previous
+                prev();
+            } else {
+                // swipe left -> next
+                next();
+            }
         }
     };
 
     return (
         <div
             ref={containerRef}
-            className="relative w-full h-[380px] flex items-center justify-center gap-44   "
+            className="py-6 relative w-full h-full    flex items-center justify-center gap-4   "
             onWheel={handleWheel}
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
@@ -88,25 +131,24 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
             {/* Left Button */}
             <button
                 onClick={prev}
-                className=" w-full shrink h-4/5 opacity-5  z-20 text-white bg-gray-700 px-3 py-2 rounded-lg"
+                className={(isVertical? "hidden":"")+" w-full h-4/5 opacity-5 z-20 text-white bg-gray-700 px-3 py-2 rounded-lg"}
             >
                 ◀
             </button>
 
             {/* Cards */}
-            <div className="relative  h-full flex items-center justify-center ">
+            <div className="relative  max-h-[80%] md:max-h-full h-full w-full flex items-center justify-center ">
                 {items.map((item, i) => {
                     const pos = getPosition(i);
 
                     return (
-                        <div onClick={() =>{
-                            console.log(pos, item)}}
+                        <div onClick={() =>{}}
                             key={i}
                             className={`
-                absolute transition-all duration-500 ease-in-out rounded-xl 
-                ${pos === "center" ? "scale-100 z-20 opacity-100" : ""}
-                ${pos === "left" ? "scale-0 md:scale-[0.75] -translate-x-[100%] z-10 opacity-60" : ""}
-                ${pos === "right" ? "scale-0  md:scale-[0.75] translate-x-[100%] z-10 opacity-60" : ""}
+                absolute transition-all duration-500 ease-in-out rounded-xl h-full 
+                ${pos === "center" ? "relative  z-20 opacity-100" : ""}
+                ${pos === "left" ? (isVertical ? "scale-0 sm:scale-[0.75] -translate-y-[100%]  z-10 opacity-60" : "scale-0 sm:scale-[0.75] -translate-x-[100%]  z-10 opacity-60") : ""}
+                ${pos === "right" ? (isVertical ? "scale-0 sm:scale-[0.75] translate-y-[100%]  z-10 opacity-60" : "scale-0  sm:scale-[0.75] translate-x-[100%]  z-10 opacity-60") : ""}
                 ${pos === "hidden" ? "scale-[0.5] opacity-0 pointer-events-none" : ""}
               `}
                         >
@@ -119,7 +161,7 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
             {/* Right Button */}
             <button
                 onClick={next}
-                className=" w-full shrink h-4/5 opacity-5  z-20 text-white px-3 py-2  bg-gray-700  rounded-lg"
+                className={(isVertical?"hidden ":"")+" w-full h-4/5 opacity-5  z-20 text-white px-3 py-2  bg-gray-700  rounded-lg"}
             >
                 ▶
             </button>
@@ -135,15 +177,17 @@ interface EventCardProps {
 
 export function EventCard({ title, description, image}: EventCardProps) {
     return (
-        <div className="relative group w-80 h-[450px] bg-gray-900/50 border border-gray-800 rounded-3xl overflow-hidden transition-transform duration-300 hover:scale-105 hover:border-purple-500/50">
+        <div className="relative group w-80 md:w-[624px] sm:w-96  aspect-square md:aspect-auto bg-gray-900/50 border border-gray-800 rounded-3xl overflow-hidden transition-transform duration-300 hover:scale-105 hover:border-purple-500/50">
 
             {/* 1. Illustration Area */}
-            <div className="h-full w-full p-6 flex items-center justify-center">
+            <div className="h-full w-full  flex items-center justify-center">
                 {/* Placeholder for the image/illustration */}
-                <img
+                <Image
+                    width={500}
+                    height={300}
                     src={image}
                     alt={title}
-                    className="w-full h-64 object-contain drop-shadow-2xl"
+                    className="w-full  h-full object-contain drop-shadow-2xl"
                 />
             </div>
 
@@ -170,5 +214,5 @@ export function EventCard({ title, description, image}: EventCardProps) {
             </div>
         </div>
     );
-};
+}
 
