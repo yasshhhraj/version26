@@ -1,6 +1,7 @@
 'use client';
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import Image from "next/image";
+import Event from "@/app/components/Event";
 
 interface CircularCarouselProps {
     items: React.ReactNode[];
@@ -9,6 +10,7 @@ interface CircularCarouselProps {
 export default function CircularCarousel({ items }: CircularCarouselProps) {
     const [index, setIndex] = useState(0);
     const [isVertical, setIsVertical] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement | null>(null);
     const wheelLockRef = useRef<boolean>(false);
     const touchStartXRef = useRef<number | null>(null);
@@ -119,6 +121,16 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
         }
     };
 
+    const handleCardClick = (i: number) => {
+        // If the clicked card is centered, open the Event modal.
+        if (i === index) {
+            setIsModalOpen(true);
+        } else {
+            // Optional UX: clicking a side card brings it to center
+            setIndex(i);
+        }
+    };
+
     return (
         <div
             ref={containerRef}
@@ -131,7 +143,7 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
             {/* Left Button */}
             <button
                 onClick={prev}
-                className={(isVertical? "hidden":"")+" w-full h-4/5 opacity-5 z-20 text-white bg-gray-700 px-3 py-2 rounded-lg"}
+                className={(isVertical? "hidden":"")+" w-full h-4/5 opacity-0 z-20 text-white bg-gray-700 px-3 py-2 rounded-lg"}
             >
                 ◀
             </button>
@@ -142,7 +154,7 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
                     const pos = getPosition(i);
 
                     return (
-                        <div onClick={() =>{}}
+                        <div onClick={() => handleCardClick(i)}
                             key={i}
                             className={`
                 absolute transition-all duration-500 ease-in-out rounded-xl h-full 
@@ -165,6 +177,18 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
             >
                 ▶
             </button>
+            {/* Event Modal */}
+            <Event
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                title={"Event Details"}
+            >
+                {/* Placeholder details; replace with actual event info later */}
+                <div className="space-y-2 text-sm md:text-base">
+                    <p>This is a placeholder for the selected event.</p>
+                    <p>Click the X to close.</p>
+                </div>
+            </Event>
         </div>
     );
 }
