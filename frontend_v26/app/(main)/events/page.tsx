@@ -1,7 +1,22 @@
+'use client'
 import Image from "next/image";
 import CircularCarousel, {EventCard} from "@/app/components/CircularCarousal";
+import {useEffect, useState} from "react";
 
 const EventsPage = () => {
+    const [isVertical, setIsVertical] = useState(false);
+
+    useEffect(() => {
+        const updateOrientation = () => {
+            const portrait = typeof window !== 'undefined' &&
+                (window.matchMedia && window.matchMedia('(orientation: portrait)').matches);
+            // Fallback to small width if matchMedia not available
+            const smallWidth = typeof window !== 'undefined' && window.innerWidth < 768;
+            setIsVertical(Boolean(portrait || smallWidth));
+        };
+        updateOrientation();
+    }, []);
+
     return (
         <div className={'relative h-screen w-full overflow-clip bg-[url("/Assets/ellipse.png")] dark:bg-[url("/Assets/grid_hero.png"),url("/Assets/ellipse.png")] bg-center bg-no-repeat bg-white dark:bg-black transition-colors duration-300'}>
 
@@ -10,10 +25,11 @@ const EventsPage = () => {
                 <Image src={'/Assets/shine.svg'} alt={'decorative shine'} width={1980} height={1000}
                        className={'w-full scale-x-90 transform -translate-y-10 md-translate-y-5 md:-translate-x-5 opacity-60 dark:opacity-50 transition-opacity duration-300'}/>
             </div>
-            <p className={'font-bold absolute text-[64px] sm:text-[100px] md:text-[128px] top-16 sm:top-20 md:top-24 left-1/2 transform -translate-x-1/2 text-[#4A68FF]/45 dark:text-[#4600BE] drop-shadow-5xl transition-colors duration-300'}>EVENTS</p>
+                <p className={'font-bold absolute text-[clamp(64px,100px,256px)]  sm:text-[128px] lg:text-[188px]   top-36 sm:top-16 md:top-16 lg:top-24 left-1/2 transform -translate-x-1/2 text-[#4A68FF]/45 dark:text-[#4600BE] drop-shadow-5xl transition-all duration-300'}>EVENTS</p>
+
             <div
                 className={'w-full h-[80%] absolute bottom-0  flex items-center justify-center gap-10 overflow-clip'}>
-                <Carousal />
+                <Carousal isVerticle={isVertical} />
             </div>
         </div>
     );
@@ -23,11 +39,11 @@ export default EventsPage;
 
 
 
-export function Carousal() {
+export function Carousal({isVerticle}: {isVerticle: boolean}) {
     const cards = eventsData.map((event) => <EventCard key={event.id} image={'/Assets/event_placeholder.png'} description={event.description} title={event.title} />)
 
     return (
-        <div className="carousal h-full md:max-h-[540px]  w-full  flex items-center justify-center  overflow-clip">
+        <div className={(isVerticle?"md:max-h-full":" md:max-h-[540px]")+"carousal overscroll-y-none touch-pan-y h-full   w-full  flex items-center justify-center  overflow-clip"}>
             <CircularCarousel items={cards} />
         </div>
     );

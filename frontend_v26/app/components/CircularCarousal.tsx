@@ -137,7 +137,7 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
             </button>
 
             {/* Cards */}
-            <div className="relative  max-h-[80%] md:max-h-full h-full w-full flex items-center justify-center ">
+            <div className="relative  max-h-[80%] md:max-h-full  w-full flex items-center justify-center ">
                 {items.map((item, i) => {
                     const pos = getPosition(i);
 
@@ -146,9 +146,9 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
                             key={i}
                             className={`
                 absolute transition-all duration-500 ease-in-out rounded-xl h-full 
-                ${pos === "center" ? "relative  z-20 opacity-100" : ""}
-                ${pos === "left" ? (isVertical ? "scale-0 sm:scale-[0.75] -translate-y-[100%]  z-10 opacity-60" : "scale-0 sm:scale-[0.75] -translate-x-[100%]  z-10 opacity-60") : ""}
-                ${pos === "right" ? (isVertical ? "scale-0 sm:scale-[0.75] translate-y-[100%]  z-10 opacity-60" : "scale-0  sm:scale-[0.75] translate-x-[100%]  z-10 opacity-60") : ""}
+                ${pos === "center" ? "relative   z-20 opacity-100 shadow-sm" : ""}
+                ${pos === "left" ? (isVertical ? "scale-50 sm:scale-[0.75] -translate-y-[40%]  z-10 opacity-60" : "scale-0 sm:scale-[0.75] -translate-x-[80%]  z-10 opacity-60") : ""}
+                ${pos === "right" ? (isVertical ? "scale-50 sm:scale-[0.75] translate-y-[40%]  z-10 opacity-60" : "scale-0  sm:scale-[0.75] translate-x-[80%]  z-10 opacity-60") : ""}
                 ${pos === "hidden" ? "scale-[0.5] opacity-0 pointer-events-none" : ""}
               `}
                         >
@@ -161,7 +161,7 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
             {/* Right Button */}
             <button
                 onClick={next}
-                className={(isVertical?"hidden ":"")+" w-full h-4/5 opacity-5  z-20 text-white px-3 py-2  bg-gray-700  rounded-lg"}
+                className={(isVertical?"hidden ":"")+" w-full h-4/5 opacity-0 z-20 text-white px-3 py-2  bg-gray-700  rounded-lg"}
             >
                 ▶
             </button>
