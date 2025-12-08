@@ -4,10 +4,19 @@ import Image from "next/image";
 import Event from "@/app/components/Event";
 
 interface CircularCarouselProps {
-    items: React.ReactNode[];
+    eventsData: event[];
+}
+interface event {
+    id: number;
+    title: string;
+    description: string;
+    image: string;
+    date: string;
+    registrationLink: string;
 }
 
-export default function CircularCarousel({ items }: CircularCarouselProps) {
+export default function CircularCarousel({ eventsData }: CircularCarouselProps) {
+    const items = eventsData.map((event) => <EventCard key={event.id} image={'/Assets/event_placeholder.png'} description={event.description} title={event.title} />)
     const [index, setIndex] = useState(0);
     const [isVertical, setIsVertical] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,8 +42,8 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
             const portrait = typeof window !== 'undefined' &&
                 (window.matchMedia && window.matchMedia('(orientation: portrait)').matches);
             // Fallback to small width if matchMedia not available
-            const smallWidth = typeof window !== 'undefined' && window.innerWidth < 768;
-            setIsVertical(Boolean(portrait || smallWidth));
+            const smallWidth = typeof window !== 'undefined' && window.innerWidth < 400;
+            setIsVertical(Boolean(portrait && smallWidth));
         };
         updateOrientation();
         window.addEventListener('resize', updateOrientation);
@@ -159,8 +168,8 @@ export default function CircularCarousel({ items }: CircularCarouselProps) {
                             className={`
                 absolute transition-all duration-500 ease-in-out rounded-xl h-full 
                 ${pos === "center" ? "relative   z-20 opacity-100 shadow-sm" : ""}
-                ${pos === "left" ? (isVertical ? "scale-50 sm:scale-[0.75] -translate-y-[40%]  z-10 opacity-60" : "scale-0 sm:scale-[0.75] -translate-x-[80%]  z-10 opacity-60") : ""}
-                ${pos === "right" ? (isVertical ? "scale-50 sm:scale-[0.75] translate-y-[40%]  z-10 opacity-60" : "scale-0  sm:scale-[0.75] translate-x-[80%]  z-10 opacity-60") : ""}
+                ${pos === "left" ? (isVertical ? "scale-75 blur-xs sm:scale-[0.75] -translate-y-[40%]  z-10 opacity-60" : "scale-75 blur-xs -translate-x-[70%]  z-10 opacity-60") : ""}
+                ${pos === "right" ? (isVertical ? "scale-75 blur-xs sm:scale-[0.75] translate-y-[40%]  z-10 opacity-60" : "scale-75 blur-xs translate-x-[70%]  z-10 opacity-60") : ""}
                 ${pos === "hidden" ? "scale-[0.5] opacity-0 pointer-events-none" : ""}
               `}
                         >
@@ -233,7 +242,7 @@ export function EventCard({ title, description, image}: EventCardProps) {
                 <button
                     className="bg-purple-700 hover:bg-purple-600 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-colors shadow-lg shadow-purple-900/20"
                 >
-                    Register
+                    Details
                 </button>
             </div>
         </div>

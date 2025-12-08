@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image";
-import CircularCarousel, {EventCard} from "@/app/components/CircularCarousal";
+import CircularCarousel from "@/app/components/CircularCarousal";
 import {useEffect, useState} from "react";
 
 const EventsPage = () => {
@@ -18,33 +18,37 @@ const EventsPage = () => {
     }, []);
 
     return (
-        <div className={'relative h-screen w-full overflow-clip bg-[url("/Assets/ellipse.png")] dark:bg-[url("/Assets/grid_hero.png"),url("/Assets/ellipse.png")] bg-center bg-no-repeat bg-white dark:bg-black transition-colors duration-300'}>
+        <div className={'relative flex flex-col items-center justify-start  h-screen w-full overflow-clip bg-[url("/Assets/ellipse.png")] dark:bg-[url("/Assets/grid_hero.png"),url("/Assets/ellipse.png")] bg-center bg-no-repeat bg-white dark:bg-black transition-colors duration-300'}>
 
-            <div
-                className={'w-[250%] sm:w-[150%] md:w-4/5 aspect-square scale-x-120 bg-gray-100 dark:bg-black absolute flex items-start justify-center top-[90%] sm:top-[85%] md:top-[80%] left-1/2 transform -translate-x-1/2 rounded-full border border-[#4A68FF]/5 dark:border-[#4A68FF]/20 transition-colors duration-300'}>
+            <div className={'w-[250%] sm:w-[150%] md:w-4/5 aspect-square scale-x-120 bg-gray-100 dark:bg-black absolute flex items-start justify-center top-[90%] sm:top-[85%] md:top-[80%] left-1/2 transform -translate-x-1/2 rounded-full border border-[#4A68FF]/5 dark:border-[#4A68FF]/20 transition-colors duration-300'}>
                 <Image src={'/Assets/shine.svg'} alt={'decorative shine'} width={1980} height={1000}
                        className={'w-full scale-x-90 transform -translate-y-10 md-translate-y-5 md:-translate-x-5 opacity-60 dark:opacity-50 transition-opacity duration-300'}/>
             </div>
-                <p className={'font-bold absolute text-[clamp(64px,100px,256px)]  sm:text-[128px] lg:text-[188px]   top-36 sm:top-16 md:top-16 lg:top-24 left-1/2 transform -translate-x-1/2 text-[#4A68FF]/45 dark:text-[#4600BE] drop-shadow-5xl transition-all duration-300'}>EVENTS</p>
+            <div className={"w-1 h-36 sm:h-44 md:h-56  shrink-0 "}></div>
+            <div className={'w-full h-0 flex items-center justify-center shrink'}>
+                <p className={'font-bold  fluid-text1 text-[clamp(64px,20vw,256px)]   text-version-lavender-purple dark:text-version-mauve text-shadow-lg transition-all duration-300'}>EVENTS</p>
+            </div>
 
             <div
-                className={'w-full h-[80%] absolute bottom-0  flex items-center justify-center gap-10 overflow-clip'}>
+                className={'w-full h-auto grow shrink-0   flex items-center justify-center gap-10 overflow-clip'}>
                 <Carousal isVerticle={isVertical} />
             </div>
         </div>
     );
 }
 
+
+
+
 export default EventsPage;
 
 
 
 export function Carousal({isVerticle}: {isVerticle: boolean}) {
-    const cards = eventsData.map((event) => <EventCard key={event.id} image={'/Assets/event_placeholder.png'} description={event.description} title={event.title} />)
 
     return (
-        <div className={(isVerticle?"md:max-h-full":" md:max-h-[540px]")+"carousal overscroll-y-none touch-pan-y h-full   w-full  flex items-center justify-center  overflow-clip"}>
-            <CircularCarousel items={cards} />
+        <div className={(isVerticle?"md:max-h-full":" md:max-h-[540px]")+"carousal overscroll-y-none touch-pan-y h-full shrink-0  w-full  flex items-center justify-center  overflow-clip"}>
+            <CircularCarousel  eventsData={eventsData} />
         </div>
     );
 }
