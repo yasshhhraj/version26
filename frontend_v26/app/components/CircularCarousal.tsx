@@ -1,22 +1,32 @@
 'use client';
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import Image from "next/image";
-import Event from "@/app/components/Event";
+import {EventCard, EventPopUp, EventCardData} from "@/app/components/Event";
 
-interface CircularCarouselProps {
-    eventsData: event[];
-}
+
 interface event {
-    id: number;
+    id: string;
     title: string;
+    tagline: string;
     description: string;
-    image: string;
-    date: string;
-    registrationLink: string;
+    imageUrl: string;
+    eventType: string;
+    dateRangeText: string;
+    locationType: 'Virtual' | 'In-Person' | string;
 }
 
-export default function CircularCarousel({ eventsData }: CircularCarouselProps) {
-    const items = eventsData.map((event) => <EventCard key={event.id} image={'/Assets/event_placeholder.png'} description={event.description} title={event.title} />)
+export default function CircularCarousel() {
+    const [eventsData, setEventsData] = useState<event[]>([]);
+
+    useEffect(() => {
+        fetch('/api/events', {method: 'get'})
+            .then(res => res.status==200?res.json():[])
+            .then(data => setEventsData(data))
+
+    }, []);
+    useEffect(() => {
+        console.log(eventsData);
+    }, [eventsData]);
+
     const [index, setIndex] = useState(0);
     const [isVertical, setIsVertical] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +35,16 @@ export default function CircularCarousel({ eventsData }: CircularCarouselProps) 
     const touchStartXRef = useRef<number | null>(null);
     const touchStartYRef = useRef<number | null>(null);
     const keyLockRef = useRef<boolean>(false);
+
+
+    const [selectedEvent, setSelectedEvent] = useState<EventCardData | null>(null);
+    const openDetails = useCallback((ev: EventCardData) => {
+        setSelectedEvent(ev);
+        setIsModalOpen(true);
+    }, []);
+    const items = eventsData.map((event) => (
+        <EventCard key={event.id} data={event} onDetailsClick={openDetails}/>
+    ))
 
     const prev = useCallback(() => setIndex((i) => (i - 1 + items.length) % items.length), [items.length]);
     const next = useCallback(() => setIndex((i) => (i + 1) % items.length), [items.length]);
@@ -133,7 +153,8 @@ export default function CircularCarousel({ eventsData }: CircularCarouselProps) 
     const handleCardClick = (i: number) => {
         // If the clicked card is centered, open the Event modal.
         if (i === index) {
-            setIsModalOpen(true);
+            const ev = eventsData[i];
+            if (ev) openDetails(ev);
         } else {
             // Optional UX: clicking a side card brings it to center
             setIndex(i);
@@ -187,65 +208,30 @@ export default function CircularCarousel({ eventsData }: CircularCarouselProps) 
                 ▶
             </button>
             {/* Event Modal */}
-            <Event
-                open={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                title={"Event Details"}
-            >
-                {/* Placeholder details; replace with actual event info later */}
-                <div className="space-y-2 text-sm md:text-base">
-                    <p>This is a placeholder for the selected event.</p>
-                    <p>Click the X to close.</p>
-                </div>
-            </Event>
+            <EventPopUp open={isModalOpen} onClose={() => setIsModalOpen(false)} title={selectedEvent?.title ?? "Event Details"}>
+                {selectedEvent ? (
+                    <div className="space-y-3 text-sm md:text-base">
+                        {selectedEvent.imageUrl ? (
+                            <div className="w-full flex justify-center">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={selectedEvent.imageUrl} alt={selectedEvent.title ?? "Event"} className="max-h-64 object-contain rounded-lg" />
+                            </div>
+                        ) : null}
+                        {selectedEvent.tagline ? <p className="text-neutral-700 dark:text-neutral-300">{selectedEvent.tagline}</p> : null}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-neutral-600 dark:text-neutral-300">
+                            {selectedEvent.eventType ? <div><span className="font-semibold">Type: </span>{selectedEvent.eventType}</div> : null}
+                            {selectedEvent.dateRangeText ? <div><span className="font-semibold">Dates: </span>{selectedEvent.dateRangeText}</div> : null}
+                            {selectedEvent.locationType ? <div><span className="font-semibold">Location: </span>{selectedEvent.locationType}</div> : null}
+                        </div>
+                    </div>
+                ) : (
+                    <div className="space-y-2 text-sm md:text-base">
+                        <p>Select an event to see details.</p>
+                    </div>
+                )}
+            </EventPopUp>
         </div>
     );
 }
 
-interface EventCardProps {
-    title: string;
-    description: string;
-    image: string;
-}
-
-export function EventCard({ title, description, image}: EventCardProps) {
-    return (
-        <div className="relative group w-80 md:w-[624px] sm:w-96  aspect-square md:aspect-auto bg-gray-900/50 border border-gray-800 rounded-3xl overflow-hidden transition-transform duration-300 hover:scale-105 hover:border-purple-500/50">
-
-            {/* 1. Illustration Area */}
-            <div className="h-full w-full  flex items-center justify-center">
-                {/* Placeholder for the image/illustration */}
-                <Image
-                    width={500}
-                    height={300}
-                    src={image}
-                    alt={title}
-                    className="w-full  h-full object-contain drop-shadow-2xl"
-                />
-            </div>
-
-            {/* 2. Bottom Info Bar (The pill shape) */}
-            <div className="absolute bottom-4 left-4 right-4 bg-gray-800/90 backdrop-blur-sm border border-gray-700 p-3 rounded-2xl flex items-center justify-between">
-
-                {/* Left Side: Icon & Text */}
-                <div className="flex items-center gap-3">
-                    <div className="p-2 bg-gray-700/50 rounded-full text-gray-300">
-                        {/*<Trophy size={18} />*/}
-                    </div>
-                    <div className="flex flex-col">
-                        <h3 className="text-white text-sm font-bold leading-tight">{title}</h3>
-                        <p className="text-gray-400 text-xs truncate max-w-[100px]">{description}</p>
-                    </div>
-                </div>
-
-                {/* Right Side: Button */}
-                <button
-                    className="bg-purple-700 hover:bg-purple-600 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-colors shadow-lg shadow-purple-900/20"
-                >
-                    Details
-                </button>
-            </div>
-        </div>
-    );
-}
 

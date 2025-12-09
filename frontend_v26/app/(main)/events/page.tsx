@@ -48,43 +48,8 @@ export function Carousal({isVerticle}: {isVerticle: boolean}) {
 
     return (
         <div className={(isVerticle?"md:max-h-full":" md:max-h-[540px]")+"carousal overscroll-y-none touch-pan-y h-full shrink-0  w-full  flex items-center justify-center  overflow-clip"}>
-            <CircularCarousel  eventsData={eventsData} />
+            <CircularCarousel  />
         </div>
     );
 }
-
-const eventsData = [
-    {
-        id: 1,
-        title: "App Innovation Challenge",
-        description: "Build next-gen mobile applications using Flutter or React Native in a 24-hour sprint.",
-        image: "https://your-image-url.com/app-dev-illustration.png",
-        date: "Dec 10, 2025",
-        registrationLink: "/register/app-challenge"
-    },
-    {
-        id: 2,
-        title: "UI/UX Design Battle",
-        description: "Compete to create the most intuitive and visually stunning user interfaces.",
-        image: "https://your-image-url.com/design-illustration.png",
-        date: "Dec 12, 2025",
-        registrationLink: "/register/design-battle"
-    },
-    {
-        id: 3,
-        title: "AI Hackathon 2025",
-        description: "Solve real-world problems using Machine Learning and Generative AI models.",
-        image: "https://your-image-url.com/ai-illustration.png",
-        date: "Dec 15, 2025",
-        registrationLink: "/register/ai-hackathon"
-    },
-    {
-        id: 4,
-        title: "Cyber Security CTF",
-        description: "Capture the Flag event testing your skills in cryptography and network security.",
-        image: "https://your-image-url.com/security-illustration.png",
-        date: "Dec 18, 2025",
-        registrationLink: "/register/ctf"
-    }
-];
 
