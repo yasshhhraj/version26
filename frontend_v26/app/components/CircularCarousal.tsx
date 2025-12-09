@@ -18,9 +18,11 @@ export default function CircularCarousel() {
     const [eventsData, setEventsData] = useState<event[]>([]);
 
     useEffect(() => {
-        fetch('/api/events', {method: 'get'})
-            .then(res => res.status==200?res.json():[])
+        // Read static JSON from public folder instead of calling API
+        fetch('/events/events.json')
+            .then(res => (res.ok ? res.json() : []))
             .then(data => setEventsData(data))
+            .catch(() => setEventsData([]));
     }, []);
 
     const [index, setIndex] = useState(0);
