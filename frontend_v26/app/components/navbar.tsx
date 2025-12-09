@@ -21,7 +21,7 @@ export default function Navbar() {
       
       {/* 1. LEFT: LOGO */}
       {/* Invert logo in light mode to make white text black */}
-      <Logo className="invert dark:invert-0 transition-all" />
+      <Logo className=" transition-all" />
 
       {/* 2. CENTER: NAVIGATION LINKS (Absolute Center) 
           Hidden on mobile (md:flex), positioned absolutely to be perfectly centered regardless of Logo width.
