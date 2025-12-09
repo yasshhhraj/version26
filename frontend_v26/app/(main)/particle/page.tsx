@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { Container, ISourceOptions } from "@tsparticles/engine";
+import { Container,  } from "@tsparticles/engine";
 import { loadSlim } from "@tsparticles/slim";
 import { loadPolygonMaskPlugin } from "@tsparticles/plugin-polygon-mask";
 
@@ -136,11 +136,10 @@ const ParticlesPage = () => {
 
   if (!init) return null;
 
-  return (
-    <div className="z-10 ">
-    <Particles id="tsparticles" particlesLoaded={particlesLoaded} options={options} />
-
-    </div>
+    return (
+        <div className="z-10 ">
+        <Particles id="tsparticles" particlesLoaded={particlesLoaded} options={options} />
+        </div>
   );
 };
 

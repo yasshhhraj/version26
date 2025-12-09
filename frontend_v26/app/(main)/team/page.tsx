@@ -16,7 +16,7 @@ function TeamMemberCard({ name, role, department, image }: TeamMemberProps) {
                 {/* VERSION'26 branding overlay */}
                 <div className="absolute top-2 right-2">
                     <span className="font-serif italic text-yellow-400 text-sm">Version</span>
-                    <span className="text-white text-[10px] align-super">'26</span>
+                    <span className="text-white text-[10px] align-super">&apos;26</span>
                 </div>
             </div>
             <div className="mt-3">
