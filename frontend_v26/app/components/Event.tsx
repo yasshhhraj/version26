@@ -172,7 +172,7 @@ export function EventCard({ data, onDetailsClick }: EventCardProps) {
             <div className="h-full w-full  flex items-center justify-center">
                 {/* Placeholder for the image/illustration */}
                 {hasImage ? (
-                  <Image
+                  <Image loading="eager"
                     width={500}
                     height={300}
                     src={data.imageUrl as string}

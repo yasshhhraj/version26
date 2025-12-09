@@ -21,11 +21,7 @@ export default function CircularCarousel() {
         fetch('/api/events', {method: 'get'})
             .then(res => res.status==200?res.json():[])
             .then(data => setEventsData(data))
-
     }, []);
-    useEffect(() => {
-        console.log(eventsData);
-    }, [eventsData]);
 
     const [index, setIndex] = useState(0);
     const [isVertical, setIsVertical] = useState(false);
