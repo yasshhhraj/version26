@@ -1,0 +1,385 @@
+"use client";
+
+import React, {useEffect, useRef, useState} from "react";
+import Image from "next/image";
+
+// Shared data contracts
+export interface EventCardData {
+    /** A unique identifier for the event (used to fetch the full data for the popup). */
+    id?: string;
+
+    /** The primary, short name of the event. */
+    title?: string;
+
+    /** A brief, compelling description or mission statement. */
+    tagline?: string;
+
+    /** The primary graphic or image URL for the card. */
+    imageUrl?: string;
+
+    /** The type of event (e.g., 'Hackathon', 'Conference', 'Workshop'). */
+    eventType?: string;
+
+    /** The key date range (e.g., "Jan 25 – Jan 27"). */
+    dateRangeText?: string;
+
+    /** Simple location type (e.g., 'Virtual', 'New York'). */
+    locationType?: 'Virtual' | 'In-Person' | string;
+}
+
+
+export interface FullEventData extends EventCardData {
+    /** The full, detailed explanation of the event, its goals, and schedule. */
+    fullDescription: string;
+
+    /** Specific start date and time (ISO string preferred for serialization). */
+    startDate: string;
+
+    /** Specific end date and time (ISO string preferred for serialization). */
+    endDate: string;
+
+    /** Detailed address or full link/platform instructions for virtual events. */
+    fullLocationDetails: string;
+
+    /** Detailed cost or ticket structure (e.g., 'Early Bird: $99', 'Free'). */
+    feeStructure: string;
+
+    /** Detailed agenda, array of speakers, or schedule breakdown. */
+    detailedAgenda: { time: string; activity: string; speaker?: string }[];
+
+    /** A list of necessary requirements or target audience details. */
+    prerequisites: string[];
+
+    /** Optional link for direct registration. */
+    registrationLink: string;
+
+    /** Optional contact email or phone for support. */
+    contactEmail?: string;
+}
+
+
+type EventPopUpProps = {
+  open: boolean;
+  onClose: () => void;
+  // Placeholder for future event data; consumer can pass JSX for now
+  children?: React.ReactNode;
+  title?: string;
+};
+
+/**
+ * Event popup modal component.
+ * - Small screens: takes (almost) full screen
+ * - Large screens: centered dialog with max width ~60% of viewport
+ */
+export function EventPopUp({open, onClose, children, title}: EventPopUpProps) {
+    const dialogRef = useRef<HTMLDivElement>(null);
+    const [teammates, setTeammates] = useState<string[]>(['']);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [success, setSuccess] = useState(false);
+
+    // Determine if this is a team event (you can pass this via props or detect from children/title)
+    // For now, assuming we can detect from title or add a prop
+    const isTeamEvent = title?.toLowerCase().includes('team') || title?.toLowerCase().includes('hackathon');
+
+    // Close on ESC
+    useEffect(() => {
+        if (!open) return;
+        const onKey = (e: KeyboardEvent) => {
+            if (e.key === "Escape") onClose();
+        };
+        window.addEventListener("keydown", onKey);
+        return () => window.removeEventListener("keydown", onKey);
+    }, [open, onClose]);
+
+    // Reset state when dialog opens/closes
+    useEffect(() => {
+        if (!open) {
+            setTeammates(['']);
+            setError(null);
+            setSuccess(false);
+        }
+    }, [open]);
+
+    if (!open) return null;
+
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        // Close when clicking outside the dialog
+        if (dialogRef.current && !dialogRef.current.contains(e.target as Node)) {
+            onClose();
+        }
+    };
+
+    const handleAddTeammate = () => {
+        if (teammates.length < 4) { // Limit to 4 teammates
+            setTeammates([...teammates, '']);
+        }
+    };
+
+    const handleRemoveTeammate = (index: number) => {
+        if (teammates.length > 1) {
+            setTeammates(teammates.filter((_, i) => i !== index));
+        }
+    };
+
+    const handleTeammateChange = (index: number, value: string) => {
+        const updated = [...teammates];
+        updated[index] = value;
+        setTeammates(updated);
+    };
+
+    const handleRegister = async () => {
+        setError(null);
+        setIsLoading(true);
+
+        try {
+            // Validate emails for team events
+            if (isTeamEvent) {
+                const validEmails = teammates.filter(email => email.trim() !== '');
+                if (validEmails.length === 0) {
+                    setError('Please add at least one teammate email');
+                    setIsLoading(false);
+                    return;
+                }
+
+                // Basic email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                const invalidEmails = validEmails.filter(email => !emailRegex.test(email));
+                if (invalidEmails.length > 0) {
+                    setError('Please enter valid email addresses');
+                    setIsLoading(false);
+                    return;
+                }
+            }
+
+            const payload = {
+                eventTitle: title ?? null,
+                ...(isTeamEvent ? { teammates: teammates.filter(email => email.trim() !== '') } : {})
+            };
+
+            const response = await fetch('/api/events/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            });
+
+            if (!response.ok) {
+                throw new Error('Registration failed');
+            }
+
+            setSuccess(true);
+            setTimeout(() => {
+                onClose();
+            }, 2000);
+        } catch (err) {
+            setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    return (
+        <div
+            className="fixed inset-0 z-50 flex items-center justify-center"
+            aria-modal="true"
+            role="dialog"
+            onMouseDown={handleBackdropClick}
+        >
+            {/* Backdrop */}
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm"/>
+
+            {/* Dialog */}
+            <div
+                ref={dialogRef}
+                className={
+                    // Mobile: full height/width with some padding. md+: centered card with max-w 60vw
+                    "relative z-10 w-[96vw] h-[92vh] md:h-auto md:max-h-[90vh] md:w-auto md:max-w-[60vw] " +
+                    "bg-white dark:bg-neutral-900 rounded-xl shadow-2xl border border-black/10 dark:border-white/10 " +
+                    "p-4 sm:p-6 md:p-8 overflow-auto"
+                }
+                role="document"
+                aria-labelledby={title ? "event-popup-title" : undefined}
+            >
+                {/* Header */}
+                <div className="flex items-start justify-between gap-4">
+                    <div className="min-w-0">
+                        {title ? (
+                            <h2 id="event-popup-title"
+                                className="text-lg sm:text-xl md:text-2xl font-semibold truncate">{title}</h2>
+                        ) : null}
+                    </div>
+                    <button
+                        aria-label="Close"
+                        onClick={onClose}
+                        className="shrink-0 rounded-md p-2 text-neutral-600 hover:text-black hover:bg-neutral-100 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-white/10"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            fill="currentColor"
+                            className="h-5 w-5"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
+                                clipRule="evenodd"
+                            />
+                        </svg>
+                    </button>
+                </div>
+
+                {/* Content */}
+                <div className="mt-4">
+                    {children ?? (
+                        <div className="text-sm text-neutral-600 dark:text-neutral-300">
+                            Event details will appear here.
+                        </div>
+                    )}
+                </div>
+
+                {/* Registration Section */}
+                <div className="mt-6 pt-6 border-t border-neutral-200 dark:border-neutral-700">
+                    {isTeamEvent && (
+                        <div className="mb-6">
+                            <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-3">
+                                Team Members (Email Addresses)
+                            </label>
+                            <div className="space-y-3">
+                                {teammates.map((email, index) => (
+                                    <div key={index} className="flex gap-2">
+                                        <input
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => handleTeammateChange(index, e.target.value)}
+                                            placeholder={`Teammate ${index + 1} email`}
+                                            className="flex-1 px-4 py-2 rounded-lg border border-neutral-300 dark:border-neutral-600 bg-white dark:bg-neutral-800 text-neutral-900 dark:text-neutral-100 placeholder-neutral-400 dark:placeholder-neutral-500 focus:outline-none focus:ring-2 focus:ring-purple-500 dark:focus:ring-purple-400"
+                                        />
+                                        {teammates.length > 1 && (
+                                            <button
+                                                onClick={() => handleRemoveTeammate(index)}
+                                                className="px-3 py-2 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
+                                                aria-label="Remove teammate"
+                                            >
+                                                ×
+                                            </button>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                            {teammates.length < 4 && (
+                                <button
+                                    onClick={handleAddTeammate}
+                                    className="mt-3 text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 font-medium"
+                                >
+                                    + Add another teammate
+                                </button>
+                            )}
+                        </div>
+                    )}
+
+                    {/* Error Message */}
+                    {error && (
+                        <div
+                            className="mb-4 p-3 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 text-sm">
+                            {error}
+                        </div>
+                    )}
+
+                    {/* Success Message */}
+                    {success && (
+                        <div
+                            className="mb-4 p-3 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 text-sm">
+                            Registration successful! 🎉
+                        </div>
+                    )}
+
+                    {/* Register Button */}
+                    <button
+                        onClick={handleRegister}
+                        disabled={isLoading || success}
+                        className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 disabled:from-purple-400 disabled:to-purple-500 text-white font-semibold py-3 px-6 rounded-lg shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                        {isLoading ? (
+                            <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"
+                          fill="none"/>
+                  <path className="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                </svg>
+                Registering...
+              </span>
+                        ) : success ? (
+                            '✓ Registered'
+                        ) : (
+                            'Register for Event'
+                        )}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
+
+
+type EventCardProps = {
+  data: EventCardData;
+  onDetailsClick?: (event: EventCardData) => void;
+};
+
+export function EventCard({ data, onDetailsClick }: EventCardProps) {
+    const hasImage = Boolean(data.imageUrl);
+    const title = data.title ?? "Event";
+    return (
+        <div className="relative group w-80 md:w-[624px] sm:w-96  aspect-square md:aspect-auto bg-gray-900/50 border border-gray-800 rounded-3xl overflow-hidden transition-transform duration-300 hover:scale-105 hover:border-purple-500/50">
+
+            {/* 1. Illustration Area */}
+            <div className="h-full w-full  flex items-center justify-center">
+                {/* Placeholder for the image/illustration */}
+                {hasImage ? (
+                  <Image loading="eager"
+                    width={500}
+                    height={300}
+                    src={data.imageUrl as string}
+                    alt={title}
+                    className="w-full  h-full object-contain drop-shadow-2xl"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center text-neutral-400">
+                    {title}
+                  </div>
+                )}
+            </div>
+
+            {/* 2. Bottom Info Bar (The pill shape) */}
+            <div className="absolute bottom-4 left-4 right-4 bg-gray-800/90 backdrop-blur-sm border border-gray-700 p-3 rounded-2xl flex items-center justify-between">
+
+                {/* Left Side: Icon & Text */}
+                <div className="flex items-center gap-3">
+                    <div className="p-2 bg-gray-700/50 rounded-full text-gray-300">
+                        {/*<Trophy size={18} />*/}
+                    </div>
+                    <div className="flex flex-col">
+                        <h3 className="text-white text-sm font-bold leading-tight">{title}</h3>
+                        <p className="text-gray-400 text-xs truncate max-w-[100px]">{data.eventType??''}</p>
+                        {/*<p className="text-gray-400 text-xs truncate max-w-[100px]">{data.description??''}</p>*/}
+                    </div>
+                </div>
+
+                {/* Right Side: Button */}
+                <button
+                    className="bg-purple-700 hover:bg-purple-600 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-colors shadow-lg shadow-purple-900/20"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDetailsClick?.(data);
+                    }}
+                >
+                    Details
+                </button>
+            </div>
+        </div>
+    );
+}

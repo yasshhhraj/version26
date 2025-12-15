@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans } from "next/font/google";
 import "../globals.css";
-import Navbar from "@/app/components/navbar";
+import Navbar from "@/components/navbar";
 import {ReactNode} from "react";
 
 const dm_sans = DM_Sans({
@@ -26,9 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${dm_sans.className} {roboto.className} antialiased w-full h-svh `}
-      >
+      <body className={`${dm_sans.className} {roboto.className} antialiased w-full h-svh `} >
         <Navbar />
         {children}
       </body>

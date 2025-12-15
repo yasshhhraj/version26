@@ -1,6 +1,6 @@
 'use client';
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {EventCard, EventPopUp, EventCardData} from "@/app/components/Event";
+import {EventCard, EventPopUp, EventCardData} from "@/components/Event";
 
 
 interface event {
@@ -95,7 +95,7 @@ export default function CircularCarousel() {
     // Wheel navigation (scroll): up -> prev, down -> next (throttled)
     const handleWheel: React.WheelEventHandler<HTMLDivElement> = (e) => {
         // Prevent page scroll while interacting with the carousel
-        e.preventDefault();
+        // e.preventDefault();
         if (wheelLockRef.current) return;
         if (e.deltaY > 0) {
             next();

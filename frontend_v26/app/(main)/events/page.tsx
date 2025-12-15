@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image";
-import CircularCarousel from "@/app/components/CircularCarousal";
+import CircularCarousel from "@/components/CircularCarousal";
 import {useEffect, useState} from "react";
 
 const EventsPage = () => {
