@@ -157,7 +157,9 @@ export default function ForgotPasswordPage() {
                   {otp.map((val, idx) => (
                     <input
                       key={idx}
-                      ref={(el) => (otpRefs.current[idx] = el)}
+                      ref={(el) => {
+                        otpRefs.current[idx] = el;
+                      }}
                       inputMode="numeric"
                       pattern="[0-9]*"
                       maxLength={1}
