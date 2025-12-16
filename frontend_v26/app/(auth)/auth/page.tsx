@@ -13,13 +13,13 @@ export default function AuthPage() {
     return (
       <>
           {/* Mobile (< md) */}
-          <div className="block md:hidden min-h-screen w-full bg-gradient-to-b from-slate-900 via-blue-950 to-black">
+          <div className="flex flex-col md:hidden min-h-screen w-full bg-linear-to-b from-slate-900 via-blue-950 to-black">
               {/* Mobile-only logo header */}
               <div className="w-full py-8 flex items-center justify-center">
                   <Image src={'/Assets/final-logo.png'} alt={'version logo'} width={512} height={256} className={'h-auto w-[60%]'} />
               </div>
               {/* Mobile: render a single form based on position */}
-              <div className="px-4 pb-10">
+              <div className="grow  flex items-center justify-center">
                   {position === 'left' ? (
                       <Sign_in_form slide={slide} />
                   ) : (

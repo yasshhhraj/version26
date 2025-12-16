@@ -15,10 +15,10 @@ export function Sign_in_form({slide}: {slide: () => void}) {
     }
 
     return (
-        <div className="h-full w-full flex items-center justify-center  text-white p-4">
+        <div className="h-full w-fit flex-1 flex items-center justify-center text-white p-4">
             <form
                 onSubmit={handleSubmit}
-                className="space-y-6 w-full max-w-sm h-fit p-8  rounded-lg "
+                className="space-y-6 overflow-clip overflow-y-auto w-full max-w-sm h-full p-8  rounded-lg "
             >
                 <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-8">
                     Sign In
@@ -71,7 +71,7 @@ export function Sign_in_form({slide}: {slide: () => void}) {
                 </Button>
 
                 <p className="text-center text-sm text-gray-400">
-                    Haven't registered yet?{" "}
+                    Haven&apos;t registered yet?{" "}
                     <span
                         onClick={slide}
                         className="font-medium text-blue-500 hover:text-blue-400 transition-colors cursor-pointer"

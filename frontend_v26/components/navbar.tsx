@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [loggedin, setLoggedin] = useState(true);
+  const [loggedin, setLoggedin] = useState(false);
 
   // Close mobile menu on resize to avoid UI bugs
   useEffect(() => {
@@ -39,7 +39,7 @@ export default function Navbar() {
         {loggedin ? (
           <ProfileBlock logout={() => setLoggedin(false)} />
         ) : (
-          <LoginButton login={() => setLoggedin(true)} />
+          <LoginButton />
         )}
 
         {/* Mobile Hamburger (Visible only on small screens) */}
@@ -108,14 +108,13 @@ function NavItem({ icon, label, path='#', mobile = false }: { icon: string; path
   );
 }
 
-function LoginButton({ login }: { login: () => void }) {
+function LoginButton() {
   return (
-    <button
-      onClick={login}
+    <a href={'/auth'}
       className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition-colors shadow-lg shadow-purple-900/20"
     >
       Login
-    </button>
+    </a>
   );
 }
 

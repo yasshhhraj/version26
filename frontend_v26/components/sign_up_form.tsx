@@ -2,7 +2,6 @@
 
 import type React from "react"
 import { useState } from "react"
-import Link from "next/link"
 import { Button } from "@/components/ui/Button"
 
 export function Sign_up_form({slide}: {slide: () => void}) {
@@ -26,24 +25,26 @@ export function Sign_up_form({slide}: {slide: () => void}) {
         console.log("Sign up:", { email, name, college, roll, mobile, semester, password })
     }
 
+
     return (
-        <div className="h-full w-full flex items-center justify-center text-white p-4">
-            <form
-                onSubmit={handleSubmit}
-                className="flex flex-col w-full max-w-sm p-8 rounded-lg min-h-[60vh] md:min-h-0"
+        <div className="h-full  w-fit flex-1 flex items-center justify-center  text-white p-6 ">
+            <form onSubmit={handleSubmit}
+                className="space-y-4  overflow-clip overflow-y-auto w-full max-w-sm h-full p-8  rounded-lg "
             >
+
                 <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-2">
                     Sign Up
                 </h2>
                 <p className="text-center text-sm text-gray-400 mb-6">Step {step} of 3</p>
 
                 {/* Animated steps container */}
-                <div className="relative overflow-hidden flex-1 min-h-80 md:min-h-[24rem]">
+                <div className="relative  min-w-64 h-84  ">
+
                     {/* Step 1 */}
                     <div
                         aria-hidden={step !== 1}
                         className={
-                            "absolute inset-0 w-full transition-all duration-500 ease-out  space-y-4 flex flex-col " +
+                            "absolute inset-0 w-full h-fit transition-all duration-500 ease-out  space-y-4 flex flex-col " +
                             (step === 1
                                 ? "translate-x-0 opacity-100 pointer-events-auto"
                                 : step === 2 || step === 3
@@ -108,7 +109,7 @@ export function Sign_up_form({slide}: {slide: () => void}) {
                     {/* Step 2 */}
                     <div aria-hidden={step !== 2}
                          className={
-                            "absolute inset-0 w-full transition-all duration-500 ease-out space-y-4 flex flex-col " +
+                            "absolute inset-0 w-full h-fit transition-all duration-500 ease-out space-y-4 flex flex-col " +
                             (step === 1
                                 ? "translate-x-full opacity-0 pointer-events-none"
                                 : step === 2
@@ -182,7 +183,7 @@ export function Sign_up_form({slide}: {slide: () => void}) {
                     {/* Step 3 */}
                     <div aria-hidden={step !== 3}
                         className={
-                            "absolute inset-0 w-full transition-all duration-500 ease-out space-y-4 flex flex-col " +
+                            "absolute inset-0 w-full h-fit transition-all duration-500 ease-out space-y-4 flex flex-col " +
                             (step === 3
                                 ? "translate-x-0 opacity-100 pointer-events-auto"
                                 : "translate-x-full opacity-0 pointer-events-none")
@@ -254,9 +255,10 @@ export function Sign_up_form({slide}: {slide: () => void}) {
                             </Button>
                         </div>
                     </div>
+
                 </div>
 
-                <p className="text-center text-sm text-gray-400">
+                <p className="text-center text-sm  text-gray-400">
                     Already a user?{" "}
                     <span
                         onClick={slide}
