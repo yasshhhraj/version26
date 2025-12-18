@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import { useEffect, useMemo, useState } from "react";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { Container,  } from "@tsparticles/engine";
@@ -21,7 +21,7 @@ const ParticlesPage = () => {
     console.log(container);
   };
 
-  const options: any = useMemo(
+  const options: any= useMemo(
     () => ({
   "fullScreen": {
     "enable": false,

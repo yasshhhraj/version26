@@ -4,14 +4,36 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/Button"
+import {Toast, ToastProps} from "@/components/ui/Toast";
+import {redirect} from "next/navigation";
 
-export function Sign_in_form({slide}: {slide: () => void}) {
+export function Sign_in_form({slideAction}: {slideAction: () => void}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [toast, setToast] = useState<ToastProps|null>(null);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         console.log("Sign in:", { email, password })
+        const email0 = localStorage.getItem('email')
+        const password0 = localStorage.getItem('password');
+        if(email0===email && password0===password) {
+            setToast({message: 'Login Successful', type: 'success', duration: 2000})
+            localStorage.setItem('loggedIn', 'true');
+            setTimeout(() =>{
+                redirect('/');
+            }, 2000)
+        }else {
+            setToast({message: 'Login Failed invalid credentials', type: 'error', duration: 2000})
+            localStorage.removeItem('loggedIn');
+            console.error(
+                "Login Failed invalid credentials",
+                { email, password }
+            )
+            setTimeout(()=>{
+                setToast(null)
+            }, 2000)
+        }
     }
 
     return (
@@ -73,13 +95,14 @@ export function Sign_in_form({slide}: {slide: () => void}) {
                 <p className="text-center text-sm text-gray-400">
                     Haven&apos;t registered yet?{" "}
                     <span
-                        onClick={slide}
+                        onClick={slideAction}
                         className="font-medium text-blue-500 hover:text-blue-400 transition-colors cursor-pointer"
                     >
                         Sign Up
                     </span>
                 </p>
             </form>
+            {toast && <Toast {...toast}/>}
         </div>
     )
 }

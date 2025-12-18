@@ -21,9 +21,9 @@ export default function AuthPage() {
               {/* Mobile: render a single form based on position */}
               <div className="grow  flex items-center justify-center">
                   {position === 'left' ? (
-                      <Sign_in_form slide={slide} />
+                      <Sign_in_form slideAction={slide} />
                   ) : (
-                      <Sign_up_form slide={slide} />
+                      <Sign_up_form slideAction={slide} />
                   )}
               </div>
           </div>
@@ -35,8 +35,8 @@ export default function AuthPage() {
                   'bg-gray-900/25 overflow-visible flex-row justify-start md:items-center rounded-2xl'
               }
           >
-              <Sign_up_form slide={slide} />
-              <Sign_in_form slide={slide} />
+              <Sign_up_form slideAction={slide} />
+              <Sign_in_form slideAction={slide} />
               <div
                   onClick={slide}
                   role={'button'}

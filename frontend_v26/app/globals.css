@@ -17,10 +17,6 @@
 }
 
 
-.fluid-text {
-    font-size: clamp(64px, 128px, 256px);
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);

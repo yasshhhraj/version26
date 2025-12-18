@@ -1,10 +1,14 @@
-"use client";
+'use client'
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [loggedin, setLoggedin] = useState(false);
+  const [loggedin, setLoggedIn] = useState<string|null>('');
+
+  useEffect(() => {
+    setLoggedIn(localStorage.getItem('loggedIn'))
+  }, []);
 
   // Close mobile menu on resize to avoid UI bugs
   useEffect(() => {
@@ -36,8 +40,8 @@ export default function Navbar() {
       {/* 3. RIGHT: PROFILE & MOBILE TOGGLE */}
       <div className="flex items-center gap-4">
         {/* Profile / Login State */}
-        {loggedin ? (
-          <ProfileBlock logout={() => setLoggedin(false)} />
+        {loggedin==='true' ? (
+          <ProfileBlock logout={() => null} />
         ) : (
           <LoginButton />
         )}
@@ -122,7 +126,10 @@ function ProfileBlock({ logout }: { logout: () => void }) {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Click outside to close dropdown
+  const name = localStorage.getItem('name');
+  const email = localStorage.getItem('email');
+
+    // Click outside to close dropdown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
@@ -140,8 +147,8 @@ function ProfileBlock({ logout }: { logout: () => void }) {
         className="flex items-center gap-3 bg-white dark:bg-[#171717] border border-gray-200 dark:border-[#2E2F2F] hover:border-gray-300 dark:hover:border-gray-500 rounded-lg p-1.5 md:p-2 transition-all duration-200 shadow-sm dark:shadow-none"
       >
         <div className="text-right hidden sm:block">
-          <div className="text-sm font-medium text-gray-900 dark:text-white">Yash Raj</div>
-          <div className="text-[10px] text-gray-500 dark:text-gray-400">user@example.com</div>
+          <div className="text-sm font-medium text-gray-900 dark:text-white">{name}</div>
+          <div className="text-[10px] text-gray-500 dark:text-gray-400">{email}</div>
         </div>
         <div className="w-8 h-8 md:w-9 md:h-9 rounded-md bg-gray-200 dark:bg-gray-600 overflow-hidden relative">
              {/* Use next/image here for real profile pic */}
@@ -153,8 +160,8 @@ function ProfileBlock({ logout }: { logout: () => void }) {
         <div className="absolute top-full right-0 mt-2 w-48 bg-white dark:bg-[#171717] border border-gray-200 dark:border-[#2E2F2F] rounded-lg shadow-xl py-1 animate-in fade-in slide-in-from-top-1 z-50">
            {/* Mobile-only user info inside dropdown */}
           <div className="px-4 py-2 border-b border-gray-200 dark:border-[#2E2F2F] sm:hidden">
-            <p className="text-sm font-medium text-gray-900 dark:text-white">Yash Raj</p>
-            <p className="text-xs text-gray-500 dark:text-gray-400">user@example.com</p>
+            <p className="text-sm font-medium text-gray-900 dark:text-white">{localStorage.getItem('name')}</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{localStorage.getItem('email')}</p>
           </div>
           
           <a href="#" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#2E2F2F] transition-colors">

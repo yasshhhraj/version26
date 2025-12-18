@@ -1,4 +1,4 @@
-'use client';
+'use client'
 import React, {useCallback, useEffect, useRef, useState} from "react";
 import {EventCard, EventPopUp, EventCardData} from "@/components/Event";
 
@@ -18,7 +18,7 @@ export default function CircularCarousel() {
     const [eventsData, setEventsData] = useState<event[]>([]);
 
     useEffect(() => {
-        // Read static JSON from public folder instead of calling API
+        // Read static JSON from /public folder instead of calling API
         fetch('/events/events.json')
             .then(res => (res.ok ? res.json() : []))
             .then(data => setEventsData(data))
@@ -41,7 +41,7 @@ export default function CircularCarousel() {
         setIsModalOpen(true);
     }, []);
     const items = eventsData.map((event) => (
-        <EventCard key={event.id} data={event} onDetailsClick={openDetails}/>
+        <EventCard key={event.id} data={event} onDetailsClickAction={openDetails}/>
     ))
 
     const prev = useCallback(() => setIndex((i) => (i - 1 + items.length) % items.length), [items.length]);
@@ -154,7 +154,7 @@ export default function CircularCarousel() {
             const ev = eventsData[i];
             if (ev) openDetails(ev);
         } else {
-            // Optional UX: clicking a side card brings it to center
+            // Optional UX: clicking a side card brings it to the center
             setIndex(i);
         }
     };
@@ -206,7 +206,7 @@ export default function CircularCarousel() {
                 ▶
             </button>
             {/* Event Modal */}
-            <EventPopUp open={isModalOpen} onClose={() => setIsModalOpen(false)} title={selectedEvent?.title ?? "Event Details"}>
+            <EventPopUp open={isModalOpen} onCloseAction={() => setIsModalOpen(false)} title={selectedEvent?.title ?? "Event Details"}>
                 {selectedEvent ? (
                     <div className="space-y-3 text-sm md:text-base">
                         {selectedEvent.imageUrl ? (

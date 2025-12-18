@@ -4,7 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import { Button } from "@/components/ui/Button"
 
-export function Sign_up_form({slide}: {slide: () => void}) {
+export function Sign_up_form({slideAction}: {slideAction: () => void}) {
     const [step, setStep] = useState<1 | 2 | 3>(1)
     const [email, setEmail] = useState("")
     const [name, setName] = useState("")
@@ -22,7 +22,13 @@ export function Sign_up_form({slide}: {slide: () => void}) {
             console.error("Passwords do not match")
             return
         }
+
+        //dummy signup
         console.log("Sign up:", { email, name, college, roll, mobile, semester, password })
+        localStorage.setItem('email', email)
+        localStorage.setItem('password', password)
+        localStorage.setItem('name', name)
+        slideAction()
     }
 
 
@@ -261,7 +267,7 @@ export function Sign_up_form({slide}: {slide: () => void}) {
                 <p className="text-center text-sm  text-gray-400">
                     Already a user?{" "}
                     <span
-                        onClick={slide}
+                        onClick={slideAction}
                         className="font-medium text-blue-500 hover:text-blue-400 transition-colors cursor-pointer"
                     >
                         Sign In

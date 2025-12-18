@@ -60,7 +60,7 @@ export interface FullEventData extends EventCardData {
 
 type EventPopUpProps = {
   open: boolean;
-  onClose: () => void;
+  onCloseAction: () => void;
   // Placeholder for future event data; consumer can pass JSX for now
   children?: React.ReactNode;
   title?: string;
@@ -71,7 +71,7 @@ type EventPopUpProps = {
  * - Small screens: takes (almost) full screen
  * - Large screens: centered dialog with max width ~60% of viewport
  */
-export function EventPopUp({open, onClose, children, title}: EventPopUpProps) {
+export function EventPopUp({open, onCloseAction, children, title}: EventPopUpProps) {
     const dialogRef = useRef<HTMLDivElement>(null);
     const [teammates, setTeammates] = useState<string[]>(['']);
     const [isLoading, setIsLoading] = useState(false);
@@ -86,11 +86,11 @@ export function EventPopUp({open, onClose, children, title}: EventPopUpProps) {
     useEffect(() => {
         if (!open) return;
         const onKey = (e: KeyboardEvent) => {
-            if (e.key === "Escape") onClose();
+            if (e.key === "Escape") onCloseAction();
         };
         window.addEventListener("keydown", onKey);
         return () => window.removeEventListener("keydown", onKey);
-    }, [open, onClose]);
+    }, [open, onCloseAction]);
 
     // Reset state when dialog opens/closes
     useEffect(() => {
@@ -106,7 +106,7 @@ export function EventPopUp({open, onClose, children, title}: EventPopUpProps) {
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
         // Close when clicking outside the dialog
         if (dialogRef.current && !dialogRef.current.contains(e.target as Node)) {
-            onClose();
+            onCloseAction();
         }
     };
 
@@ -171,7 +171,7 @@ export function EventPopUp({open, onClose, children, title}: EventPopUpProps) {
 
             setSuccess(true);
             setTimeout(() => {
-                onClose();
+                onCloseAction();
             }, 2000);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Registration failed. Please try again.');
@@ -212,7 +212,7 @@ export function EventPopUp({open, onClose, children, title}: EventPopUpProps) {
                     </div>
                     <button
                         aria-label="Close"
-                        onClick={onClose}
+                        onClick={onCloseAction}
                         className="shrink-0 rounded-md p-2 text-neutral-600 hover:text-black hover:bg-neutral-100 dark:text-neutral-300 dark:hover:text-white dark:hover:bg-white/10"
                     >
                         <svg
@@ -327,10 +327,10 @@ export function EventPopUp({open, onClose, children, title}: EventPopUpProps) {
 
 type EventCardProps = {
   data: EventCardData;
-  onDetailsClick?: (event: EventCardData) => void;
+  onDetailsClickAction?: (event: EventCardData) => void;
 };
 
-export function EventCard({ data, onDetailsClick }: EventCardProps) {
+export function EventCard({ data, onDetailsClickAction }: EventCardProps) {
     const hasImage = Boolean(data.imageUrl);
     const title = data.title ?? "Event";
     return (
@@ -374,7 +374,7 @@ export function EventCard({ data, onDetailsClick }: EventCardProps) {
                     className="bg-purple-700 hover:bg-purple-600 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-colors shadow-lg shadow-purple-900/20"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onDetailsClick?.(data);
+                      onDetailsClickAction?.(data);
                     }}
                 >
                     Details
