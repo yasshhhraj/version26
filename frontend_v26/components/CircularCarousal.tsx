@@ -1,6 +1,7 @@
 'use client'
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import {EventCard, EventPopUp, EventCardData} from "@/components/Event";
+import EventCard, {EventCardData} from "@/components/EventCard";
+import EventPopUp, {FullEventData} from "@/components/EventPopup";
 
 
 interface event {
@@ -206,28 +207,7 @@ export default function CircularCarousel() {
                 ▶
             </button>
             {/* Event Modal */}
-            <EventPopUp open={isModalOpen} onCloseAction={() => setIsModalOpen(false)} title={selectedEvent?.title ?? "Event Details"}>
-                {selectedEvent ? (
-                    <div className="space-y-3 text-sm md:text-base">
-                        {selectedEvent.imageUrl ? (
-                            <div className="w-full flex justify-center">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img src={selectedEvent.imageUrl} alt={selectedEvent.title ?? "Event"} className="max-h-64 object-contain rounded-lg" />
-                            </div>
-                        ) : null}
-                        {selectedEvent.tagline ? <p className="text-neutral-700 dark:text-neutral-300">{selectedEvent.tagline}</p> : null}
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-neutral-600 dark:text-neutral-300">
-                            {selectedEvent.eventType ? <div><span className="font-semibold">Type: </span>{selectedEvent.eventType}</div> : null}
-                            {selectedEvent.dateRangeText ? <div><span className="font-semibold">Dates: </span>{selectedEvent.dateRangeText}</div> : null}
-                            {selectedEvent.locationType ? <div><span className="font-semibold">Location: </span>{selectedEvent.locationType}</div> : null}
-                        </div>
-                    </div>
-                ) : (
-                    <div className="space-y-2 text-sm md:text-base">
-                        <p>Select an event to see details.</p>
-                    </div>
-                )}
-            </EventPopUp>
+            <EventPopUp open={isModalOpen} onClose={()=>setIsModalOpen(false)} data={selectedEvent as FullEventData}/>
         </div>
     );
 }
