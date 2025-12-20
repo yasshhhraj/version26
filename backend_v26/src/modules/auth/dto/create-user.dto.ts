@@ -30,6 +30,7 @@ export class CreateUserDto {
   mobile: string;
 
   @IsEmail()
+  @IsNotEmpty()
   @Trim()
   email: string;
 
