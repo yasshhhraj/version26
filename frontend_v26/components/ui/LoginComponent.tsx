@@ -10,7 +10,7 @@ export default function LoginComponent({ menuOpen, toggleMenu}: { menuOpen: bool
     }, []);
 
     return(
-        <div className="flex items-center gap-4">
+        <div className="  flex items-center gap-4">
             {/* Profile / Login State */}
             {loggedin ? (
                 <ProfileBlock
@@ -65,7 +65,7 @@ function ProfileBlock({ logout }: { logout: () => void }) {
     }, [ref]);
 
     return (
-        <div className="relative" ref={ref}>
+        <div className="relative " ref={ref}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex items-center gap-3 bg-white dark:bg-[#171717]/20 border border-gray-200 dark:border-[#2E2F2F] hover:border-gray-300 dark:hover:border-gray-500/40   rounded-lg p-1.5 md:p-2 transition-all duration-200 shadow-2xl dark:shadow-none"

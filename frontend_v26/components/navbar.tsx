@@ -58,7 +58,7 @@ export default function Navbar() {
 
   return (
     // NAVBAR CONTAINER: Absolute, Transparent, High Z-Index
-    <nav className=" border border-white/50 p-3 px-5 md:px-10 bg-black/20 backdrop-blur-sm shadow-[inset_0_1px_0px_rgba(255,255,255,0.75),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)] rounded-lg md:rounded-full bg-linear-to-br from-white/20 via-transparent to-white/20                       absolute top-10 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-50 flex items-center justify-between">
+    <nav className="   border border-white/50 p-2 px-3 md:px-10 bg-black/20 backdrop-blur-sm shadow-[inset_0_1px_0px_rgba(255,255,255,0.35),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)] rounded-lg md:rounded-full bg-linear-to-br from-white/20 via-transparent to-white/20                       absolute top-10 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-50 flex items-center justify-between">
 
       {/* 1. LEFT: LOGO */}
       {/* Invert logo in light mode to make white text black */}
@@ -81,7 +81,7 @@ export default function Navbar() {
           Renders outside the flow, aligned to the right.
       */}
       {menuOpen && (
-        <div className="absolute top-16 right-0  dark:bg-[#171717]/95 dark:border-[#2E2F2F] w-48 flex flex-col gap-2 animate-in slide-in-from-top-2 fade-in         border border-white/50   bg-black/20 backdrop-blur-sm shadow-[inset_0_1px_0px_rgba(255,255,255,0.75),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)] rounded-lg md:rounded-full bg-linear-to-br from-white/20 via-transparent to-white/20           md:hidden">
+        <div className="absolute top-17 right-0  dark:bg-[#171717]/95 dark:border-[#2E2F2F] w-48 flex flex-col gap-2 animate-in slide-in-from-top-2 fade-in         border border-white/50   bg-black/20 backdrop-blur-sm shadow-[inset_0_1px_0px_rgba(255,255,255,0.25),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)] rounded-lg md:rounded-full bg-linear-to-br from-white/20 via-transparent to-white/20           md:hidden">
           <NavItem icon="home.svg" path="/" label="Home" mobile />
           <NavItem icon="bill.svg" path="/events" label="Event" mobile />
           <NavItem icon="bulb.svg" path="/vision" label="Vision" mobile />
@@ -118,14 +118,14 @@ function NavItem({ icon, label, path='#', mobile = false }: { icon: string; path
     >
       {/* Icon Masking Technique */}
       <div
-        className={`bg-gray-700 dark:bg-white group-hover:bg-purple-600 dark:group-hover:bg-purple-400 transition-colors duration-200 ${mobile ? "w-5 h-5" : "w-8 h-8"}`}
+        className={`bg-gray-700 dark:bg-white group-hover:bg-purple-600 dark:group-hover:bg-purple-400 transition-colors duration-200 ${mobile ? "w-5 h-5" : "w-5 h-5"}`}
         style={{
           maskImage: `url(/icons/${icon})`,
           maskSize: "contain",
           maskRepeat: "no-repeat",
         }}
       />
-      <span className="text-xl text-gray-700 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+      <span className="text-xl md:font-medium text-gray-700 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
         {label}
       </span>
     </a>
