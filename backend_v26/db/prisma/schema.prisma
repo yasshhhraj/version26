@@ -1,0 +1,31 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../../node_modules/.prisma/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(uuid())
+
+  // Core identity
+  fullName     String
+  rollNo       String
+  collegeName  String
+  mobile       String
+  email        String   @unique
+  degree       String   
+  semester     Int
+
+  // Auth
+  passwordHash String
+
+  // Metadata
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([rollNo])
+}
