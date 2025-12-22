@@ -9,14 +9,19 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.4.2",
     "@tailwindcss/typography": "^0.5.19",
     "@tsparticles/plugin-polygon-mask": "^3.9.1",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.9.1",
+    "@types/three": "^0.182.0",
+    "gsap": "^3.14.2",
     "lucide-react": "^0.556.0",
     "next": "16.0.10",
     "react": "19.2.1",
-    "react-dom": "19.2.0"
+    "react-dom": "19.2.0",
+    "three": "^0.182.0"
   },
   "devDependencies": {
     "@iconify/json": "^2.2.413",

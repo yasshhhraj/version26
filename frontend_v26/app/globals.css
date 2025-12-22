@@ -3,6 +3,13 @@
  scale: 1.2;
 }
 
+
+@layer components {
+  .glassmorphism {
+    @apply bg-black/20 backdrop-blur-sm shadow-[inset_0_1px_0px_rgba(255,255,255,0.35),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)]  bg-linear-to-br from-white/20 via-transparent to-white/20
+  }
+}
+
 @theme {
   --color-version-indigo-ink: #371768ff;
   --color-version-lavender-purple: #8b5ad7ff;
