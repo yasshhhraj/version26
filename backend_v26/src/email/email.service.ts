@@ -81,7 +81,7 @@ export class EmailService {
     // ──────────────────────────────
     try {
       const mailOptions: nodemailer.SendMailOptions = {
-        from: `"${params.fromName ?? 'App'}" <${this.config.get('SMTP_USER')}>`,
+        from: `"${params.fromName ?? 'Version26'}" <${this.config.get('SMTP_USER')}>`,
         to: recipients.join(','),
         subject: params.subject,
         html: params.html,

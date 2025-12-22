@@ -26,6 +26,7 @@ import {
 } from 'src/common/utils/cookie-utils';
 
 import { OtpPurpose } from '@prisma/client';
+import { registrationOtpTemplate } from 'src/email/templates';
 
 @Injectable()
 export class AuthService {
@@ -64,15 +65,19 @@ export class AuthService {
       dto.email,
       OtpPurpose.REGISTRATION,
     );
+    const expiresInMinutes =
+      Number(this.config.get('OTP_EXPIRES_IN_MINUTES')) || 10;
+
+    const html = registrationOtpTemplate({
+      otp,
+      expiresInMinutes,
+    });
 
     await this.emailService.sendMail({
+      fromName: 'Version26',
       to: dto.email,
       subject: 'Verify your email',
-      html: `
-        <p>Your verification code is:</p>
-        <h2>${otp}</h2>
-        <p>This code will expire shortly.</p>
-      `,
+      html,
     });
 
     this.logger.logInfo('Registration OTP sent', ctx);
