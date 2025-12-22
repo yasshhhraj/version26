@@ -10,7 +10,10 @@ import { Prisma } from '@prisma/client';
 import { handlePrismaError } from 'src/common/utils/prisma-error-handler';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { UserResponseDto } from '../dto/user-response.dto';
+import {
+  PrivateUserResponseDto,
+  UserResponseDto,
+} from '../dto/user-response.dto';
 import { hashPassword } from 'src/common/utils/auth-utils';
 
 @Injectable()
@@ -157,7 +160,7 @@ export class UserService {
   // ──────────────────────────────
   // FIND USER BY EMAIL
   // ──────────────────────────────
-  async findByEmail(email: string): Promise<UserResponseDto | null> {
+  async findByEmail(email: string): Promise<PrivateUserResponseDto | null> {
     const ctx: LogContext = {
       entity: this.entity,
       action: 'findByEmail',
@@ -181,7 +184,7 @@ export class UserService {
         additional: { userId: user.id },
       });
 
-      return user as UserResponseDto;
+      return user as PrivateUserResponseDto;
     } catch (error) {
       this.logger.logError('Error fetching user by email', {
         ...ctx,
