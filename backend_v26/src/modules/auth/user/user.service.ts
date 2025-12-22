@@ -155,6 +155,48 @@ export class UserService {
   }
 
   // ──────────────────────────────
+  // FIND USER BY EMAIL
+  // ──────────────────────────────
+  async findByEmail(email: string): Promise<UserResponseDto | null> {
+    const ctx: LogContext = {
+      entity: this.entity,
+      action: 'findByEmail',
+      additional: { email },
+    };
+
+    this.logger.logDebug('Fetching user by email', ctx);
+
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { email },
+      });
+
+      if (!user) {
+        this.logger.logWarn('User not found by email', ctx);
+        return null;
+      }
+
+      this.logger.logDebug('User found by email', {
+        ...ctx,
+        additional: { userId: user.id },
+      });
+
+      return user as UserResponseDto;
+    } catch (error) {
+      this.logger.logError('Error fetching user by email', {
+        ...ctx,
+        additional: { error },
+      });
+
+      if (error instanceof Prisma.PrismaClientKnownRequestError) {
+        handlePrismaError(error, this.entity);
+      }
+
+      throw new InternalServerErrorException('Failed to fetch user by email');
+    }
+  }
+
+  // ──────────────────────────────
   // UPDATE USER
   // ──────────────────────────────
   async update(id: string, dto: UpdateUserDto): Promise<UserResponseDto> {

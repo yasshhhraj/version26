@@ -7,6 +7,7 @@ export class UserResponseDto {
   email: string;
   degree: string;
   semester: number;
+  passwordHash: string;
   createdAt: Date;
   updatedAt: Date;
 }
