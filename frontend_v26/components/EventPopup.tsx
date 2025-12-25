@@ -116,12 +116,12 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
                         </aside>
                     </div>
 
-                    <footer className="mt-6 pt-8 border-t border-white/5">
-                        <button
-                            className="w-full bg-white hover:bg-neutral-200 text-black font-bold py-4 rounded-xl transition-all active:scale-[0.98] shadow-lg">
-                            Register for {data.title}
-                        </button>
-                    </footer>
+                    {/*<footer className="mt-6 pt-8 border-t border-white/5">*/}
+                    {/*    <button*/}
+                    {/*        className="w-full bg-white hover:bg-neutral-200 text-black font-bold py-4 rounded-xl transition-all active:scale-[0.98] shadow-lg">*/}
+                    {/*        Register for {data.title}*/}
+                    {/*    </button>*/}
+                    {/*</footer>*/}
                 </div>
             </div>
         </div>,
