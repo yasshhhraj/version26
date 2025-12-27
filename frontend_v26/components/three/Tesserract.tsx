@@ -1,42 +1,30 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import * as THREE from "three";
 
 /* ---------- Types ---------- */
 type Vec4 = [number, number, number, number];
-type InteractionState = "PASSIVE" | "HOVER" | "ACTIVE";
+export type InteractionState = "PASSIVE" | "HOVER" | "ACTIVE";
 
-/* ---------- 4D Math ---------- */
-function rotate4D(
-    [x, y, z, w]: Vec4,
-    angle: number,
-    a: number,
-    b: number
-): Vec4 {
-    const v = [x, y, z, w];
-    const cos = Math.cos(angle);
-    const sin = Math.sin(angle);
-    const va = v[a];
-    const vb = v[b];
-    v[a] = va * cos - vb * sin;
-    v[b] = va * sin + vb * cos;
-    return v as Vec4;
-}
+/* ---------- Global Static Memory (The "One Instance" Optimization) ---------- */
+// Since we only have one Tesseract, we allocate these ONCE globally.
+// This completely removes Garbage Collection overhead.
 
-function project4Dto3D([x, y, z, w]: Vec4) {
-    const d = 3;
-    const scale = d / (d - w);
-    return new THREE.Vector3(x * scale, y * scale, z * scale);
-}
+const NUM_VERTICES = 16;
+// 1. Reusable Vector Pool
+const projectedVerticesPool = Array.from(
+    { length: NUM_VERTICES },
+    () => new THREE.Vector3()
+);
 
-/* ---------- Geometry ---------- */
+// 2. Static 4D Data
 const vertices4D: Vec4[] = [];
-for (let x of [-1, 1])
-    for (let y of [-1, 1])
-        for (let z of [-1, 1])
-            for (let w of [-1, 1]) vertices4D.push([x, y, z, w]);
+for (const x of [-1, 1])
+    for (const y of [-1, 1])
+        for (const z of [-1, 1])
+            for (const w of [-1, 1]) vertices4D.push([x, y, z, w]);
 
 const edges: number[][] = [];
 for (let i = 0; i < vertices4D.length; i++) {
@@ -50,7 +38,6 @@ for (let i = 0; i < vertices4D.length; i++) {
     }
 }
 
-/* ---------- Faces ---------- */
 const FACES = [
     [0, 1, 2, 3],
     [4, 5, 6, 7],
@@ -61,52 +48,95 @@ const FACES = [
 ];
 
 const FACE_COLORS = [
-    "#4fd1ff",
-    "#9cff6a",
-    "#ffd166",
-    "#c77dff",
-    "#ff6ad5",
-    "#ff9f1c",
+    "#4fd1ff", "#9cff6a", "#ffd166", "#c77dff", "#ff6ad5", "#ff9f1c",
 ];
 
-function edgeBelongsToFace(edge: number[], face: number[]) {
-    return face.includes(edge[0]) && face.includes(edge[1]);
-}
-function edgeBelongsToAnyFace(edge: number[]) {
-    return FACES.some(
-        (face) => face.includes(edge[0]) && face.includes(edge[1])
-    );
+// 3. Topology Map
+const structuralEdgesIndices: number[][] = [];
+const faceEdgesIndicesMap: number[][][] = FACES.map(() => []);
+
+edges.forEach((edge) => {
+    let belongsToAny = false;
+    FACES.forEach((face, faceIndex) => {
+        if (face.includes(edge[0]) && face.includes(edge[1])) {
+            faceEdgesIndicesMap[faceIndex].push(edge);
+            belongsToAny = true;
+        }
+    });
+    if (!belongsToAny) structuralEdgesIndices.push(edge);
+});
+
+/* ---------- Helper ---------- */
+function applyRotationAndProject(original: Vec4, targetVec3: THREE.Vector3, angle: number) {
+    const [x, y, z, w] = original;
+
+    // Rotate XW
+    const c1 = Math.cos(angle);
+    const s1 = Math.sin(angle);
+    const rx = x * c1 - w * s1;
+    const rw = x * s1 + w * c1;
+
+    // Rotate YZ
+    const c2 = Math.cos(0.6 * angle);
+    const s2 = Math.sin(0.6 * angle);
+    const ry = y * c2 - z * s2;
+    const rz = y * s2 + z * c2;
+
+    // Project 4D -> 3D
+    const d = 3;
+    const scale = d / (d - Math.min(rw, d - 0.01));
+
+    targetVec3.set(rx * scale, ry * scale, rz * scale);
 }
 
 /* ---------- Component ---------- */
 export default function Tesseract({
-                                      onFaceChange,
+                                      onFaceChangeAction,
                                       interactionState,
                                   }: {
-    onFaceChange: (face: number) => void;
+    onFaceChangeAction: (face: number) => void;
     interactionState: InteractionState;
 }) {
-    const faceRefs = useRef<THREE.LineSegments[]>([]);
-    const structuralRef = useRef<THREE.LineSegments>(null);
+    // We instantiate the BufferGeometries inside the component so they are
+    // tied to the React lifecycle (created on mount, disposed on unmount).
+    const { faceGeometries, structuralGeometry } = useMemo(() => {
+        const fGeos = FACES.map((_, i) => {
+            const geo = new THREE.BufferGeometry();
+            const edgeCount = faceEdgesIndicesMap[i].length;
+            geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(edgeCount * 6), 3));
+            return geo;
+        });
+
+        const sGeo = new THREE.BufferGeometry();
+        const sEdgeCount = structuralEdgesIndices.length;
+        sGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(sEdgeCount * 6), 3));
+
+        return { faceGeometries: fGeos, structuralGeometry: sGeo };
+    }, []);
+
+    // Clean up GPU memory when component unmounts
+    useEffect(() => {
+        return () => {
+            structuralGeometry.dispose();
+            faceGeometries.forEach(g => g.dispose());
+        };
+    }, [structuralGeometry, faceGeometries]);
 
     const angle = useRef(0);
-    const angularVelocity = useRef(0.002);
+    const currentVelocity = useRef(0.03); // Total velocity
     const lastFace = useRef<number | null>(null);
 
-    /* ---------- Interaction Events ---------- */
-
-
-    /* ---------- Scroll + Wheel ---------- */
+    // Scroll Handler
     useEffect(() => {
         let lastScrollY = window.scrollY;
 
         const onWheel = (e: WheelEvent) => {
-            angularVelocity.current += e.deltaY * 0.00001;
+            currentVelocity.current += e.deltaY * 0.00005;
         };
         const onScroll = () => {
             const dy = window.scrollY - lastScrollY;
             lastScrollY = window.scrollY;
-            angularVelocity.current += dy * 0.0005;
+            currentVelocity.current += dy * 0.001;
         };
 
         window.addEventListener("wheel", onWheel, { passive: true });
@@ -118,138 +148,106 @@ export default function Tesseract({
         };
     }, []);
 
-    /* ---------- Animation ---------- */
     useFrame(() => {
-        const speedFactor =
-            interactionState === "ACTIVE"
-                ? 0.15
-                : interactionState === "HOVER"
-                    ? 0.5
-                    : 1;
-
-        angle.current += angularVelocity.current * speedFactor;
-        angularVelocity.current *= 0.98;
-
-        if (Math.abs(angularVelocity.current) < 0.001) {
-            angularVelocity.current =
-                0.001 * Math.sign(angularVelocity.current || 1);
+        // 1. Physics: Friction & Speed
+        // Decay velocity so it doesn't spin forever
+        if (Math.abs(currentVelocity.current) > 0.03) {
+            currentVelocity.current *= 0.95; // Friction
+        }
+        if (Math.abs(currentVelocity.current) < 0.03) {
+            currentVelocity.current = 0.03; // Floor to base speed
         }
 
-        const rotated = vertices4D.map((v) =>
-            rotate4D(
-                rotate4D(v, angle.current, 0, 3),
-                angle.current * 0.6,
-                1,
-                2
-            )
-        );
-        const projected = rotated.map(project4Dto3D);
+        const speedMult = interactionState === "ACTIVE" ? 0.2 : interactionState === "HOVER" ? 0.5 : 1;
+        angle.current += currentVelocity.current * speedMult;
 
-        /* ---------- Face Detection ---------- */
+        // 2. Math: Project 4D -> 3D (Write to Global Pool)
+        for(let i = 0; i < NUM_VERTICES; i++) {
+            applyRotationAndProject(vertices4D[i], projectedVerticesPool[i], angle.current);
+        }
+
+        // 3. Logic: Detect Active Face
         let maxZ = -Infinity;
         let activeFace = 0;
 
-        FACES.forEach((face, i) => {
-            const z =
-                face.reduce((sum, idx) => sum + projected[idx].z, 0) / face.length;
-            if (z > maxZ) {
+        for(let i = 0; i < 6; i++) { // 6 Faces
+            const faceIndices = FACES[i];
+            let sumZ = 0;
+            for(let k=0; k < 4; k++) sumZ += projectedVerticesPool[faceIndices[k]].z;
+
+            const z = sumZ * 0.25; // Division is usually faster than / 4 inside loops
+
+            // +0.01 prevents flickering when two faces are equal
+            if (z > maxZ + 0.01) {
                 maxZ = z;
                 activeFace = i;
             }
-        });
+        }
 
         if (activeFace !== lastFace.current) {
             lastFace.current = activeFace;
-            onFaceChange(activeFace);
+            onFaceChangeAction(activeFace);
         }
 
-        /* ---------- Face Edges ---------- */
-        FACES.forEach((face, i) => {
-            const positions: number[] = [];
-            edges.forEach(([a, b]) => {
-                if (edgeBelongsToFace([a, b], face)) {
-                    positions.push(
-                        projected[a].x,
-                        projected[a].y,
-                        projected[a].z,
-                        projected[b].x,
-                        projected[b].y,
-                        projected[b].z
-                    );
-                }
-            });
+        // 4. Render: Update Geometry Buffers
 
-            const geom = faceRefs.current[i]?.geometry;
-            if (geom) {
-                geom.setAttribute(
-                    "position",
-                    new THREE.Float32BufferAttribute(positions, 3)
-                );
-                geom.computeBoundingSphere();
+        // Update Face Geometries
+        for (let i = 0; i < 6; i++) {
+            const edges = faceEdgesIndicesMap[i];
+            const array = (faceGeometries[i].attributes.position as THREE.BufferAttribute).array as Float32Array;
+            let idx = 0;
+            for(let e = 0; e < edges.length; e++) {
+                const [a, b] = edges[e];
+                const v1 = projectedVerticesPool[a];
+                const v2 = projectedVerticesPool[b];
 
-                const mat = faceRefs.current[i].material as THREE.LineBasicMaterial;
-                mat.opacity =
-                    interactionState === "ACTIVE"
-                        ? i === activeFace
-                            ? 1
-                            : 0.25
-                        : interactionState === "HOVER"
-                            ? i === activeFace
-                                ? 0.9
-                                : 0.4
-                            : 0.6;
+                array[idx++] = v1.x; array[idx++] = v1.y; array[idx++] = v1.z;
+                array[idx++] = v2.x; array[idx++] = v2.y; array[idx++] = v2.z;
             }
-        });
-
-        /* ---------- Structural Edges ---------- */
-        const structuralPositions: number[] = [];
-        edges.forEach(([a, b]) => {
-            if (!edgeBelongsToAnyFace([a, b])) {
-                structuralPositions.push(
-                    projected[a].x,
-                    projected[a].y,
-                    projected[a].z,
-                    projected[b].x,
-                    projected[b].y,
-                    projected[b].z
-                );
-            }
-        });
-
-        if (structuralRef.current) {
-            structuralRef.current.geometry.setAttribute(
-                "position",
-                new THREE.Float32BufferAttribute(structuralPositions, 3)
-            );
-            (structuralRef.current.material as THREE.LineBasicMaterial).opacity =
-                interactionState === "ACTIVE" ? 0.15 : 0.25;
+            faceGeometries[i].attributes.position.needsUpdate = true;
         }
+
+        // Update Structural Geometry
+        const structArray = (structuralGeometry.attributes.position as THREE.BufferAttribute).array as Float32Array;
+        let sIdx = 0;
+        for(let e = 0; e < structuralEdgesIndices.length; e++) {
+            const [a, b] = structuralEdgesIndices[e];
+            const v1 = projectedVerticesPool[a];
+            const v2 = projectedVerticesPool[b];
+
+            structArray[sIdx++] = v1.x; structArray[sIdx++] = v1.y; structArray[sIdx++] = v1.z;
+            structArray[sIdx++] = v2.x; structArray[sIdx++] = v2.y; structArray[sIdx++] = v2.z;
+        }
+        structuralGeometry.attributes.position.needsUpdate = true;
     });
 
-    /* ---------- Render ---------- */
     return (
-        <mesh
-            onPointerDown={()=>alert('hii')}
-
-        >
+        <>
             {FACE_COLORS.map((color, i) => (
-                <lineSegments
-                    key={i}
-                    ref={(el) => {
-                        if (el) faceRefs.current[i] = el;
-                    }}
-                >
-                    <bufferGeometry />
-                    <lineBasicMaterial color={color} transparent opacity={0.6} />
-                </lineSegments>
+                <group key={i}>
+                    {/* Main Line */}
+                    <lineSegments geometry={faceGeometries[i]} frustumCulled={false}>
+                        <lineBasicMaterial color={color} transparent opacity={0.4} />
+                    </lineSegments>
+                    {/* Glow Effect 1 */}
+                    <lineSegments geometry={faceGeometries[i]} scale={1.01} frustumCulled={false}>
+                        <lineBasicMaterial color={color} transparent opacity={0.75} blending={THREE.AdditiveBlending} depthWrite={false} />
+                    </lineSegments>
+                    {/* Glow Effect 2 */}
+                    <lineSegments geometry={faceGeometries[i]} scale={1.025} frustumCulled={false}>
+                        <lineBasicMaterial color={color} transparent opacity={0.2} blending={THREE.AdditiveBlending} depthWrite={false} />
+                    </lineSegments>
+                </group>
             ))}
 
-            <lineSegments
-                ref={structuralRef}
-            >
-                <bufferGeometry />
-                <lineBasicMaterial color="#ffffff" transparent opacity={0.25} />
-            </lineSegments>
-        </mesh>
+            <group>
+                <lineSegments geometry={structuralGeometry} frustumCulled={false}>
+                    <lineBasicMaterial color="#ffffff" transparent opacity={0.25} />
+                </lineSegments>
+                <lineSegments geometry={structuralGeometry} scale={0.92} frustumCulled={false}>
+                    <lineBasicMaterial color="#ffffff" transparent opacity={0.1} />
+                </lineSegments>
+            </group>
+        </>
     );
 }

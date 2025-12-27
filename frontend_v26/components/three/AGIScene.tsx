@@ -3,6 +3,7 @@
 import { Canvas } from "@react-three/fiber";
 import {useEffect, useRef, useState} from "react";
 import Tesseract from "@/components/three/Tesserract";
+import InnerObjectSwitcher from "@/components/three/inner/InnerObjectSwitcher";
 
 type InteractionState = "PASSIVE" | "HOVER" | "ACTIVE";
 
@@ -14,10 +15,15 @@ const FACE_NAMES = [
     "Emergence",
     "Symbiosis",
 ];
+export type FaceKey =
+    | "SUBSTRATE"
+    | "ORGANIZATION"
+    | "REACTIVITY"
+    | "WORLD_MODELS"
+    | "EMERGENCE"
+    | "SYMBIOSIS";
 
 export default function AGIScene() {
-    const containerRef = useRef<HTMLDivElement>(null);
-
     const [activeFace, setActiveFace] = useState(0);
     const [interactionState, setInteractionState] = useState<InteractionState>("PASSIVE");
 
@@ -36,12 +42,12 @@ export default function AGIScene() {
 
     return (
         <div
-            ref={containerRef}
             className="relative h-full w-full overflow-hidden "
             onPointerEnter={() => setInteractionState("HOVER")}
             onPointerLeave={() => setInteractionState("PASSIVE")}
             onClick={() => setInteractionState("ACTIVE")}
         >
+
             {/* 🔎 Debug Overlay (remove later) */}
             <div className="pointer-events-none absolute top-4 left-4 z-10 rounded-md  px-3 py-2 text-sm text-white">
                 <div>
@@ -59,13 +65,14 @@ export default function AGIScene() {
                 onClick={() => setInteractionState("ACTIVE")}
             >
                 <ambientLight intensity={0.35} />
-                <directionalLight position={[4, 4, 6]} intensity={0.8} />
+                <directionalLight position={[4, 4, 6]} intensity={0.2} />
 
                 <Tesseract
-                    onFaceChange={setActiveFace}
+                    onFaceChangeAction={(face) =>setActiveFace(face)}
                     interactionState={interactionState}
-
                 />
+                <InnerObjectSwitcher activeFace={activeFace} />
+
             </Canvas>
         </div>
     );

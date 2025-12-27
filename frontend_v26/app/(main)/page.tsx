@@ -4,10 +4,6 @@ import { memo } from "react";
 import DotGrid from "@/components/ui/DotGrid";
 
 import dynamic from 'next/dynamic'
-import VantaBackground from "@/components/VantaGlobe";
-import WebGLBackground from "@/components/three/demo";
-import AGIField from "@/components/three/AGIField";
-import Ball from "@/components/three/Ground";
 import AGIScene from "@/components/three/AGIScene";
 
 
@@ -52,22 +48,13 @@ const HeroSection = memo(function HeroSection() {
           </div>
 
           <div className={'w-full -z-50 h-96 absolute overflow-y-visible bottom-0'}>
-              <ParticleWaves />
+              <ParticleWaves  />
           </div>
 
-          <div className={'container4 absolute -z-50 w-136 h-136 overflow-visible right-1/5 top-1/2 transform translate-x-1/2 -translate-y-1/2 '} >
-              <div className={'relative w-full h-full overflow-visible'}>
-                  {/*<WebGLBackground />*/}
-                  {/*<AGIField/>*/}
-                  {/*<Ball/>*/}
+          <div className={'absolute -z-50 w-136 h-136  right-1/5 top-1/2 transform translate-x-1/2 -translate-y-1/2 '} >
+              <div className={'relative w-full h-full '}>
                   <AGIScene/>
               </div>
-              {/*<VantaBackground classname={'w-96 h-96 absolute bg-transparent -z-10 right-1/6 top-1/2 transform translate-x-1/3 -translate-y-1/2'} />*/}
-                  {/*<Image src={'/Assets/hero_palm.png'} alt="Hero Palm" width={745} height={0} className="absolute -z-10 right-1/6 transform translate-x-1/3" />*/}
-
-
-              {/*<Scene />*/}
-
           </div>
 
 

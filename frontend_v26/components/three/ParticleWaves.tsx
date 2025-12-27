@@ -191,9 +191,15 @@ export default function ParticleWaves() {
                 WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)'
             }}
         >
-            <Canvas camera={{ position: [0, 200, 2500], rotation: [0,0,-0.1], fov: 60 }} resize={{ scroll: false }}>
+            <Canvas fallback={fallback()} camera={{ position: [0, 200, 2500], rotation: [0,0,-0.1], fov: 60 }} resize={{ scroll: false }}>
                 <WavePoints />
             </Canvas>
         </div>
+    )
+}
+
+const fallback = () =>{
+    return (
+        <div className={'absolute h-full w-full bottom-0 bg-[url("/Assets/background.png")]'}/>
     )
 }
