@@ -220,8 +220,6 @@ class DataParticle {
 
 type PositionFn = (width: number, height: number) => number;
 
-type PositionFn = (width: number, height: number) => number;
-
 class InfinityController {
     canvas: HTMLCanvasElement;
     ctx: CanvasRenderingContext2D;

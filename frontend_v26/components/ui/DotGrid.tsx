@@ -186,25 +186,33 @@ const DotGrid: React.FC<DotGridProps> = ({
     }, [proximity, baseColor, activeRgb, baseRgb, circlePath]);
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+
         const debouncedBuild = debounce(buildGrid, 100);
         buildGrid();
         
         let ro: ResizeObserver | null = null;
-        if ('ResizeObserver' in window) {
-            ro = new ResizeObserver(() => {
-                debouncedBuild();
-            });
-            wrapperRef.current && ro.observe(wrapperRef.current);
+        const currentWrapper = wrapperRef.current;
+
+        if ('ResizeObserver' in window && currentWrapper) {
+            ro = new ResizeObserver(debouncedBuild);
+            ro.observe(currentWrapper);
         } else {
             window.addEventListener('resize', debouncedBuild);
         }
+
         return () => {
-            if (ro) ro.disconnect();
-            else window.removeEventListener('resize', debouncedBuild);
+            if (ro && currentWrapper) {
+                ro.unobserve(currentWrapper);
+            } else {
+                window.removeEventListener('resize', debouncedBuild);
+            }
         };
     }, [buildGrid]);
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+
         const onMove = (e: MouseEvent) => {
             const now = performance.now();
             const pr = pointerRef.current;
