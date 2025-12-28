@@ -12,8 +12,6 @@ const dm_sans = DM_Sans({
 })
 
 
-
-
 export const metadata: Metadata = {
   title: "Version'26",
   description: "Official website for Version'26",

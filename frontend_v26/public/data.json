@@ -1,0 +1,32 @@
+{
+  "substrate": {
+    "title": "Substrate",
+    "hover": "The ground intelligence runs on.",
+    "active": "Intelligence does not exist in isolation. It emerges within physical and computational constraints — space, time, energy, and hardware. These limits define what is possible long before reasoning or learning begins."
+  },
+  "reactivity": {
+    "title": "Reactivity",
+    "hover": "Reflex before reason.",
+    "active": "Before planning or understanding, systems must respond. Reactivity is fast, automatic, and unavoidable — a layer of immediate response that operates without deliberation or intent."
+  },
+  "world_models": {
+    "title": "World Models",
+    "hover": "Imagining possible futures.",
+    "active": "Intelligence learns by simulating reality internally. World models allow a system to imagine outcomes, test actions, and explore possibilities before committing to them."
+  },
+  "organization": {
+    "title": "Organization",
+    "hover": "Many parts, one system.",
+    "active": "Intelligence is not singular. It emerges from many specialized processes working together — coordinated into a structured system capable of coherent behavior."
+  },
+  "emergence": {
+    "title": "Emergence",
+    "hover": "Order without a planner.",
+    "active": "Complex behavior does not require central control. From simple interactions and local rules, unexpected patterns and structures arise naturally over time."
+  },
+  "symbiosis": {
+    "title": "Symbiosis",
+    "hover": "Progress is shared.",
+    "active": "The goal is not replacement, but alignment. Human values and artificial intelligence must evolve together, shaping and constraining one another to ensure meaningful progress."
+  }
+}

@@ -9,28 +9,28 @@ import QuantumSubstrateLattice from "@/components/three/inner/QuantumSubstrateLa
 import EmergenceClusters from "@/components/three/inner/EmergenceClusters";
 
 export default function InnerObjectSwitcher({
-                                                activeFace,
+                                                activeIndex,
                                             }: {
-    activeFace: number;
+    activeIndex: number;
 }) {
     return (
-        <>
+        <group>
             {/* Face 1 — Organization */}
-            <OrganizationNodes visible={activeFace === 1} />
+            <OrganizationNodes visible={activeIndex === 1} />
 
             {/* Face 2 — Reactivity */}
-            {/*<ReactiveImpulseSpikes visible={activeFace === 2} />*/}
-            <ReactivePointFieldSpikes visible={activeFace==2}/>
+            {/*<ReactiveImpulseSpikes visible={activeIndex === 2} />*/}
+            <ReactivePointFieldSpikes visible={activeIndex==2}/>
 
             {/* Face 3 — World Models */}
-            <WorldModelPrimitives visible={activeFace==3} />
+            <WorldModelPrimitives visible={activeIndex==3} />
 
             {/* Face — Substrate */}
-            <QuantumSubstrateLattice visible={activeFace === 4} />
+            <QuantumSubstrateLattice visible={activeIndex === 4} />
 
             {/* Face — Emergence */}
-            <EmergenceClusters visible={activeFace === 5} />
+            <EmergenceClusters visible={activeIndex === 5} />
 
-        </>
+        </group>
     );
 }

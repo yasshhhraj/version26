@@ -1,0 +1,26 @@
+{
+  "heroSection": {
+    "badge": "EST. 1991",
+    "mainTitle": "VERSION’26",
+    "subtitle": "Themed",
+    "themeTitle": {
+      "prefix": "Artificial",
+      "highlight": "General",
+      "suffix": "Intelligence"
+    },
+    "description": "Exploring the path from static programs to adaptive intelligence.",
+    "buttons": {
+      "primary": "Events",
+      "secondary": "Team"
+    }
+  },
+  "heroSection2": {
+    "title": "Beyond Intelligence. Toward Infinity.",
+    "description": "Artificial General Intelligence represents a long-term pursuit — systems capable of learning, adapting, and reasoning beyond narrowly defined tasks. While still an open research challenge, AGI invites us to rethink how intelligence might evolve in computational systems. VERSION’26 explores this frontier, focusing on ideas, questions, and possibilities that shape the future of intelligent technology.",
+    "video": {
+      "src": "https://www.youtube.com/embed/wPSnOqOJYM4?autoplay=1&mute=1&loop=1&playlist=wPSnOqOJYM4",
+      "title": "VERSION’25 After Movie"
+    },
+    "button": "Watch VERSION’25 After Movie"
+  }
+}

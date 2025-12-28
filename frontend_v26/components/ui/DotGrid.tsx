@@ -16,6 +16,14 @@ const throttle = (func: (...args: any[]) => void, limit: number) => {
     };
 };
 
+const debounce = (func: (...args: any[]) => void, wait: number) => {
+    let timeout: NodeJS.Timeout;
+    return function (this: any, ...args: any[]) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+};
+
 interface Dot {
     cx: number;
     cy: number;
@@ -96,6 +104,8 @@ const DotGrid: React.FC<DotGridProps> = ({
         if (!wrap || !canvas) return;
 
         const { width, height } = wrap.getBoundingClientRect();
+        if (width === 0 || height === 0) return; // Prevent building on 0 size
+
         const dpr = window.devicePixelRatio || 1;
 
         canvas.width = width * dpr;
@@ -176,17 +186,21 @@ const DotGrid: React.FC<DotGridProps> = ({
     }, [proximity, baseColor, activeRgb, baseRgb, circlePath]);
 
     useEffect(() => {
+        const debouncedBuild = debounce(buildGrid, 100);
         buildGrid();
+        
         let ro: ResizeObserver | null = null;
         if ('ResizeObserver' in window) {
-            ro = new ResizeObserver(buildGrid);
+            ro = new ResizeObserver(() => {
+                debouncedBuild();
+            });
             wrapperRef.current && ro.observe(wrapperRef.current);
         } else {
-            (window as Window).addEventListener('resize', buildGrid);
+            window.addEventListener('resize', debouncedBuild);
         }
         return () => {
             if (ro) ro.disconnect();
-            else window.removeEventListener('resize', buildGrid);
+            else window.removeEventListener('resize', debouncedBuild);
         };
     }, [buildGrid]);
 
@@ -213,7 +227,8 @@ const DotGrid: React.FC<DotGridProps> = ({
             pr.vy = vy;
             pr.speed = speed;
 
-            const rect = canvasRef.current!.getBoundingClientRect();
+            if (!canvasRef.current) return;
+            const rect = canvasRef.current.getBoundingClientRect();
             pr.x = e.clientX - rect.left;
             pr.y = e.clientY - rect.top;
 
@@ -241,7 +256,8 @@ const DotGrid: React.FC<DotGridProps> = ({
         };
 
         const onClick = (e: MouseEvent) => {
-            const rect = canvasRef.current!.getBoundingClientRect();
+            if (!canvasRef.current) return;
+            const rect = canvasRef.current.getBoundingClientRect();
             const cx = e.clientX - rect.left;
             const cy = e.clientY - rect.top;
             for (const dot of dotsRef.current) {

@@ -93,9 +93,11 @@ function applyRotationAndProject(original: Vec4, targetVec3: THREE.Vector3, angl
 export default function Tesseract({
                                       onFaceChangeAction,
                                       interactionState,
+                                      onRotationChange,
                                   }: {
     onFaceChangeAction: (face: number) => void;
     interactionState: InteractionState;
+    onRotationChange?: (angle: number) => void;
 }) {
     // We instantiate the BufferGeometries inside the component so they are
     // tied to the React lifecycle (created on mount, disposed on unmount).
@@ -123,43 +125,20 @@ export default function Tesseract({
     }, [structuralGeometry, faceGeometries]);
 
     const angle = useRef(0);
-    const currentVelocity = useRef(0.03); // Total velocity
+    const currentVelocity = useRef(0.03); // Constant base velocity
     const lastFace = useRef<number | null>(null);
 
-    // Scroll Handler
-    useEffect(() => {
-        let lastScrollY = window.scrollY;
-
-        const onWheel = (e: WheelEvent) => {
-            currentVelocity.current += e.deltaY * 0.00005;
-        };
-        const onScroll = () => {
-            const dy = window.scrollY - lastScrollY;
-            lastScrollY = window.scrollY;
-            currentVelocity.current += dy * 0.001;
-        };
-
-        window.addEventListener("wheel", onWheel, { passive: true });
-        window.addEventListener("scroll", onScroll, { passive: true });
-
-        return () => {
-            window.removeEventListener("wheel", onWheel);
-            window.removeEventListener("scroll", onScroll);
-        };
-    }, []);
-
     useFrame(() => {
-        // 1. Physics: Friction & Speed
-        // Decay velocity so it doesn't spin forever
-        if (Math.abs(currentVelocity.current) > 0.03) {
-            currentVelocity.current *= 0.95; // Friction
-        }
-        if (Math.abs(currentVelocity.current) < 0.03) {
-            currentVelocity.current = 0.03; // Floor to base speed
-        }
-
-        const speedMult = interactionState === "ACTIVE" ? 0.2 : interactionState === "HOVER" ? 0.5 : 1;
+        // Speed multipliers:
+        // PASSIVE: 0.5 (half speed)
+        // HOVER: 0.125 (1/8th speed)
+        // ACTIVE: 0 (stop)
+        const speedMult = interactionState === "ACTIVE" ? 0 : interactionState === "HOVER" ? 0.125 : 0.5;
         angle.current += currentVelocity.current * speedMult;
+
+        if (onRotationChange) {
+            onRotationChange(angle.current);
+        }
 
         // 2. Math: Project 4D -> 3D (Write to Global Pool)
         for(let i = 0; i < NUM_VERTICES; i++) {
