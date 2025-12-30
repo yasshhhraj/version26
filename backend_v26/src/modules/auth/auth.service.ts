@@ -16,6 +16,8 @@ import {
   LoginDto,
   RegisterRequestDto,
   VerifyRegistrationOtpDto,
+  ForgotPasswordRequestDto,
+  ResetPasswordDto,
 } from './dto/auth.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -26,7 +28,10 @@ import {
 } from 'src/common/utils/cookie-utils';
 
 import { OtpPurpose } from '@prisma/client';
-import { registrationOtpTemplate } from 'src/email/templates';
+import {
+  passwordResetOtpTemplate,
+  registrationOtpTemplate,
+} from 'src/email/templates';
 
 @Injectable()
 export class AuthService {
@@ -129,6 +134,68 @@ export class AuthService {
     });
 
     return user;
+  }
+
+  async requestPasswordResetOtp(
+    dto: ForgotPasswordRequestDto,
+  ): Promise<{ success: true }> {
+    const ctx: LogContext = {
+      entity: this.entity,
+      action: 'requestPasswordResetOtp',
+      additional: { email: dto.email },
+    };
+
+    this.logger.logInfo('Requesting password reset OTP', ctx);
+
+    const user = await this.userService.findByEmail(dto.email);
+    if (!user) {
+      // IMPORTANT: do NOT leak existence
+      this.logger.logWarn(
+        'Password reset requested for non-existing email',
+        ctx,
+      );
+      return { success: true };
+    }
+
+    const { otp } = await this.otpService.generate(
+      dto.email,
+      OtpPurpose.PASSWORD_RESET,
+    );
+
+    const expiresInMinutes =
+      Number(this.config.get('OTP_EXPIRES_IN_MINUTES')) || 10;
+
+    const html = passwordResetOtpTemplate({
+      otp,
+      expiresInMinutes,
+    });
+
+    await this.emailService.sendMail({
+      fromName: 'Version26',
+      to: dto.email,
+      subject: 'Reset your password',
+      html,
+    });
+
+    this.logger.logInfo('Password reset OTP sent', ctx);
+    return { success: true };
+  }
+
+  async resetPassword(dto: ResetPasswordDto): Promise<{ success: true }> {
+    const ctx: LogContext = {
+      entity: this.entity,
+      action: 'resetPassword',
+      additional: { email: dto.email },
+    };
+
+    this.logger.logInfo('Resetting password', ctx);
+
+    await this.otpService.verify(dto.email, OtpPurpose.PASSWORD_RESET, dto.otp);
+
+    await this.userService.updatePassword(dto.email, dto.password);
+
+    this.logger.logInfo('Password reset successful', ctx);
+    return { success: true };
   }
 
   /* ──────────────────────────────

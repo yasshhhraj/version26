@@ -16,6 +16,8 @@ import {
   LoginDto,
   RegisterRequestDto,
   VerifyRegistrationOtpDto,
+  ForgotPasswordRequestDto,
+  ResetPasswordDto,
 } from './dto/auth.dto';
 
 import { AuthGuard } from './auth.gaurd';
@@ -47,6 +49,30 @@ export class AuthController {
     @Res({ passthrough: true }) res: Response,
   ) {
     return this.authService.verifyRegistrationOtp(dto, res);
+  }
+
+  // ──────────────────────────────
+  // FORGOT PASSWORD – STEP 1
+  // Request OTP
+  // ──────────────────────────────
+  @Post('forgot-password/request-otp')
+  @HttpCode(HttpStatus.OK)
+  async requestPasswordResetOtp(
+    @Body() dto: ForgotPasswordRequestDto,
+  ): Promise<{ success: true }> {
+    return this.authService.requestPasswordResetOtp(dto);
+  }
+
+  // ──────────────────────────────
+  // FORGOT PASSWORD – STEP 2
+  // Verify OTP + Reset Password
+  // ──────────────────────────────
+  @Post('forgot-password/reset')
+  @HttpCode(HttpStatus.OK)
+  async resetPassword(
+    @Body() dto: ResetPasswordDto,
+  ): Promise<{ success: true }> {
+    return this.authService.resetPassword(dto);
   }
 
   // ──────────────────────────────
