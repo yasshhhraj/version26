@@ -127,9 +127,9 @@ export default function ReactivePointFieldSpikes({
                 </bufferGeometry>
                 <pointsMaterial
                     size={0.03}
-                    color="#ffdcdc"
+                    color="#9d4edd"
                     transparent
-                    opacity={1}
+                    opacity={0.8}
                     depthWrite={false}
                 />
             </points>
@@ -138,9 +138,9 @@ export default function ReactivePointFieldSpikes({
             <lineSegments ref={spikeLinesRef}>
                 <bufferGeometry />
                 <lineBasicMaterial
-                    color="#ff6b6b"
+                    color="#ff9100"
                     transparent
-                    opacity={0.85}
+                    opacity={1}
                     depthWrite={false}
                 />
             </lineSegments>

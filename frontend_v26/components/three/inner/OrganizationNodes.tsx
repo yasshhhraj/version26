@@ -54,11 +54,13 @@ export default function OrganizationNodes({
             <mesh key={i}>
                 <sphereGeometry args={[0.045, 16, 16]} />
                 <meshStandardMaterial
-                    color="#e6f4ff"
-                    roughness={0.4}
-                    metalness={0.1}
+                    color="#00f2ff"
+                    emissive="#004e52"
+                    emissiveIntensity={2}
+                    roughness={0.1}
+                    metalness={0.8}
                     transparent
-                    opacity={0.85}
+                    opacity={0.9}
                 />
             </mesh>
         ))

@@ -46,13 +46,13 @@ export function Sign_in_form({slideAction}: {slideAction: () => void}) {
     }
 
     return (
-        <div className="h-full w-fit flex-1 flex items-center justify-center text-white p-4">
+        <div className="w-full md:w-fit flex-1 flex items-center justify-center text-white p-4">
             <form
                 onSubmit={handleSubmit}
-                className="space-y-6 overflow-clip overflow-y-auto w-full max-w-sm h-full p-8  rounded-lg "
+                className="space-y-6 w-full max-w-sm p-6 md:p-8 rounded-lg"
             >
-                <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-8">
-                    Sign In
+                <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-15">
+                    Sign  In
                 </h2>
 
                 <div className="space-y-2">

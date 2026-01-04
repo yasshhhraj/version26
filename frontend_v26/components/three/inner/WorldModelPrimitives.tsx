@@ -36,12 +36,15 @@ export default function WorldModelPrimitives({
         <group ref={groupRef} visible={visible}>
             {/* === CONTINUITY (Sphere) === */}
             <mesh position={[-0.7, 0.15, 0]}>
-                <sphereGeometry args={[0.55, 12, 12]} />
-                <meshBasicMaterial
-                    color="#cfd9ff"
+                <sphereGeometry args={[0.55, 24, 24]} />
+                <meshStandardMaterial
+                    color="#fff4bd"
+                    emissive="#665500"
+                    roughness={0.1}
+                    metalness={1}
                     wireframe
                     transparent
-                    opacity={0.18}
+                    opacity={0.4}
                 />
             </mesh>
 
@@ -50,23 +53,29 @@ export default function WorldModelPrimitives({
                 position={[0.7, -0.1, 0.15]}
                 rotation={[Math.PI / 2, 0, 0]}
             >
-                <coneGeometry args={[0.45, 0.8, 12, 1, true]} />
-                <meshBasicMaterial
-                    color="#ffd9b3"
+                <coneGeometry args={[0.45, 0.8, 24, 1, true]} />
+                <meshStandardMaterial
+                    color="#ffffff"
+                    emissive="#444444"
+                    roughness={0.05}
+                    metalness={1}
                     wireframe
                     transparent
-                    opacity={0.16}
+                    opacity={0.35}
                 />
             </mesh>
 
             {/* === RECURRENCE (Torus) === */}
             <mesh position={[0, 0.65, -0.25]} rotation={[0.6, 0.2, 0]}>
-                <torusGeometry args={[0.38, 0.08, 8, 24]} />
-                <meshBasicMaterial
-                    color="#e3b3ff"
+                <torusGeometry args={[0.38, 0.08, 16, 32]} />
+                <meshStandardMaterial
+                    color="#ffcf9e"
+                    emissive="#442200"
+                    roughness={0.2}
+                    metalness={0.9}
                     wireframe
                     transparent
-                    opacity={0.15}
+                    opacity={0.3}
                 />
             </mesh>
         </group>

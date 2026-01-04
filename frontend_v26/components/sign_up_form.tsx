@@ -41,24 +41,27 @@ export function Sign_up_form({slideAction}: {slideAction: () => void}) {
     }
 
     return (
-        <div className="h-full  w-fit flex-1 flex items-center justify-center  text-white p-6 ">
+        <div className="w-full md:w-fit flex-1 flex items-center justify-center text-white p-6">
             <form onSubmit={handleSubmit}
-                className="space-y-4  overflow-clip overflow-y-auto w-full max-w-sm h-full p-8  rounded-lg "
+                className="space-y-4 w-full max-w-sm px-6 md:p-8 rounded-lg "
             >
 
-                <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-2">
-                    Sign Up
-                </h2>
-                <p className="text-center text-sm text-gray-400 mb-6">Step {step} of 3</p>
+                <div className={'mt-3 mb-8'}>
+                    <h2 className="text-4xl md:text-5xl font-bold text-center text-white mb-2">
+                        Sign Up
+                    </h2>
+                    <p className="text-center text-sm text-gray-400 ">Step {step} of 3</p>
+
+                </div>
 
                 {/* Animated steps container */}
-                <div className="relative  min-w-64 h-84  ">
+                <div className="relative min-w-64 h-84">
 
                     {/* Step 1 */}
                     <div
                         aria-hidden={step !== 1}
                         className={
-                            "absolute inset-0 w-full h-fit transition-all duration-500 ease-out  space-y-4 flex flex-col " +
+                            "absolute inset-0 w-full h-fit transition-all duration-500 ease-out space-y-4 flex flex-col " +
                             (step === 1
                                 ? "translate-x-0 opacity-100 pointer-events-auto"
                                 : step === 2 || step === 3
@@ -272,7 +275,7 @@ export function Sign_up_form({slideAction}: {slideAction: () => void}) {
 
                 </div>
 
-                <p className="text-center text-sm  text-gray-400">
+                <p className="text-center text-sm text-gray-400">
                     Already a user?{" "}
                     <span
                         onClick={slideAction}

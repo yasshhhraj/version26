@@ -159,9 +159,9 @@ export default function EmergenceClusters({
                 <pointsMaterial
                     size={0.028}
                     sizeAttenuation
-                    color="#cfe1ff"
+                    color="#ff00ff"
                     transparent
-                    opacity={0.32}
+                    opacity={0.6}
                     depthWrite={false}
                 />
             </points>
@@ -170,9 +170,9 @@ export default function EmergenceClusters({
             <lineSegments ref={linesRef}>
                 <bufferGeometry />
                 <lineBasicMaterial
-                    color="#a8bfff"
+                    color="#00ffcc"
                     transparent
-                    opacity={0.18}
+                    opacity={0.4}
                     depthWrite={false}
                 />
             </lineSegments>

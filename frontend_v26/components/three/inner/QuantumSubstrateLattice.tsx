@@ -71,9 +71,9 @@ export default function QuantumSubstrateLattice({
                 <pointsMaterial
                     size={0.06}              // ↑ real, visible size
                     sizeAttenuation={true}   // ✅ THIS IS THE KEY
-                    color="#dbe3ff"
+                    color="#00ffff"
                     transparent
-                    opacity={0.32}
+                    opacity={0.6}
                     depthWrite={false}
                 />
             </points>
@@ -91,9 +91,9 @@ export default function QuantumSubstrateLattice({
                     />
                 </bufferGeometry>
                 <lineBasicMaterial
-                    color="#b3c2ff"
+                    color="#0077ff"
                     transparent
-                    opacity={0.05}        // ↑ from 0.12
+                    opacity={0.3}        // ↑ from 0.12
                     depthWrite={false}
                 />
             </lineSegments>

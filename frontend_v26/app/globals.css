@@ -6,7 +6,7 @@
 
 @layer components {
   .glassmorphism {
-    @apply bg-black/20 backdrop-blur-sm shadow-[inset_0_1px_0px_rgba(255,255,255,0.35),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)]  bg-linear-to-br from-white/20 via-transparent to-white/20
+    @apply bg-black/20 backdrop-blur-sm shadow-[inset_0_1px_0px_rgba(255,255,255,0.35),0_0_9px_rgba(0,0,0,0.2),0_3px_8px_rgba(0,0,0,0.15)]  bg-linear-to-br from-[#482c72]/30 via-transparent to-[#482c72]/30
   }
 }
 
@@ -42,8 +42,52 @@
   }
 }
 
+html,
+body,
+#root {
+  min-height: 100dvh;
+  min-width: 100dvw;
+  margin: 0;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+@keyframes scan {
+  0% { top: 0; opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-scan {
+  animation: scan 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.text-glow {
+  text-shadow: 0 0 10px rgba(70, 0, 190, 0.5);
+}
+
+.border-glow {
+  box-shadow: 0 0 15px rgba(70, 0, 190, 0.2);
 }

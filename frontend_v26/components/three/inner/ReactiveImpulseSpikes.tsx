@@ -65,11 +65,13 @@ export default function ReactiveImpulseSpikes({
         <group ref={groupRef} visible={visible}>
             {Array.from({ length: MAX_SPIKES }).map((_, i) => (
                 <mesh key={i}>
-                    <sphereGeometry args={[0.6]} />
-                    <meshBasicMaterial
-                        color="blue"
+                    <coneGeometry args={[0.05, 0.4, 8]} />
+                    <meshStandardMaterial
+                        color="#ff3300"
+                        emissive="#ff0000"
+                        emissiveIntensity={2}
                         transparent
-                        opacity={0.85}
+                        opacity={0.9}
                     />
                 </mesh>
             ))}

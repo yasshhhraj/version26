@@ -1,10 +1,13 @@
 {
   "hero": {
     "title": "VISION",
+    "subtitle": "SYSTEM ARCHITECTURE & ROADMAP",
     "image": "/Assets/vision.png"
   },
   "version": {
-    "title": "Version",
+    "id": "REF_ARCH_033",
+    "title": "Version '26",
+    "tag": "EST. 1991",
     "image": "/Assets/two.png",
     "content": [
       "Embarking on its 33rd edition, Version 2026, the annual All India MCA meet hosted by the students of NIT Trichy, stands as the pinnacle event for MCA students nationwide. Since 1991, Version has been a platform for showcasing talent, fostering healthy competition, and promoting creativity.",
@@ -13,30 +16,31 @@
     ]
   },
   "agi": {
-    "subtitle": "Themed",
-    "title": "Artificial General Intelligence (AGI)",
-    "description": "Version 2026 marks a monumental shift as it embraces Artificial General Intelligence (AGI) as its central theme. AGI goes beyond conventional AI by aiming for machines that can think, learn, and adapt across diverse tasks just like humans. It symbolizes the future of intelligent systems capable of creativity, reasoning, and independent decision making. This groundbreaking vision aligns perfectly with the essence of Version: pushing limits, exploring the unknown, and celebrating innovation. Version 2026 will bring AGI to the forefront through cutting-edge challenges, interactive workshops, and collaborative experiences that empower participants to experiment with the technologies shaping tomorrow. As India's premier MCA meet, Version 2026 invites students to dive into the era of general intelligence and craft solutions that redefine what machines and we can achieve.",
+    "id": "REF_THEME_AGI",
+    "subtitle": "THEMATIC CORE",
+    "title": "Artificial General Intelligence",
+    "description": "Current AI predicts the next token. Future AGI will predict the consequences of its actions. Version'26 is dedicated to bridging this gap. We are pivoting from standard machine learning to the Cognitive Architectures of tomorrow. This year's event dissects the reality of AGI research, separating science fiction from scientific hurdles. From Spiking Neural Networks to World Models, we invite participants to experiment with the emerging prototypes of general intelligence and solve the engineering limits that currently constrain our digital minds. While today’s models excel at pattern matching, true AGI—systems capable of autonomous reasoning, cross-domain adaptation, and real-time learning—remains a theoretical frontier. This year, we explore the roadmap to that future. Through expert lectures and hands-on workshops, we will dissect the critical technologies bridging this gap, from Neuromorphic Hardware and Mixture of Experts (MoE) architectures to System 2 Reasoning models.",
     "image": "/Assets/one.png"
   },
   "stats": {
-    "title": "TITLE",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
-    "subtitle": "subtitle",
+    "title": "Execution Metrics",
+    "description": "Measured outcomes across participation, reliability, and program density. Verified archival data.",
+    "subtitle": "Operational Ratios",
     "progress": [
-      { "percentage": "50%" },
-      { "percentage": "50%" },
-      { "percentage": "50%" },
-      { "percentage": "50%" }
+      { "label": "COMPLETION RATE", "percentage": "99%" },
+      { "label": "RETENTION INDEX", "percentage": "60%" },
+      { "label": "SLA COMPLIANCE", "percentage": "95%" },
+      { "label": "ADMISSION RATIO", "percentage": "41%" }
     ],
     "grid": [
-      { "value": "33", "label": "years" },
-      { "value": "22+", "label": "Events" },
-      { "value": "200+", "label": "participants/year" },
-      { "value": "XXK", "label": "price distribution" }
+      { "value": "32", "label": "Editions Executed" },
+      { "value": "15+", "label": "Events per Edition" },
+      { "value": "2000+", "label": "Active Participants" },
+      { "value": "50L+", "label": "Rewards Pool" }
     ]
   },
   "quote": {
-    "text": "Innovation without boundaries. Collaboration without limits. Version'26 is more than a symposium; it is a crucible for the ideas that will define the AGI landscape. We are building the framework for a smarter, more adaptive world, one line of code at a time.",
+    "text": "Research without boundaries. Innovation without limits. Version'26 serves not just as a meet, but as a crucible for the engineering challenges that define the AGI frontier. We are gathering to dissect the gap between narrow AI and general intelligence, building a collaborative understanding of the technologies that will power tomorrow's autonomous systems.",
     "image": "/Assets/three.png"
   }
 }

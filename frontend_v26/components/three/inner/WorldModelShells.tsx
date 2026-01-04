@@ -29,15 +29,20 @@ export default function WorldModelShells({
             {Array.from({ length: SHELL_COUNT }).map((_, i) => {
                 const radius = 0.45 + i * 0.18;
 
+                const colors = ["#4cc9f0", "#4895ef", "#4361ee", "#3f37c9"];
+                const color = colors[i % colors.length];
+
                 return (
                     <mesh key={i}>
-                        <sphereGeometry args={[radius, 32, 32]} />
+                        <sphereGeometry args={[radius, 64, 64]} />
                         <meshStandardMaterial
-                            color="#cfd9ff"
+                            color={color}
+                            emissive={color}
+                            emissiveIntensity={0.2}
                             transparent
-                            opacity={0.08 + i * 0.04}
-                            roughness={0.6}
-                            metalness={0.05}
+                            opacity={0.1 + i * 0.05}
+                            roughness={0.3}
+                            metalness={0.2}
                             side={THREE.DoubleSide}
                         />
                     </mesh>

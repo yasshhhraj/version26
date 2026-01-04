@@ -1,128 +1,274 @@
-import { ArrowUpRight } from "lucide-react"
+"use client"
+
+import { ArrowUpRight, Zap, Target, Cpu, BarChart3, Quote, Info } from "lucide-react"
 import Image from "next/image"
 import visionData from "@/public/vision.json"
+import { motion } from "framer-motion"
 
 export default function VisionPage() {
     return (
-        <main className="min-h-screen bg-white dark:bg-black text-black dark:text-white pt-20 transition-colors duration-300">
-            {/* Hero Section with Aurora Wave */}
-            <section className="relative py-12 overflow-hidden">
-                {/* Aurora wave effect */}
-                <div className="absolute top-0 left-0 right-0 h-32 overflow-hidden">
-                    <Image src={visionData.hero.image} alt={'header image'} layout={'fill'} objectFit={'cover'} />
-                </div>
+        <main className="min-h-screen bg-black text-white pt-20 transition-colors duration-300 selection:bg-purple-500/30 overflow-hidden">
+            {/* Ambient Background Glows */}
+            <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#4600be]/20 blur-[120px] rounded-full -z-10 animate-pulse-glow" />
+            <div className="absolute top-1/2 right-1/4 w-[600px] h-[600px] bg-purple-900/10 blur-[150px] rounded-full -z-10 animate-float" />
+            <div className="absolute bottom-0 left-0 w-96 h-96 bg-[#4600be]/10 blur-[100px] rounded-full -z-10" />
 
-                <h1 className="text-4xl md:text-5xl font-bold text-center tracking-wider">{visionData.hero.title}</h1>
+            {/* Hero Section */}
+            <section className="relative pt-20 pb-12 px-8 border-b border-white/10">
+                <div className="max-w-7xl mx-auto">
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-4 flex items-center gap-2 text-xs font-medium text-purple-400 border border-purple-500/20 bg-purple-500/5 px-3 py-1 rounded-full w-fit"
+                    >
+                        <Target size={14} />
+                        <span>{visionData.hero.subtitle}</span>
+                    </motion.div>
+                    <motion.h1 
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-6xl md:text-8xl lg:text-[120px] font-bold tracking-tighter leading-none"
+                    >
+                        {visionData.hero.title} <span className="text-[#4600be] italic font-serif text-glow">2026</span>
+                    </motion.h1>
+                    
+                    <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
+                        <motion.p 
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3 }}
+                            className="text-neutral-400 max-w-md text-sm font-mono tracking-tighter uppercase leading-relaxed"
+                        >
+                            Developing the architectural framework for next-generation cognitive systems. 
+                            Archival record of the 33rd annual symposium.
+                        </motion.p>
+                        <div className="flex justify-end items-center gap-4 text-[10px] font-bold tracking-[0.2em] text-neutral-500">
+                             <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4600be] opacity-75"></span>
+                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4600be]"></span>
+                                </span>
+                                SYSTEM ONLINE
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             {/* Version Section */}
-            <section className="max-w-6xl mx-auto px-6 py-16">
-                <div className="flex flex-col md:flex-row gap-12 items-start">
-                    {/* AI Humanoid Image */}
-                    <div className="w-full md:w-1/3 flex-shrink-0">
-                        <div className="relative aspect-square rounded-lg overflow-visible border border-purple-500/30">
-                            <Image src={visionData.version.image} alt="AI Humanoid" fill className="object-cover z-20" />
+            <section className="max-w-7xl mx-auto px-8 py-24">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+                    {/* Visual Asset */}
+                    <motion.div 
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="lg:col-span-5 relative group"
+                    >
+                        <div className="absolute -inset-4 bg-[#4600be]/5 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="relative aspect-square rounded-2xl overflow-hidden border border-white/10 bg-white/5 group-hover:border-purple-500/30 transition-colors duration-500">
+                            <Image src={visionData.version.image} alt="Technical Illustration" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100" />
+                            
+                            {/* Scanning line */}
+                            <div className="absolute inset-x-0 h-[2px] top-0 bg-gradient-to-r from-transparent via-purple-400 to-transparent shadow-[0_0_15px_rgba(70,0,190,0.8)] z-20 animate-scan" />
+                            
+                            {/* Overlay Vignette */}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
                         </div>
-                    </div>
+                        
+                        <div className="absolute top-6 right-6 z-30">
+                            <div className="flex items-center gap-1.5 text-[10px] font-bold tracking-[0.2em] text-white bg-black/50 border border-white/20 px-4 py-2 rounded-full backdrop-blur-md">
+                                <span className="text-purple-400">{visionData.version.tag}</span>
+                            </div>
+                        </div>
+                    </motion.div>
 
-                    {/* Version Content */}
-                    <div className="flex-1">
-                        <h2 className="text-2xl font-semibold mb-6 flex items-center gap-2">
-                            <span className="text-black dark:text-white">⚙</span> {visionData.version.title}
-                        </h2>
-                        <ul className="space-y-4 text-gray-700 dark:text-gray-300 text-sm leading-relaxed list-disc list-inside">
-                            {visionData.version.content.map((paragraph, index) => (
-                                <li key={index}>{paragraph}</li>
-                            ))}
-                        </ul>
-                        <button className="mt-8 px-6 py-2 border border-gray-900 dark:border-white rounded-md flex items-center gap-2 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors text-sm">
-                            know more
-                            <ArrowUpRight className="w-4 h-4" />
-                        </button>
+                    {/* Content */}
+                    <div className="lg:col-span-7">
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                        >
+                            <div className="flex items-center gap-3 text-[#4600be] mb-6">
+                                <div className="h-[1px] w-12 bg-[#4600be]" />
+                                <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{visionData.version.id}</span>
+                            </div>
+                            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-8 uppercase italic font-serif">
+                                {visionData.version.title}
+                            </h2>
+                            <div className="space-y-6 text-neutral-400 text-sm leading-relaxed text-justify max-w-2xl font-light">
+                                {visionData.version.content.map((paragraph, index) => (
+                                    <p key={index}>{paragraph}</p>
+                                ))}
+                            </div>
+                            
+                            <div className="mt-12 flex flex-wrap gap-4">
+                                <button className="px-8 py-4 bg-[#4600be] text-white rounded-full flex items-center gap-3 hover:bg-[#4600be]/90 transition-all text-xs font-bold tracking-widest shadow-[0_0_20px_rgba(70,0,190,0.3)] hover:shadow-[0_0_30px_rgba(70,0,190,0.6)] group/btn overflow-hidden relative">
+                                    <div className="absolute inset-0 bg-white/10 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
+                                    <span className="relative z-10">INITIALIZE PROTOCOL</span>
+                                    <ArrowUpRight className="w-4 h-4 relative z-10 group-hover/btn:rotate-45 transition-transform" />
+                                </button>
+                                <button className="px-8 py-4 border border-white/10 text-white rounded-full flex items-center gap-3 hover:bg-white/5 transition-all text-xs font-bold tracking-widest uppercase hover:border-white/30">
+                                    Download Specs
+                                </button>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
 
             {/* AGI Theme Section */}
-            <section className="max-w-6xl mx-auto px-6 py-16">
-                <div className="flex flex-col md:flex-row gap-12 items-start">
-                    {/* AGI Content */}
-                    <div className="flex-1 order-2 md:order-1">
-                        <p className="text-orange-600 dark:text-orange-500 text-sm mb-1">{visionData.agi.subtitle}</p>
-                        <h2 className="text-xl font-bold mb-6">{visionData.agi.title}</h2>
-                        <p className="text-gray-700 dark:text-gray-300 text-sm leading-relaxed text-justify">
-                            {visionData.agi.description}
-                        </p>
-                    </div>
-
-                    {/* Robot Image */}
-                    <div className="w-full md:w-2/5 flex-shrink-0 order-1 md:order-2">
-                        <div className="relative aspect-[3/4]">
-                            <Image src={visionData.agi.image} alt="AGI Robot" fill className="object-contain" />
+            <section className="bg-white/5 border-y border-white/10 relative overflow-hidden group/agi">
+                <div className="absolute inset-0 bg-[url('/Assets/grid.png')] opacity-5" />
+                <div className="max-w-7xl mx-auto px-8 py-32 relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                        <div className="lg:col-span-7 order-2 lg:order-1">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                            >
+                                <div className="flex items-center gap-3 text-purple-400 mb-6 uppercase">
+                                    <Cpu size={18} />
+                                    <span className="text-[10px] font-bold tracking-[0.3em]">{visionData.agi.subtitle}</span>
+                                </div>
+                                <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 uppercase leading-[0.9]">
+                                    {visionData.agi.title}
+                                </h2>
+                                <p className="text-neutral-400 text-lg leading-relaxed mb-10 font-mono tracking-tight">
+                                    {visionData.agi.description}
+                                </p>
+                                <div className="flex items-center gap-2 text-[10px] font-mono text-[#4600be] bg-purple-500/5 border border-purple-500/20 px-4 py-2 rounded-lg w-fit">
+                                    <Info size={14} className="animate-pulse" />
+                                    <span>SYSTEM_ID: <span className="text-white">{visionData.agi.id}</span> // STATUS: <span className="text-green-500">ACTIVE_RESEARCH</span></span>
+                                </div>
+                            </motion.div>
                         </div>
-                    </div>
-                </div>
 
-                <div className="flex justify-center mt-8">
-                    <button className="px-6 py-2 border border-gray-900 dark:border-white rounded-md flex items-center gap-2 hover:bg-black hover:text-white dark:hover:bg-white dark:hover:text-black transition-colors text-sm">
-                        know more
-                        <ArrowUpRight className="w-4 h-4" />
-                    </button>
+                        <motion.div 
+                            initial={{ opacity: 0, x: 40 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="lg:col-span-5 order-1 lg:order-2"
+                        >
+                            <div className="relative aspect-square group">
+                                <div className="absolute inset-0 bg-[#4600be]/20 blur-3xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-1000" />
+                                <Image src={visionData.agi.image} alt="AGI Visualization" fill className="object-contain relative z-10 drop-shadow-[0_0_30px_rgba(70,0,190,0.4)]" />
+                            </div>
+                        </motion.div>
+                    </div>
                 </div>
             </section>
 
             {/* Stats Section */}
-            <section className="max-w-6xl mx-auto px-6 py-16">
-                <h3 className="text-xl font-bold mb-2">{visionData.stats.title}</h3>
-                <p className="text-gray-600 dark:text-gray-400 text-sm mb-8">
-                    {visionData.stats.description}
-                </p>
+            <section className="max-w-7xl mx-auto px-8 py-32">
+                <div className="mb-20">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                    >
+                        <div className="flex items-center gap-3 text-[#4600be] mb-6">
+                            <BarChart3 size={18} />
+                            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Network Analytics</span>
+                        </div>
+                        <h3 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 uppercase italic font-serif">
+                            {visionData.stats.title}
+                        </h3>
+                        <p className="text-neutral-500 text-sm font-mono uppercase tracking-widest">
+                            {visionData.stats.description}
+                        </p>
+                    </motion.div>
+                </div>
 
-                <div className="flex flex-col md:flex-row gap-12 items-start">
-                    {/* Progress Bars */}
-                    <div className="w-full md:w-1/3">
-                        <h4 className="font-semibold mb-6">{visionData.stats.subtitle}</h4>
-                        <div className="space-y-4">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
+                    {/* Capability Ratios */}
+                    <div className="lg:col-span-5 space-y-10">
+                        <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-400 border-l-2 border-[#4600be] pl-4">
+                            {visionData.stats.subtitle}
+                        </h4>
+
+                        <div className="space-y-8">
                             {visionData.stats.progress.map((item, i) => (
-                                <div key={i} className="space-y-1">
-                                    <div className="flex justify-end">
-                                        <span className="text-xs text-gray-600 dark:text-gray-400">{item.percentage}</span>
+                                <motion.div 
+                                    key={i} 
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: i * 0.1 }}
+                                    viewport={{ once: true }}
+                                    className="space-y-3"
+                                >
+                                    <div className="flex justify-between text-[10px] font-bold tracking-widest text-neutral-500">
+                                        <span>{item.label}</span>
+                                        <span className="text-white font-mono">{item.percentage}</span>
                                     </div>
-                                    <div className="h-0.5 bg-gray-200 dark:bg-gray-700 rounded-full">
-                                        <div 
-                                            className="h-full bg-black dark:bg-white rounded-full" 
-                                            style={{ width: item.percentage }}
-                                        />
+
+                                    <div className="h-[2px] bg-white/5 rounded-full overflow-hidden shadow-inner">
+                                        <motion.div
+                                            initial={{ width: 0 }}
+                                            whileInView={{ width: item.percentage }}
+                                            transition={{ duration: 1.5, ease: "circOut" }}
+                                            viewport={{ once: true }}
+                                            className="h-full bg-gradient-to-r from-purple-800 via-[#4600be] to-purple-400 relative"
+                                        >
+                                            <div className="absolute inset-0 bg-white/20 animate-pulse" />
+                                        </motion.div>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
 
-                    {/* Stats Grid */}
-                    <div className="flex-1 grid grid-cols-2 gap-8">
+                    {/* Metrics Grid */}
+                    <div className="lg:col-span-7 grid grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden shadow-2xl group/stats">
                         {visionData.stats.grid.map((stat, index) => (
-                            <div key={index}>
-                                <p className="text-5xl font-bold">{stat.value}</p>
-                                <p className="text-gray-600 dark:text-gray-400">{stat.label}</p>
-                            </div>
+                            <motion.div 
+                                key={index} 
+                                whileHover={{ backgroundColor: "rgba(70,0,190,0.05)" }}
+                                className="bg-black p-10 flex flex-col justify-center relative group/item overflow-hidden"
+                            >
+                                <div className="absolute top-0 right-0 p-4 opacity-0 group-hover/item:opacity-100 transition-opacity">
+                                    <div className="w-1 h-1 bg-purple-500 rounded-full animate-ping" />
+                                </div>
+                                <p className="text-5xl md:text-6xl font-bold tracking-tighter text-[#4600be] group-hover/item:text-purple-400 transition-colors">
+                                    {stat.value}
+                                </p>
+                                <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 group-hover/item:text-neutral-200 transition-colors">
+                                    {stat.label}
+                                </p>
+                                <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-purple-500 group-hover/item:w-full transition-all duration-500" />
+                            </motion.div>
                         ))}
                     </div>
                 </div>
             </section>
 
             {/* Quote Banner */}
-            <section className="relative py-16 mt-8 overflow-hidden">
-                {/* Metallic background */}
-                <div className="absolute inset-0">
-                    <Image src={visionData.quote.image} alt="Metallic background" fill className="object-cover opacity-60" />
-                    <div className="absolute inset-0 bg-black/20 dark:bg-black/40" />
+            <section className="relative py-48 border-t border-white/10 overflow-hidden group/quote">
+                <div className="absolute inset-0 opacity-30 pointer-events-none group-hover/quote:opacity-40 transition-opacity duration-1000">
+                    <Image src={visionData.quote.image} alt="Background" fill className="object-cover scale-105 group-hover/quote:scale-100 transition-transform duration-[3s]" />
+                    <div className="absolute inset-0 bg-gradient-to-b from-black via-black/40 to-black" />
+                    <div className="absolute inset-0 bg-purple-900/20 mix-blend-color" />
                 </div>
 
-                <div className="relative max-w-4xl mx-auto px-6 text-center">
-                    <p className="text-xl md:text-2xl font-medium leading-relaxed">
-                        {visionData.quote.text}
-                    </p>
+                <div className="relative max-w-4xl mx-auto px-8 text-center">
+                    <motion.div
+                         initial={{ opacity: 0, scale: 0.9 }}
+                         whileInView={{ opacity: 1, scale: 1 }}
+                         viewport={{ once: true }}
+                    >
+                        <Quote className="w-12 h-12 text-[#4600be] mx-auto mb-8 opacity-50 drop-shadow-[0_0_10px_rgba(70,0,190,1)]" />
+                        <p className="text-2xl md:text-5xl font-bold tracking-tighter leading-tight italic font-serif text-white drop-shadow-2xl">
+                            &ldquo;{visionData.quote.text}&rdquo;
+                        </p>
+                        <div className="mt-12 flex items-center justify-center gap-4">
+                            <div className="h-[1px] w-12 bg-white/20" />
+                            <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-neutral-500">Official Directive</span>
+                            <div className="h-[1px] w-12 bg-white/20" />
+                        </div>
+                    </motion.div>
                 </div>
             </section>
         </main>
