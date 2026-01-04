@@ -1,7 +1,7 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useRef } from "react";
+import {JSX, useEffect, useRef, useState} from "react";
 import * as THREE from "three";
 
 type Node = {
@@ -20,11 +20,12 @@ export default function OrganizationNodes({
 }) {
     const groupRef = useRef<THREE.Group>(null);
 
+    const [random] = useState(()=>Math.random())
     const nodes = useRef<Node[]>(
         Array.from({ length: NODE_COUNT }, () => ({
             radius: THREE.MathUtils.randFloat(0.6, 1.1),
             speed: THREE.MathUtils.randFloat(0.2, 0.6),
-            phase: Math.random() * Math.PI * 2,
+            phase: random * Math.PI * 2,
             inclination: THREE.MathUtils.randFloat(-0.6, 0.6),
         }))
     );
@@ -46,20 +47,29 @@ export default function OrganizationNodes({
         });
     });
 
+    const [groupitems, setGroupItems] = useState<JSX.Element[]>([])
+
+    useEffect(() => {
+        const items = nodes.current.map((_, i) => (
+            <mesh key={i}>
+                <sphereGeometry args={[0.045, 16, 16]} />
+                <meshStandardMaterial
+                    color="#e6f4ff"
+                    roughness={0.4}
+                    metalness={0.1}
+                    transparent
+                    opacity={0.85}
+                />
+            </mesh>
+        ))
+
+        setGroupItems(items)
+    }, []);
+
+
     return (
         <group ref={groupRef} visible={visible}>
-            {nodes.current.map((_, i) => (
-                <mesh key={i}>
-                    <sphereGeometry args={[0.045, 16, 16]} />
-                    <meshStandardMaterial
-                        color="#e6f4ff"
-                        roughness={0.4}
-                        metalness={0.1}
-                        transparent
-                        opacity={0.85}
-                    />
-                </mesh>
-            ))}
+            {groupitems}
         </group>
     );
 }

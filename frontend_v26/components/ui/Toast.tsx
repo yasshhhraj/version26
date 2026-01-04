@@ -41,7 +41,6 @@ export function Toast({
   const portalTarget = useMemo(() => (typeof document !== "undefined" ? document.body : null), [])
 
   useEffect(() => {
-    // allow enter animation
     const id = window.setTimeout(() => setVisible(true), 20)
     return () => window.clearTimeout(id)
   }, [])

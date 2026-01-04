@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useRef, useMemo, useState } from 'react'
-import { Canvas, useFrame } from '@react-three/fiber'
+import {Canvas, useFrame} from '@react-three/fiber'
 import * as THREE from 'three'
 
 const SEPARATION = 100
@@ -19,9 +19,10 @@ const vertexShader = `
 
 const fragmentShader = `
   uniform vec3 color;
+  uniform float opacity;
   void main() {
     if ( length( gl_PointCoord - vec2( 0.5, 0.5 ) ) > 0.475 ) discard;
-    gl_FragColor = vec4( color, 1.0 );
+    gl_FragColor = vec4( color, opacity );
   }
 `
 
@@ -49,7 +50,7 @@ function WavePoints() {
         return [pos, scl]
     }, [])
 
-    useFrame((state) => {
+    useFrame(() => {
         const points = meshRef.current
         if (!points) return
 
@@ -97,8 +98,9 @@ function WavePoints() {
         count.current += 0.05
     })
 
-    const handlePointerDown = (e: any) => {
-        ripples.current.push({ x: e.point.x, z: e.point.z, start: count.current })
+    interface MeshPointerEvent extends PointerEvent {
+        point: THREE.Vector3; // Assuming you use Three.js
+        // Other custom properties like 'intersections', 'delta', etc.
     }
 
     return (
@@ -114,10 +116,13 @@ function WavePoints() {
                     transparent={true}
                     vertexShader={vertexShader}
                     fragmentShader={fragmentShader}
-                    uniforms={{ color: { value: new THREE.Color('rgba(75,56,142,0.74)') } }}
+                    uniforms={{
+                        color: { value: new THREE.Color('rgb(75,56,142)') },
+                        opacity: { value: 0.74 }
+                    }}
                 />
             </points>
-            <mesh visible={false} rotation={[-Math.PI / 2, 0, 0]} onPointerDown={handlePointerDown}>
+            <mesh visible={false} rotation={[-Math.PI / 2, 0, 0]}  >
                 <planeGeometry args={[AMOUNTX * SEPARATION * 2, AMOUNTY * SEPARATION * 2]} />
                 <meshBasicMaterial />
             </mesh>
@@ -126,25 +131,11 @@ function WavePoints() {
 }
 
 export default function ParticleWaves() {
-    const [isLoaded, setIsLoaded] = useState(false)
 
     return (
-        <div className="relative h-full w-full z-50">
-
-            {/* Fallback Image:
-         - Starts visible (opacity-100)
-         - Becomes invisible (opacity-0) once 'isLoaded' is true
-         - 'pointer-events-none' ensures clicks pass through to the canvas once loaded
-      */}
+        <div className="relative h-full w-full z-50 bg-transparent">
             <div
-                className={`absolute inset-0 bg-[url('/Assets/background.png')] bg-cover bg-center z-0 transition-opacity duration-700 ease-in-out ${
-                    isLoaded ? 'opacity-0 pointer-events-none' : 'opacity-100'
-                }`}
-                aria-hidden="true"
-            />
-
-            <div
-                className="absolute inset-0 z-10"
+                className="absolute inset-0 z-10 bg-transparent"
                 style={{
                     maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)',
                     WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 80%, rgba(0,0,0,0) 100%)'
@@ -153,9 +144,7 @@ export default function ParticleWaves() {
                 <Canvas
                     camera={{ position: [0, 200, 2500], rotation: [0, 0, -0.1], fov: 60 }}
                     resize={{ scroll: false }}
-                    gl={{ alpha: true }}
-                    // This event fires when Three.js has created the gl context and scene
-                    onCreated={() => setIsLoaded(true)}
+                    gl={{ alpha: true, preserveDrawingBuffer: true }}
                 >
                     <WavePoints />
                 </Canvas>

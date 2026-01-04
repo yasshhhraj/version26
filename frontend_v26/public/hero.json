@@ -1,17 +1,16 @@
 {
   "heroSection": {
     "badge": "EST. 1991",
-    "mainTitle": "VERSION’26",
-    "subtitle": "Themed",
+    "mainTitle": "VERSION'26",
+    "subtitle": "COGNIX",
     "themeTitle": {
-      "prefix": "Artificial",
-      "highlight": "General",
-      "suffix": "Intelligence"
+      "prefix": "INTELLIGENCE",
+      "highlight": "WITHOUT",
+      "suffix": "LIMITS"
     },
-    "description": "Exploring the path from static programs to adaptive intelligence.",
-    "buttons": {
-      "primary": "Events",
-      "secondary": "Team"
+    "description": "Beyond static algorithms. Join the 33rd edition as we bridge the gap between binary code and infinite reasoning.",    "buttons": {
+      "primary": "EXPLORE EVENTS",
+      "secondary": "TEAM"
     }
   },
   "heroSection2": {

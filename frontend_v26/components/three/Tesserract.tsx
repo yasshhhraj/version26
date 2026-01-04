@@ -1,18 +1,17 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useEffect, useRef, useMemo } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import TesseractEdges from "./TesseractEdges";
 
 /* ---------- Types ---------- */
 type Vec4 = [number, number, number, number];
 export type InteractionState = "PASSIVE" | "HOVER" | "ACTIVE";
 
-/* ---------- Global Static Memory (The "One Instance" Optimization) ---------- */
-// Since we only have one Tesseract, we allocate these ONCE globally.
-// This completely removes Garbage Collection overhead.
-
+/* ---------- Global Static Memory ---------- */
 const NUM_VERTICES = 16;
+
 // 1. Reusable Vector Pool
 const projectedVerticesPool = Array.from(
     { length: NUM_VERTICES },
@@ -45,10 +44,6 @@ const FACES = [
     [12, 13, 14, 15],
     [0, 4, 8, 12],
     [3, 7, 11, 15],
-];
-
-const FACE_COLORS = [
-    "#4fd1ff", "#9cff6a", "#ffd166", "#c77dff", "#ff6ad5", "#ff9f1c",
 ];
 
 // 3. Topology Map
@@ -93,70 +88,75 @@ function applyRotationAndProject(original: Vec4, targetVec3: THREE.Vector3, angl
 export default function Tesseract({
                                       onFaceChangeAction,
                                       interactionState,
-                                      onRotationChange,
+                                      onRotationChangeAction,
                                   }: {
     onFaceChangeAction: (face: number) => void;
     interactionState: InteractionState;
-    onRotationChange?: (angle: number) => void;
+    onRotationChangeAction?: (angle: number) => void;
 }) {
-    // We instantiate the BufferGeometries inside the component so they are
-    // tied to the React lifecycle (created on mount, disposed on unmount).
-    const { faceGeometries, structuralGeometry } = useMemo(() => {
-        const fGeos = FACES.map((_, i) => {
+    const geometriesRef = useRef<{
+        faceGeometries: THREE.BufferGeometry[];
+        structuralGeometry: THREE.BufferGeometry;
+    } | null>(null);
+
+    // Lazy initialization
+    if (geometriesRef.current === null) {
+        const faceGeometries = FACES.map((_, i) => {
             const geo = new THREE.BufferGeometry();
             const edgeCount = faceEdgesIndicesMap[i].length;
             geo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(edgeCount * 6), 3));
             return geo;
         });
 
-        const sGeo = new THREE.BufferGeometry();
+        const structuralGeometry = new THREE.BufferGeometry();
         const sEdgeCount = structuralEdgesIndices.length;
-        sGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(sEdgeCount * 6), 3));
+        structuralGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(sEdgeCount * 6), 3));
 
-        return { faceGeometries: fGeos, structuralGeometry: sGeo };
-    }, []);
+        geometriesRef.current = { faceGeometries, structuralGeometry };
+    }
 
-    // Clean up GPU memory when component unmounts
     useEffect(() => {
         return () => {
-            structuralGeometry.dispose();
-            faceGeometries.forEach(g => g.dispose());
+            if (geometriesRef.current) {
+                geometriesRef.current.structuralGeometry.dispose();
+                geometriesRef.current.faceGeometries.forEach(g => g.dispose());
+                // CRITICAL FIX: Reset ref to null so Strict Mode re-mounts re-initialize geometries
+                geometriesRef.current = null;
+            }
         };
-    }, [structuralGeometry, faceGeometries]);
+    }, []);
 
     const angle = useRef(0);
-    const currentVelocity = useRef(0.03); // Constant base velocity
+    const currentVelocity = useRef(0.03);
     const lastFace = useRef<number | null>(null);
 
     useFrame(() => {
-        // Speed multipliers:
-        // PASSIVE: 0.5 (half speed)
-        // HOVER: 0.125 (1/8th speed)
-        // ACTIVE: 0 (stop)
+        const geometries = geometriesRef.current;
+        if (!geometries) return;
+
+        // Speed logic
         const speedMult = interactionState === "ACTIVE" ? 0 : interactionState === "HOVER" ? 0.125 : 0.5;
         angle.current += currentVelocity.current * speedMult;
 
-        if (onRotationChange) {
-            onRotationChange(angle.current);
+        if (onRotationChangeAction) {
+            onRotationChangeAction(angle.current);
         }
 
-        // 2. Math: Project 4D -> 3D (Write to Global Pool)
+        // 1. Project 4D -> 3D (Writes to Global Pool)
         for(let i = 0; i < NUM_VERTICES; i++) {
             applyRotationAndProject(vertices4D[i], projectedVerticesPool[i], angle.current);
         }
 
-        // 3. Logic: Detect Active Face
+        // 2. Detect Active Face
         let maxZ = -Infinity;
         let activeFace = 0;
 
-        for(let i = 0; i < 6; i++) { // 6 Faces
+        for(let i = 0; i < 6; i++) {
             const faceIndices = FACES[i];
             let sumZ = 0;
             for(let k=0; k < 4; k++) sumZ += projectedVerticesPool[faceIndices[k]].z;
+            const z = sumZ * 0.25;
 
-            const z = sumZ * 0.25; // Division is usually faster than / 4 inside loops
-
-            // +0.01 prevents flickering when two faces are equal
             if (z > maxZ + 0.01) {
                 maxZ = z;
                 activeFace = i;
@@ -168,12 +168,15 @@ export default function Tesseract({
             onFaceChangeAction(activeFace);
         }
 
-        // 4. Render: Update Geometry Buffers
+        // 3. Update Geometry Buffers
 
-        // Update Face Geometries
+        // Update Faces
         for (let i = 0; i < 6; i++) {
             const edges = faceEdgesIndicesMap[i];
-            const array = (faceGeometries[i].attributes.position as THREE.BufferAttribute).array as Float32Array;
+            const geometry = geometries.faceGeometries[i];
+            const positionAttribute = geometry.attributes.position as THREE.BufferAttribute;
+            const array = positionAttribute.array as Float32Array;
+
             let idx = 0;
             for(let e = 0; e < edges.length; e++) {
                 const [a, b] = edges[e];
@@ -183,11 +186,12 @@ export default function Tesseract({
                 array[idx++] = v1.x; array[idx++] = v1.y; array[idx++] = v1.z;
                 array[idx++] = v2.x; array[idx++] = v2.y; array[idx++] = v2.z;
             }
-            faceGeometries[i].attributes.position.needsUpdate = true;
+            positionAttribute.needsUpdate = true;
         }
 
-        // Update Structural Geometry
-        const structArray = (structuralGeometry.attributes.position as THREE.BufferAttribute).array as Float32Array;
+        // Update Structural
+        const positionAttribute = geometries.structuralGeometry.attributes.position as THREE.BufferAttribute;
+        const structArray = positionAttribute.array as Float32Array;
         let sIdx = 0;
         for(let e = 0; e < structuralEdgesIndices.length; e++) {
             const [a, b] = structuralEdgesIndices[e];
@@ -197,36 +201,15 @@ export default function Tesseract({
             structArray[sIdx++] = v1.x; structArray[sIdx++] = v1.y; structArray[sIdx++] = v1.z;
             structArray[sIdx++] = v2.x; structArray[sIdx++] = v2.y; structArray[sIdx++] = v2.z;
         }
-        structuralGeometry.attributes.position.needsUpdate = true;
+        positionAttribute.needsUpdate = true;
     });
 
-    return (
-        <>
-            {FACE_COLORS.map((color, i) => (
-                <group key={i}>
-                    {/* Main Line */}
-                    <lineSegments geometry={faceGeometries[i]} frustumCulled={false}>
-                        <lineBasicMaterial color={color} transparent opacity={0.4} />
-                    </lineSegments>
-                    {/* Glow Effect 1 */}
-                    <lineSegments geometry={faceGeometries[i]} scale={1.01} frustumCulled={false}>
-                        <lineBasicMaterial color={color} transparent opacity={0.75} blending={THREE.AdditiveBlending} depthWrite={false} />
-                    </lineSegments>
-                    {/* Glow Effect 2 */}
-                    <lineSegments geometry={faceGeometries[i]} scale={1.025} frustumCulled={false}>
-                        <lineBasicMaterial color={color} transparent opacity={0.2} blending={THREE.AdditiveBlending} depthWrite={false} />
-                    </lineSegments>
-                </group>
-            ))}
+    if (!geometriesRef.current) return null;
 
-            <group>
-                <lineSegments geometry={structuralGeometry} frustumCulled={false}>
-                    <lineBasicMaterial color="#ffffff" transparent opacity={0.25} />
-                </lineSegments>
-                <lineSegments geometry={structuralGeometry} scale={0.92} frustumCulled={false}>
-                    <lineBasicMaterial color="#ffffff" transparent opacity={0.1} />
-                </lineSegments>
-            </group>
-        </>
+    return (
+        <TesseractEdges
+            faceGeometries={geometriesRef.current.faceGeometries}
+            structuralGeometry={geometriesRef.current.structuralGeometry}
+        />
     );
 }

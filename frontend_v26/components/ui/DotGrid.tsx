@@ -5,9 +5,9 @@ import { InertiaPlugin } from 'gsap/InertiaPlugin';
 
 gsap.registerPlugin(InertiaPlugin);
 
-const throttle = (func: (...args: any[]) => void, limit: number) => {
+const throttle = (func: (...args: MouseEvent[]) => void, limit: number) => {
     let lastCall = 0;
-    return function (this: any, ...args: any[]) {
+    return function (this: unknown, ...args: MouseEvent[]) {
         const now = performance.now();
         if (now - lastCall >= limit) {
             lastCall = now;
@@ -16,9 +16,9 @@ const throttle = (func: (...args: any[]) => void, limit: number) => {
     };
 };
 
-const debounce = (func: (...args: any[]) => void, wait: number) => {
+const debounce = (func: (...args: unknown[]) => void, wait: number) => {
     let timeout: NodeJS.Timeout;
-    return function (this: any, ...args: any[]) {
+    return function (this: unknown, ...args: unknown[]) {
         clearTimeout(timeout);
         timeout = setTimeout(() => func.apply(this, args), wait);
     };

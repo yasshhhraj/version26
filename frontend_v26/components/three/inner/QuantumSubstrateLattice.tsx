@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import {useMemo, useState} from "react";
 import * as THREE from "three";
 
 /* ---------- Config ---------- */
@@ -13,6 +13,10 @@ export default function QuantumSubstrateLattice({
                                                 }: {
     visible: boolean;
 }) {
+
+    const [random1] = useState(()=>Math.random())
+    const [random2] = useState(()=>Math.random())
+
     const { positions, entanglementLines } = useMemo(() => {
         const pts: number[] = [];
         const nodes: THREE.Vector3[] = [];
@@ -34,8 +38,8 @@ export default function QuantumSubstrateLattice({
 
         const lines: number[] = [];
         for (let i = 0; i < ENTANGLED_PAIRS; i++) {
-            const a = nodes[Math.floor(Math.random() * nodes.length)];
-            const b = nodes[Math.floor(Math.random() * nodes.length)];
+            const a = nodes[Math.floor(random1 * nodes.length)];
+            const b = nodes[Math.floor(random2 * nodes.length)];
 
             if (a.distanceTo(b) < SPACING * 2) continue;
 
@@ -49,7 +53,7 @@ export default function QuantumSubstrateLattice({
             positions: new Float32Array(pts),
             entanglementLines: new Float32Array(lines),
         };
-    }, []);
+    }, [random1, random2]);
 
     return (
         <group visible={visible}>

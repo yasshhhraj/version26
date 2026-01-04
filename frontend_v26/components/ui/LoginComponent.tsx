@@ -2,12 +2,12 @@ import {useEffect, useRef, useState} from "react";
 
 
 export default function LoginComponent({ menuOpen, toggleMenu}: { menuOpen: boolean, toggleMenu: () => void}) {
-    const [loggedin, setLoggedIn] = useState(false);
+    const [loggedin, setLoggedin] = useState(false);
 
     useEffect(() => {
-        const storedValue =  (localStorage.getItem('loggedIn'))
-        setLoggedIn(Boolean (storedValue) && storedValue=='true')
+        setLoggedin(localStorage.getItem('loggedIn') === 'true');
     }, []);
+
 
     return(
         <div className="  flex items-center gap-4">
@@ -16,7 +16,7 @@ export default function LoginComponent({ menuOpen, toggleMenu}: { menuOpen: bool
                 <ProfileBlock
                     logout={() => {
                         localStorage.removeItem('loggedIn');
-                        setLoggedIn(false);
+                        window.location.reload();
                     }} />
             ) : (
                 <LoginButton />
@@ -50,8 +50,13 @@ function ProfileBlock({ logout }: { logout: () => void }) {
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
-    const name = localStorage.getItem('name');
-    const email = localStorage.getItem('email');
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+
+    useEffect(() => {
+        setName(localStorage.getItem('name') || '');
+        setEmail(localStorage.getItem('email') || '');
+    }, []);
 
     // Click outside to close dropdown
     useEffect(() => {
@@ -84,8 +89,8 @@ function ProfileBlock({ logout }: { logout: () => void }) {
                 <div className="absolute glassmorphism top-[110%] right-0 mt-2 w-48 bg-white dark:bg-[#171717] border border-gray-200 dark:border-[#2E2F2F] rounded-lg shadow-xl py-1 animate-in fade-in slide-in-from-top-1 z-50">
                     {/* Mobile-only user info inside dropdown */}
                     <div className="px-4 py-2 border-b border-gray-200 dark:border-[#2E2F2F] sm:hidden">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">{localStorage.getItem('name')}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">{localStorage.getItem('email')}</p>
+                        <p className="text-sm font-medium text-gray-900 dark:text-white">{name}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">{email}</p>
                     </div>
 
                     <a href="#" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#2E2F2F] transition-colors">

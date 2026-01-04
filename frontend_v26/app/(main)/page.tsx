@@ -5,6 +5,7 @@ import DotGrid from "@/components/ui/DotGrid";
 import dynamic from 'next/dynamic'
 import AGIScene from "@/components/three/AGIScene";
 import AGIGallery from "@/components/AGIGallery";
+import Footer from "@/components/Footer";
 
 
 // Disable SSR for the 3D scene
@@ -63,6 +64,7 @@ export default function Home() {
         <HeroSection data={heroData.heroSection}/>
         <HeroSection2 data={heroData.heroSection2} />
           <AGIGallery videoData={heroData.heroSection2.video} />
+        <Footer />
       </main>
     </div>
   );
@@ -92,7 +94,7 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
               />
           </div>
 
-          <div className={'w-full -z-50 h-96 absolute overflow-y-visible bottom-0'}>
+          <div className={'w-full bg-transparent -z-50 h-96 absolute overflow-y-visible bottom-0'}>
               <ParticleWaves  />
           </div>
 
@@ -107,39 +109,37 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
           <div className="w-full flex flex-col justify-center md:justify-center px-6 py-20 md:px-12 lg:px-24 xl:px-32 min-h-screen grow pointer-events-none relative z-10">
 
               {/* BADGE */}
-              <div className="mb-6 px-4 py-2 bg-gray-100 dark:bg-[#141414] w-fit border border-gray-200 dark:border-[#2E2F2F] rounded-full flex gap-2 items-center transition-colors pointer-events-auto">
-                  <div className="h-1.5 w-1.5 bg-[#EEB846] rounded-full"></div>
-                  <p className="text-sm md:text-base text-gray-700 dark:text-gray-200">{data.badge}</p>
+              <div className="mb-6 px-4 py-1.5 border border-white/10 bg-white/5 backdrop-blur-sm w-fit rounded-full flex gap-2 items-center transition-colors pointer-events-auto">
+                  <p className="text-xs font-mono tracking-widest text-gray-200 uppercase">{data.badge}</p>
               </div>
 
-              {/* MAIN TITLE: Use responsive text sizes (text-5xl -> md:text-8xl) */}
-              <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold leading-tight text-gray-900 dark:text-white pointer-events-auto">
-                  <span className="text-[#4600be]">{data.mainTitle.charAt(0)}</span>{data.mainTitle.slice(1)}
-              </h1>
-
-              {/* SUBTITLE */}
-              <p className="text-[#d97706] dark:text-[#F5C041] text-lg md:text-xl mt-2 md:mt-4 font-medium pointer-events-auto">
-                  {data.subtitle}
+              {/* MAIN TITLE: Move ABOVE main hook */}
+              <p className="font-mono text-xl tracking-[0.4em] text-gray-500 font-bold uppercase mb-2 pointer-events-auto">
+                  {data.mainTitle}
               </p>
 
-              {/* THEME TITLE: Removed fixed height (h-16) to allow wrapping if necessary */}
-              <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mt-1 mb-4 leading-tight text-gray-900 dark:text-white pointer-events-auto">
-                  {data.themeTitle.prefix} <span className="text-[#4600be]">{data.themeTitle.highlight}</span> {data.themeTitle.suffix}
+              {/* SUBTITLE: MAIN VISUAL HOOK */}
+              <h1 className="text-7xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-purple-600 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)] pointer-events-auto">
+                  {data.subtitle}
+              </h1>
+
+              {/* THEME TITLE: Render on single line */}
+              <h2 className="font-sans text-xl md:text-2xl font-light tracking-[0.2em] text-white/90 mt-2 uppercase pointer-events-auto">
+                  {data.themeTitle.prefix} {data.themeTitle.highlight} {data.themeTitle.suffix}
               </h2>
 
               {/* DESCRIPTION */}
-              <p className="text-lg md:text-xl font-extralight text-gray-600 dark:text-gray-300 max-w-2xl pointer-events-auto leading-relaxed">
+              <p className="text-lg md:text-xl font-extralight text-gray-600 dark:text-gray-300 max-w-2xl pointer-events-auto leading-relaxed mt-4">
                   {data.description}
               </p>
 
-              {/* BUTTONS: Stack on mobile (flex-col), Row on desktop (md:flex-row) */}
+              {/* BUTTONS: Hollow glass for primary */}
               <div className="flex flex-col sm:flex-row gap-4 mt-8 pointer-events-auto">
                   <a
-                      href="#"
-                      className="bg-[#4600BE] hover:bg-purple-700 text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center group shadow-lg dark:shadow-none"
+                      href="/events"
+                      className="bg-transparent hover:bg-white/10 border border-white/20 text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center group shadow-lg dark:shadow-none"
                   >
                       <span>{data.buttons.primary}</span>
-                      {/* Use Group Hover for arrow effect if desired */}
                       <div
                           className="w-5 h-5 bg-white transition-transform group-hover:translate-x-1"
                           style={{
@@ -151,7 +151,7 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
                   </a>
 
                   <a
-                      href="#"
+                      href="/team"
                       className="bg-transparent hover:bg-gray-100 dark:hover:bg-[#4600be]/10 border border-gray-300 dark:border-[#2E2F2F]  text-gray-900 dark:text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center"
                   >
                       <span>{data.buttons.secondary}</span>

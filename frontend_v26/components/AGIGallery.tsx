@@ -2,15 +2,11 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, Cpu, Layers, Terminal, Camera } from "lucide-react";
+import { X, ZoomIn, Layers, Terminal, Camera } from "lucide-react";
 import Image from "next/image";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-// --- Utility for cleaner tailwind classes ---
-function cn(...inputs: ClassValue[]) {
-    return twMerge(clsx(inputs));
-}
 
 // --- Types ---
 type Photo = {
@@ -71,58 +67,66 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
     return (
-        <section className="relative min-h-screen bg-transparent p-8 text-neutral-100 selection:bg-purple-500/30">
-            {/* Background Grid Effect - Subtle integration */}
-            <div className="absolute inset-0 z-0 bg-[linear-gradient(to_right,#4f4f4f1a_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f1a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-
+        <section className="relative min-h-screen bg-gradient-to-b from-black to-transparent px-8 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
+            {/* Ambient Background Glows */}
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#4600be]/10 blur-[120px] rounded-full -z-10" />
+            <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-purple-900/10 blur-[150px] rounded-full -z-10" />
+            
             <div className="relative z-10 mx-auto max-w-7xl">
                 {/* Header Section */}
                 <div className="mb-12 flex flex-col items-start justify-between gap-4 border-b border-white/10 pb-10 md:flex-row md:items-end">
                     <div>
                         <div className="mb-4 flex items-center gap-2 text-xs font-medium text-purple-400 border border-purple-500/20 bg-purple-500/5 px-3 py-1 rounded-full w-fit">
                             <Camera size={14} />
-                            <span>VERSION'26 ARCHIVE</span>
+                            <span>VERSION&apos;26 ARCHIVE</span>
                         </div>
-                        <h2 className="text-5xl font-bold tracking-tighter text-white md:text-7xl lg:text-8xl">
-                            Event <span className="text-[#4600be]">Gallery</span>
+                        <h2 className="text-5xl font-bold tracking-tighter text-white md:text-7xl lg:text-9xl">
+                            Event <span className="text-[#4600be] italic">Gallery</span>
                         </h2>
                     </div>
-                    <div className="flex items-center gap-4 text-xs font-medium text-neutral-500">
-                        <div className="flex items-center gap-2">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4600be] opacity-75"></span>
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4600be]"></span>
-              </span>
-                            LIVE FEED
+                        <div className="flex items-center gap-4 text-xs font-bold tracking-widest text-neutral-400">
+                            <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-full border border-white/10">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4600be] opacity-75"></span>
+                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4600be]"></span>
+                                </span>
+                                LIVE FEED
+                            </div>
+                            <div className="border-l border-white/10 pl-4 py-2 uppercase tracking-[0.2em]">{photos.length + (videoData ? 1 : 0)} Moments Captured</div>
                         </div>
-                        <div className="border-l border-white/10 pl-4">{photos.length + (videoData ? 1 : 0)} MOMENTS CAPTURED</div>
-                    </div>
                 </div>
 
-                {/* Gallery Grid */}
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {/* Gallery Items */}
+                <div className="flex flex-col gap-12">
                     {videoData && (
-                        <div className="col-span-1 sm:col-span-2 lg:col-span-3 mb-6">
-                            <div className="w-full aspect-video rounded-xl border border-white/10 overflow-hidden bg-zinc-900 shadow-2xl relative">
-                                <iframe
-                                    className="w-full h-full"
-                                    src={videoData.src}
-                                    title={videoData.title}
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                    allowFullScreen
-                                />
-                                <div className="absolute top-4 left-4 z-10">
-                                    <div className="flex items-center gap-2 text-[10px] font-medium text-white/90 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1.5 rounded-full">
-                                        <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
-                                        OFFICIAL AFTERMOVIE
-                                    </div>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="w-full aspect-video rounded-3xl border border-white/10 overflow-hidden bg-zinc-900 shadow-[0_0_50px_-12px_rgba(70,0,190,0.3)] relative group"
+                        >
+                            <iframe
+                                className="w-full h-full grayscale-[0.5] contrast-[1.1] group-hover:grayscale-0 transition-all duration-700"
+                                src={videoData.src}
+                                title={videoData.title}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            />
+                            <div className="absolute top-4 left-4 md:top-6 md:left-6 z-10 pointer-events-none">
+                                <div className="flex items-center gap-1.5 md:gap-2 text-[8px] md:text-[10px] font-bold tracking-[0.2em] text-white bg-[#4600be] border border-white/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full backdrop-blur-md shadow-lg">
+                                    <div className="w-1 md:w-1.5 h-1 md:h-1.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,1)]" />
+                                    OFFICIAL AFTERMOVIE
                                 </div>
                             </div>
-                        </div>
+                            <div className="absolute inset-0 pointer-events-none border-[20px] border-black/20 mix-blend-overlay" />
+                        </motion.div>
                     )}
-                    {photos.map((photo) => (
-                        <Card key={photo.id} photo={photo} onClick={() => setSelectedId(photo.id)} />
-                    ))}
+
+                    <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
+                        {photos.map((photo, index) => (
+                            <Card key={photo.id} photo={photo} index={index} onClick={() => setSelectedId(photo.id)} />
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -140,47 +144,60 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
 }
 
 // --- Individual Card Component ---
-function Card({ photo, onClick }: { photo: Photo; onClick: () => void }) {
+function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick: () => void }) {
     return (
         <motion.div
             layoutId={`card-${photo.id}`}
             onClick={onClick}
-            className="group relative cursor-pointer overflow-hidden rounded-xl border border-white/5 bg-white/5 backdrop-blur-sm transition-all duration-300 hover:border-[#4600be]/50 hover:bg-white/10"
-            initial={{ opacity: 0, y: 20 }}
+            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:border-[#4600be]/30 hover:bg-white/10 break-inside-avoid"
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ delay: index % 3 * 0.1 }}
         >
-            {/* Scanning Line Effect on Hover - kept subtle */}
-            <div className="absolute inset-0 -translate-y-full bg-gradient-to-b from-transparent via-[#4600be]/5 to-transparent transition-transform duration-1000 group-hover:translate-y-full" />
+            {/* Scanning Line Effect on Hover */}
+            <div className="absolute inset-x-0 h-[2px] top-0 bg-gradient-to-r from-transparent via-[#4600be] to-transparent opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:top-full z-20" />
+
+            {/* Corner Accents */}
+            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20 transition-all group-hover:border-[#4600be] group-hover:w-4 group-hover:h-4 z-20" />
+            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 transition-all group-hover:border-[#4600be] group-hover:w-4 group-hover:h-4 z-20" />
 
             {/* Image Container */}
-            <div className="aspect-[4/3] overflow-hidden">
+            <div className={clsx(
+                "overflow-hidden",
+                index % 3 === 0 ? "aspect-[3/4]" : index % 3 === 1 ? "aspect-square" : "aspect-[4/3]"
+            )}>
                 <motion.div layoutId={`image-${photo.id}`} className="h-full w-full">
                     <Image
                         src={photo.src}
                         alt={photo.alt}
                         width={600}
-                        height={400}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        height={800}
+                        className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
                     />
                 </motion.div>
             </div>
 
             {/* Card Overlay / Metadata */}
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent p-6 opacity-100 transition-opacity">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <motion.p className="font-medium text-[10px] uppercase tracking-widest text-[#4600be]">
-                            {photo.category}
-                        </motion.p>
-                        <motion.h3 className="text-base font-bold text-white mt-1">
-                            {photo.alt}
-                        </motion.h3>
-                    </div>
-                    <div className="rounded-full bg-white/10 p-2 backdrop-blur-md transition-colors group-hover:bg-[#4600be]/20">
-                        <ZoomIn className="h-4 w-4 text-white/70 transition-colors group-hover:text-white" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-6 flex flex-col justify-end">
+                <motion.p className="font-bold text-[10px] uppercase tracking-[0.2em] text-[#4600be] mb-1">
+                    {photo.category}
+                </motion.p>
+                <div className="flex items-end justify-between gap-4">
+                    <motion.h3 className="text-lg font-bold text-white leading-tight">
+                        {photo.alt}
+                    </motion.h3>
+                    <div className="shrink-0 rounded-full bg-[#4600be] p-2 shadow-[0_0_15px_rgba(70,0,190,0.5)]">
+                        <ZoomIn className="h-4 w-4 text-white" />
                     </div>
                 </div>
+            </div>
+
+            {/* Static Bottom Info (Visible when not hovered) */}
+            <div className="absolute bottom-4 left-4 group-hover:opacity-0 transition-opacity duration-300">
+                <p className="text-[10px] font-mono text-white/40 tracking-tighter">
+                    REF_{photo.id.padStart(4, '0')} {'//'} {photo.timestamp}
+                </p>
             </div>
         </motion.div>
     );
@@ -204,19 +221,19 @@ function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
                 {/* Modal Header */}
                 <div className="flex items-center justify-between border-b border-white/5 bg-white/5 p-6 backdrop-blur-md">
                     <div className="flex items-center gap-4">
-                        <div className="rounded-full bg-[#4600be]/20 p-2">
+                        <div className="rounded-full bg-[#4600be]/20 p-2 border border-[#4600be]/30">
                             <Camera className="h-5 w-5 text-[#4600be]" />
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-xs font-medium uppercase tracking-wider text-purple-400">{photo.timestamp}</span>
-                            <span className="text-lg font-bold text-white leading-none mt-1">{photo.alt}</span>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4600be]">{photo.timestamp}</span>
+                            <span className="text-xl font-bold text-white tracking-tight mt-1">{photo.alt}</span>
                         </div>
                     </div>
                     <button
                         onClick={onClose}
-                        className="rounded-full bg-white/5 p-2 text-white/70 transition-all hover:bg-white/10 hover:text-white"
+                        className="rounded-full bg-white/5 p-3 text-white/70 transition-all hover:bg-white/10 hover:text-white border border-white/10"
                     >
-                        <X size={24} />
+                        <X size={20} />
                     </button>
                 </div>
 

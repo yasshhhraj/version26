@@ -34,7 +34,7 @@ const EventsPage = () => {
 
             <div
                 className={'w-full h-auto grow shrink-0   flex items-center justify-center gap-10 overflow-clip'}>
-                <Carousal isVerticle={isVertical} />
+                <Carousal isVertical={isVertical} />
             </div>
         </div>
     );
@@ -47,10 +47,10 @@ export default EventsPage;
 
 
 
-export function Carousal({isVerticle}: {isVerticle: boolean}) {
+export function Carousal({isVertical: isVertical}: {isVertical: boolean}) {
 
     return (
-        <div className={(isVerticle?"md:max-h-full":" md:max-h-[540px]")+"carousal overscroll-y-none touch-pan-y h-full shrink-0  w-full  flex items-center justify-center  overflow-clip"}>
+        <div className={(isVertical?"md:max-h-full":" md:max-h-[540px]")+"carousal overscroll-y-none touch-pan-y h-full shrink-0  w-full  flex items-center justify-center  overflow-clip"}>
             <CircularCarousel  />
         </div>
     );

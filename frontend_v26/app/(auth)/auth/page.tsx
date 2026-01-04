@@ -4,6 +4,8 @@ import {Sign_in_form} from "@/components/sign_in_form";
 import {Sign_up_form} from "@/components/sign_up_form";
 import {useState} from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { Home } from "lucide-react";
 
 export default function AuthPage() {
     const [position, setPosition] = useState<'left' | 'right'>('left')
@@ -13,7 +15,14 @@ export default function AuthPage() {
     return (
       <>
           {/* Mobile (< md) */}
-          <div className="flex flex-col md:hidden min-h-screen w-full bg-linear-to-b from-slate-900 via-blue-950 to-black">
+          <div className="flex flex-col md:hidden min-h-screen w-full bg-linear-to-b from-slate-900 via-blue-950 to-black relative">
+              <Link
+                  href="/"
+                  className="absolute top-6 left-6 p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors z-20"
+                  aria-label="Home"
+              >
+                  <Home className="w-5 h-5 text-white" />
+              </Link>
               {/* Mobile-only logo header */}
               <div className="w-full py-8 flex items-center justify-center">
                   <Image src={'/Assets/final-logo.png'} alt={'version logo'} width={512} height={256} className={'h-auto w-[60%]'} />
@@ -35,6 +44,13 @@ export default function AuthPage() {
                   'bg-gray-900/25 overflow-visible flex-row justify-start md:items-center rounded-2xl'
               }
           >
+              <Link
+                  href="/"
+                  className="absolute -top-12 left-0 flex items-center gap-2 text-white/70 hover:text-white transition-colors group"
+              >
+                  <Home className="w-5 h-5 group-hover:scale-110 transition-transform" />
+                  <span className="text-sm font-medium">Back to Home</span>
+              </Link>
               <Sign_up_form slideAction={slide} />
               <Sign_in_form slideAction={slide} />
               <div

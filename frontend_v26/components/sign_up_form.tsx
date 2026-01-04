@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/Button"
 
 export function Sign_up_form({slideAction}: {slideAction: () => void}) {
@@ -14,6 +14,11 @@ export function Sign_up_form({slideAction}: {slideAction: () => void}) {
     const [semester, setSemester] = useState("")
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -31,6 +36,9 @@ export function Sign_up_form({slideAction}: {slideAction: () => void}) {
         slideAction()
     }
 
+    if (!mounted) {
+        return null;
+    }
 
     return (
         <div className="h-full  w-fit flex-1 flex items-center justify-center  text-white p-6 ">

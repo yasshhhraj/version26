@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "../globals.css";
 import Navbar from "@/components/navbar";
 import {ReactNode} from "react";
+import Script from "next/script";
 
 const dm_sans = DM_Sans({
     variable: "--font-dm-sans",
@@ -27,6 +28,7 @@ export default function RootLayout({
       <body className={`${dm_sans.className} {roboto.className} antialiased w-full h-svh `} >
         <Navbar />
         {children}
+        <Script src="https://unpkg.com/ccapture.js@1.1.0/build/CCapture.all.min.js" strategy="beforeInteractive" />
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import { useFrame } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import {useMemo, useRef, useState} from "react";
 import * as THREE from "three";
 
 /* ---------- Config ---------- */
@@ -31,6 +31,7 @@ export default function EmergenceClusters({
     const pointsRef = useRef<THREE.Points>(null);
     const linesRef = useRef<THREE.LineSegments>(null);
 
+    const [random] = useState(() => Math.random());
     /* ---------- Particles ---------- */
     const particles = useMemo<Particle[]>(() => {
         const arr: Particle[] = [];
@@ -42,7 +43,7 @@ export default function EmergenceClusters({
                 THREE.MathUtils.randFloatSpread(1)
             )
                 .normalize()
-                .multiplyScalar(Math.random() * RADIUS);
+                .multiplyScalar(random * RADIUS);
 
             arr.push({
                 position: p,
@@ -51,7 +52,7 @@ export default function EmergenceClusters({
         }
 
         return arr;
-    }, []);
+    }, [random]);
 
     /* ---------- Animation ---------- */
     useFrame((_, delta) => {

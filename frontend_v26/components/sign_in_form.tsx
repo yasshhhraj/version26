@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/Button"
 import {Toast, ToastProps} from "@/components/ui/Toast";
@@ -11,6 +11,11 @@ export function Sign_in_form({slideAction}: {slideAction: () => void}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [toast, setToast] = useState<ToastProps|null>(null);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -34,6 +39,10 @@ export function Sign_in_form({slideAction}: {slideAction: () => void}) {
                 setToast(null)
             }, 2000)
         }
+    }
+
+    if (!mounted) {
+        return null;
     }
 
     return (
