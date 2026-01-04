@@ -9,7 +9,7 @@ datasource db {
 }
 
 enum OtpPurpose {
-  REGISTRATION,
+  REGISTRATION
   PASSWORD_RESET
 }
 

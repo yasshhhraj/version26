@@ -312,4 +312,13 @@ export class UserService {
       throw new InternalServerErrorException('Failed to delete user');
     }
   }
+
+  async updatePassword(email: string, password: string): Promise<void> {
+    const passwordHash = await hashPassword(password);
+
+    await this.prisma.user.update({
+      where: { email },
+      data: { passwordHash },
+    });
+  }
 }

@@ -72,3 +72,24 @@ export class VerifyRegistrationOtpDto {
   @IsNotEmpty()
   otp: string;
 }
+
+// Forgot password – request OTP
+export class ForgotPasswordRequestDto {
+  @IsEmail()
+  @Trim()
+  email: string;
+}
+
+// Forgot password – verify OTP + new password
+export class ResetPasswordDto {
+  @IsEmail()
+  @Trim()
+  email: string;
+
+  @IsNotEmpty()
+  otp: string;
+
+  @IsNotEmpty()
+  @MinLength(6)
+  password: string;
+}
