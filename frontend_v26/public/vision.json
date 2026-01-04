@@ -1,0 +1,42 @@
+{
+  "hero": {
+    "title": "VISION",
+    "image": "/Assets/vision.png"
+  },
+  "version": {
+    "title": "Version",
+    "image": "/Assets/two.png",
+    "content": [
+      "Embarking on its 33rd edition, Version 2026, the annual All India MCA meet hosted by the students of NIT Trichy, stands as the pinnacle event for MCA students nationwide. Since 1991, Version has been a platform for showcasing talent, fostering healthy competition, and promoting creativity.",
+      "Beyond a mere contest, Version is an immersive experience featuring coding challenges, hackathons, workshops, and interactions with industry experts. As the star event for MCA at NIT Trichy, it continues to be eagerly anticipated, drawing participants from across India.",
+      "Version 2026 promises to uphold its legacy of excellence, offering participants a unique opportunity to push boundaries, forge connections, and leave an indelible mark on the landscape of MCA events. Get ready to celebrate innovation, talent, and camaraderie at the grand stage of Version 2026."
+    ]
+  },
+  "agi": {
+    "subtitle": "Themed",
+    "title": "Artificial General Intelligence (AGI)",
+    "description": "Version 2026 marks a monumental shift as it embraces Artificial General Intelligence (AGI) as its central theme. AGI goes beyond conventional AI by aiming for machines that can think, learn, and adapt across diverse tasks just like humans. It symbolizes the future of intelligent systems capable of creativity, reasoning, and independent decision making. This groundbreaking vision aligns perfectly with the essence of Version: pushing limits, exploring the unknown, and celebrating innovation. Version 2026 will bring AGI to the forefront through cutting-edge challenges, interactive workshops, and collaborative experiences that empower participants to experiment with the technologies shaping tomorrow. As India's premier MCA meet, Version 2026 invites students to dive into the era of general intelligence and craft solutions that redefine what machines and we can achieve.",
+    "image": "/Assets/one.png"
+  },
+  "stats": {
+    "title": "TITLE",
+    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.",
+    "subtitle": "subtitle",
+    "progress": [
+      { "percentage": "50%" },
+      { "percentage": "50%" },
+      { "percentage": "50%" },
+      { "percentage": "50%" }
+    ],
+    "grid": [
+      { "value": "33", "label": "years" },
+      { "value": "22+", "label": "Events" },
+      { "value": "200+", "label": "participants/year" },
+      { "value": "XXK", "label": "price distribution" }
+    ]
+  },
+  "quote": {
+    "text": "Innovation without boundaries. Collaboration without limits. Version'26 is more than a symposium; it is a crucible for the ideas that will define the AGI landscape. We are building the framework for a smarter, more adaptive world, one line of code at a time.",
+    "image": "/Assets/three.png"
+  }
+}
