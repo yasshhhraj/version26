@@ -25,7 +25,7 @@ export default function RootLayout({
     return (
         <html lang="en" className={'h-dvh  w-dvw overflow-clip  '}>
             <body className={`${dm_sans.className}  {roboto.className} antialiased w-full h-full overflow-clip flex items-center justify-center `} >
-                <div className={'w-full h-full bg-[url("/plasma.png")] bg-center  gap-8 flex flex-col items-center justify-center'}>
+                <div className={'w-full h-full bg-[url("/auth-bg-slider.png")] bg-center  gap-8 flex flex-col items-center justify-center'}>
                     {children}
                 </div>
             </body>
