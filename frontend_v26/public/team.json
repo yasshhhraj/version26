@@ -1,0 +1,270 @@
+{
+  "advisors": [
+    {
+      "name": "Dr. S. Domnic",
+      "role": "Head of Department",
+      "image": "/Assets/team/hod.jpg",
+      "message": "Welcome to Version'26. As we embark on this journey of innovation and technical excellence, I am proud to see the dedication and creativity of our students.\n\nThis event stands as a testament to the department's commitment to fostering technological advancement and holistic development. I encourage all participants to make the most of this platform to learn, compete, and grow."
+    },
+    {
+      "name": "Dr. B. Janet",
+      "role": "Staff Advisor",
+      "image": "/Assets/team/staff_advisor.jpg",
+      "message": "Version has always been more than just a technical fest; it's a celebration of ideas and innovation. The team has worked tirelessly to curate events that challenge and inspire.\n\nI wish all the participants the very best. May this event spark new ideas and forge lasting connections in our technical community."
+    }
+  ],
+  "cccMembers": [
+    {
+      "name": "Rohit Kumar Mishra",
+      "role": "CHAIRPERSON",
+      "designation": "Department of computer applications",
+      "image": "/Assets/team/rohit.jpg",
+      "committee": "CCC",
+      "linkedinid": "",
+      "emailid": ""
+    },
+    {
+      "name": "Vivek Kumar",
+      "role": "CHAIRPERSON - EEC",
+      "designation": "Department of computer applications",
+      "image": "/Assets/team/vivek.jpg",
+      "committee": "CCC",
+      "linkedinid": "",
+      "emailid": ""
+    },
+    {
+      "name": "Astik Verma",
+      "role": "CHAIRPERSON - AAC",
+      "designation": "Department of computer applications",
+      "image": "/Assets/team/astik.jpg",
+      "committee": "CCC",
+      "linkedinid": "",
+      "emailid": ""
+    },
+    {
+      "name": "Nitin Pandey",
+      "role": "CHAIRPERSON - PRC",
+      "designation": "Department of computer applications",
+      "image": "/Assets/team/nitin.jpg",
+      "committee": "CCC",
+      "linkedinid": "",
+      "emailid": ""
+    },
+    {
+      "name": "Amandeep",
+      "role": "CHAIRPERSON - HRC",
+      "designation": "Department of computer applications",
+      "image": "/Assets/team/amandeep.jpg",
+      "committee": "CCC",
+      "linkedinid": "",
+      "emailid": ""
+    },
+    {
+      "name": "Sahil Kumar",
+      "role": "CHAIRPERSON - PRC",
+      "designation": "Department of computer applications",
+      "image": "/Assets/team/sahil.jpg",
+      "committee": "CCC",
+      "linkedinid": "",
+      "emailid": ""
+    }
+  ],
+  "executiveBoard": [
+    {
+      "name": "Alok Nath Solanky",
+      "role": "SECRETARY",
+      "designation": "Department of computer applications",
+      "image": "/Assets/team/alok.jpg",
+      "committee": "Executive Board",
+      "linkedinid": "",
+      "emailid": ""
+    },
+    {
+      "name": "Sudhir Kumar",
+      "role": "TREASURER",
+      "designation": "Department of computer applications",
+      "image": "/Assets/team/sudhir.jpg",
+      "committee": "Executive Board",
+      "linkedinid": "",
+      "emailid": ""
+    }
+  ],
+  "committees": [
+    {
+      "id": "EEC",
+      "name": "EEC",
+      "fullName": "Event Execution Committee",
+      "heads": [
+        {
+          "name": "Yashraj Jangir",
+          "role": "HEAD",
+          "committee": "EEC",
+          "image": "/Assets/team/eec.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        },
+        {
+          "name": "Vanshu",
+          "role": "HEAD",
+          "committee": "EEC",
+          "image": "/Assets/team/eec.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        }
+      ],
+      "members": []
+    },
+    {
+      "id": "PPC",
+      "name": "PPC",
+      "fullName": "Printing and Publication Committee",
+      "heads": [
+        {
+          "name": "Rishu Kumar",
+          "role": "HEAD",
+          "committee": "PPC",
+          "image": "/Assets/team/ppc.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        },
+        {
+          "name": "Harsh Pathekar",
+          "role": "HEAD",
+          "committee": "PPC",
+          "image": "/Assets/team/ppc.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        }
+      ],
+      "members": []
+    },
+    {
+      "id": "HRC",
+      "name": "HRC",
+      "fullName": "Hospitality and Resources Committee",
+      "heads": [
+        {
+          "name": "Avika Sachan",
+          "role": "HEAD",
+          "committee": "HRC",
+          "image": "/Assets/team/hrc.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        },
+        {
+          "name": "Pradeep Yadav",
+          "role": "HEAD",
+          "committee": "HRC",
+          "image": "/Assets/team/hrc.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        }
+      ],
+      "members": []
+    },
+    {
+      "id": "PRC",
+      "name": "PRC",
+      "fullName": "Public Relations Committee",
+      "heads": [
+        {
+          "name": "Rohit Kumar",
+          "role": "HEAD",
+          "committee": "PRC",
+          "image": "/Assets/team/prc.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        },
+        {
+          "name": "Sachin Panwar",
+          "role": "HEAD",
+          "committee": "PRC",
+          "image": "/Assets/team/prc.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        }
+      ],
+      "members": []
+    },
+    {
+      "id": "ARC",
+      "name": "ARC",
+      "fullName": "Alumni Relations Committee",
+      "heads": [
+        {
+          "name": "Anshika Mishra",
+          "role": "HEAD",
+          "committee": "ARC",
+          "image": "/Assets/team/anshika.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        }
+      ],
+      "members": [
+        {
+          "name": "Anshika Mishra",
+          "role": "HEAD",
+          "committee": "ARC",
+          "image": "/Assets/team/anshika.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        },
+        {
+          "name": "Anshika Mishra",
+          "role": "HEAD",
+          "committee": "ARC",
+          "image": "/Assets/team/anshika.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        },
+        {
+          "name": "Anshika Mishra",
+          "role": "HEAD",
+          "committee": "ARC",
+          "image": "/Assets/team/anshika.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        },
+        {
+          "name": "Anshika Mishra",
+          "role": "HEAD",
+          "committee": "ARC",
+          "image": "/Assets/team/anshika.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        },
+        {
+          "name": "Anshika Mishra",
+          "role": "HEAD",
+          "committee": "ARC",
+          "image": "/Assets/team/anshika.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        },
+        {
+          "name": "Anshika Mishra",
+          "role": "HEAD",
+          "committee": "ARC",
+          "image": "/Assets/team/anshika.jpg",
+          "designation": "",
+          "linkedinid": "",
+          "emailid": ""
+        }
+      ]
+    }
+  ]
+}

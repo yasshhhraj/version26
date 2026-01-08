@@ -1,5 +1,5 @@
 'use client'
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import DotGrid from "@/components/ui/DotGrid";
 
 import dynamic from 'next/dynamic'
@@ -12,7 +12,8 @@ import Footer from "@/components/Footer";
 const ParticleWaves = dynamic(() => import('@/components/three/ParticleWaves'), {
     ssr: false
 })
-const InfinityNeuralNetwork = dynamic(() => import('@/components/Infinity'), {
+
+const InfinityParticles3D = dynamic(() => import('@/components/InfinityParticles3D'), {
     ssr: false
 })
 const StarField = dynamic(() => import('@/components/StarField'), {
@@ -46,20 +47,35 @@ interface HeroData {
     };
 }
 
+const heroData: HeroData = {
+  "heroSection": {
+    "badge": "EST. 1991",
+    "mainTitle": "VERSION'26",
+    "subtitle": "COGNIX",
+    "themeTitle": {
+      "prefix": "INTELLIGENCE",
+      "highlight": "WITHOUT",
+      "suffix": "LIMITS"
+    },
+    "description": "Beyond static algorithms. Join the 33rd edition as we bridge the gap between binary code and infinite reasoning.",    "buttons": {
+      "primary": "EXPLORE EVENTS",
+      "secondary": "TEAM"
+    }
+  },
+  "heroSection2": {
+    "title": "Beyond Intelligence. Toward Infinity.",
+    "description": "Artificial General Intelligence represents a long-term pursuit — systems capable of learning, adapting, and reasoning beyond narrowly defined tasks. While still an open research challenge, AGI invites us to rethink how intelligence might evolve in computational systems. VERSION’26 explores this frontier, focusing on ideas, questions, and possibilities that shape the future of intelligent technology.",
+    "video": {
+      "src": "https://www.youtube.com/embed/wPSnOqOJYM4?autoplay=1&mute=1&loop=1&playlist=wPSnOqOJYM4",
+      "title": "VERSION’25 After Movie"
+    },
+    "button": "Watch VERSION’25 After Movie"
+  }
+};
+
 export default function Home() {
-    const [heroData, setHeroData] = useState<HeroData | null>(null);
-
-    useEffect(() => {
-        fetch('/hero.json')
-            .then(res => res.json())
-            .then(setHeroData)
-            .catch(err => console.error("Failed to load hero.json", err));
-    }, []);
-
-    if (!heroData) return <div className="h-screen w-full bg-white dark:bg-black"></div>; // Or a loading spinner
-
   return (
-    <div className="h-auto w-full overflow-x-clip  bg-white dark:bg-transparent ">
+    <div className="h-auto w-full overflow-x-clip  bg-transparent ">
       <main className="flex h-full w-full relative flex-col  ">
         <HeroSection data={heroData.heroSection}/>
         <HeroSection2 data={heroData.heroSection2} />
@@ -84,7 +100,7 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
               <DotGrid
                   dotSize={2}
                   gap={30}
-                  baseColor="#371768ff"
+                  baseColor="#371768"
                   activeColor="#5227FF"
                   proximity={120}
                   shockRadius={250}
@@ -98,7 +114,7 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
               <ParticleWaves  />
           </div>
 
-          <div className={'absolute z-0 w-80 h-80 md:w-112 md:h-112 lg:w-136 lg:h-136 top-[25%] md:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:right-[10%] md:left-auto md:translate-x-0'} >
+          <div className={'absolute z-0 w-80 h-80 md:w-md md:h-112 lg:w-136 lg:h-136 top-[25%] md:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:right-[10%] md:left-auto md:translate-x-0'} >
               <div className={'relative w-full h-full '}>
                   <AGIScene/>
               </div>
@@ -129,7 +145,7 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
               </h2>
 
               {/* DESCRIPTION */}
-              <p className="text-lg md:text-xl font-extralight text-gray-600 dark:text-gray-300 max-w-2xl pointer-events-auto leading-relaxed mt-4">
+              <p className="text-lg md:text-xl font-extralight text-gray-300 max-w-2xl pointer-events-auto leading-relaxed mt-4">
                   {data.description}
               </p>
 
@@ -137,7 +153,7 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
               <div className="flex flex-col sm:flex-row gap-4 mt-8 pointer-events-auto">
                   <a
                       href="/events"
-                      className="bg-transparent hover:bg-white/10 border border-white/20 text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center group shadow-lg dark:shadow-none"
+                      className="bg-transparent hover:bg-[#4600be]/10 border border-[#2E2F2F]  text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center"
                   >
                       <span>{data.buttons.primary}</span>
                       <div
@@ -152,11 +168,11 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
 
                   <a
                       href="/team"
-                      className="bg-transparent hover:bg-gray-100 dark:hover:bg-[#4600be]/10 border border-gray-300 dark:border-[#2E2F2F]  text-gray-900 dark:text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center"
+                      className="bg-transparent hover:bg-[#4600be]/10 border border-[#2E2F2F]  text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center"
                   >
                       <span>{data.buttons.secondary}</span>
                       <div
-                          className="w-5 h-5 bg-gray-900 dark:bg-white"
+                          className="w-5 h-5 bg-white"
                           style={{
                               maskImage: `url(/icons/linkarrow.svg)`,
                               maskSize: "contain",
@@ -186,15 +202,15 @@ const HeroSection2 = memo(function HeroSection2({ data }: { data: HeroData['hero
         
         {/* TYPOGRAPHY */}
         <div className="w-full">
-          <h1 className="text-gray-900 dark:text-white text-5xl sm:text-7xl md:text-8xl lg:text-[120px] xl:text-[150px] font-bold leading-[0.9] tracking-tighter drop-shadow-2xl text-center md:text-right">
+          <h1 className="text-white text-5xl sm:text-7xl md:text-8xl lg:text-[120px] xl:text-[150px] font-bold leading-[0.9] tracking-tighter drop-shadow-2xl text-center md:text-right">
             {data.title}
           </h1>
 
           <div className={'flex flex-col lg:flex-row mt-8 gap-8 items-center lg:items-start'}>
-              <div className={'relative w-full lg:w-1/2 aspect-video h-auto max-h-64 lg:max-h-80'}>
-                  <InfinityNeuralNetwork/>
+              <div className={'relative w-full lg:w-1/2 aspect-4/3 md:aspect-square h-auto max-h-64 md:max-h-136'}>
+                  <InfinityParticles3D />
               </div>
-              <p className="text-gray-600 dark:text -gray-200 text-lg md:text-xl lg:text-2xl w-full lg:w-1/2 leading-relaxed drop-shadow-md bg-white/60 border border-gray-200 dark:border-transparent dark:bg-black/5 p-6 md:p-8 rounded-2xl shadow-sm dark:shadow-none text-center lg:text-left">
+              <p className="text-gray-200 text-lg md:text-xl lg:text-2xl w-full lg:w-1/2 leading-relaxed drop-shadow-md bg-black/5 border border-transparent p-6 md:p-8 rounded-2xl shadow-none text-center lg:text-left">
                   {data.description}
               </p>
           </div>

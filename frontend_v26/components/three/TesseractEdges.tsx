@@ -28,10 +28,13 @@ export default function TesseractEdges({ faceGeometries, structuralGeometry }: {
 
             <group>
                 <lineSegments geometry={structuralGeometry} frustumCulled={false}>
-                    <lineBasicMaterial color="#ffffff" transparent opacity={0.25} />
+                    <lineBasicMaterial color="#3a86ff" transparent opacity={0.4} />
                 </lineSegments>
-                <lineSegments geometry={structuralGeometry} scale={0.92} frustumCulled={false}>
-                    <lineBasicMaterial color="#ffffff" transparent opacity={0.1} />
+                <lineSegments geometry={structuralGeometry} scale={1.01} frustumCulled={false}>
+                    <lineBasicMaterial color="#3a86ff" transparent opacity={0.75} blending={THREE.AdditiveBlending} depthWrite={false} />
+                </lineSegments>
+                <lineSegments geometry={structuralGeometry} scale={1.025} frustumCulled={false}>
+                    <lineBasicMaterial color="#3a86ff" transparent opacity={0.2} blending={THREE.AdditiveBlending} depthWrite={false} />
                 </lineSegments>
             </group>
         </>

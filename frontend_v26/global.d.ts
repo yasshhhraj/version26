@@ -23,4 +23,6 @@ declare module 'ccapture.js' {
 
 interface Window {
     CCapture: unknown;
+    updateHoverRotation?: (hovering: boolean) => void;
+    setParticleRotation?: (x: number, y: number) => void;
 }

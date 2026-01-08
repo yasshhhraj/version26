@@ -30,7 +30,7 @@ export default function VisionPage() {
                         transition={{ delay: 0.1 }}
                         className="text-6xl md:text-8xl lg:text-[120px] font-bold tracking-tighter leading-none"
                     >
-                        {visionData.hero.title} <span className="text-[#4600be] italic font-serif text-glow">2026</span>
+                        {visionData.hero.title} <span className="text-version-mauve italic font-serif text-glow">2026</span>
                     </motion.h1>
                     
                     <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-8 items-end">
@@ -40,14 +40,14 @@ export default function VisionPage() {
                             transition={{ delay: 0.3 }}
                             className="text-neutral-400 max-w-md text-sm font-mono tracking-tighter uppercase leading-relaxed"
                         >
-                            Developing the architectural framework for next-generation cognitive systems. 
+                            Exploring the architectural framework for next-generation cognitive systems.
                             Archival record of the 33rd annual symposium.
                         </motion.p>
                         <div className="flex justify-end items-center gap-4 text-[10px] font-bold tracking-[0.2em] text-neutral-500">
                              <div className="flex items-center gap-2 bg-white/5 px-4 py-2 rounded-full border border-white/10">
                                 <span className="relative flex h-2 w-2">
-                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4600be] opacity-75"></span>
-                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4600be]"></span>
+                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-version-mauve opacity-75"></span>
+                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-version-mauve"></span>
                                 </span>
                                 SYSTEM ONLINE
                             </div>
@@ -71,10 +71,10 @@ export default function VisionPage() {
                             <Image src={visionData.version.image} alt="Technical Illustration" fill className="object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-110 group-hover:scale-100" />
                             
                             {/* Scanning line */}
-                            <div className="absolute inset-x-0 h-[2px] top-0 bg-gradient-to-r from-transparent via-purple-400 to-transparent shadow-[0_0_15px_rgba(70,0,190,0.8)] z-20 animate-scan" />
+                            <div className="absolute inset-x-0 h-0.5 top-0 bg-linear-to-r from-transparent via-purple-400 to-transparent shadow-[0_0_15px_rgba(70,0,190,0.8)] z-20 animate-scan" />
                             
                             {/* Overlay Vignette */}
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
+                            <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent pointer-events-none" />
                         </div>
                         
                         <div className="absolute top-6 right-6 z-30">
@@ -92,27 +92,16 @@ export default function VisionPage() {
                             viewport={{ once: true }}
                         >
                             <div className="flex items-center gap-3 text-[#4600be] mb-6">
-                                <div className="h-[1px] w-12 bg-[#4600be]" />
+                                <div className="h-px w-12 bg-[#4600be]" />
                                 <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{visionData.version.id}</span>
                             </div>
                             <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-8 uppercase italic font-serif">
                                 {visionData.version.title}
                             </h2>
-                            <div className="space-y-6 text-neutral-400 text-sm leading-relaxed text-justify max-w-2xl font-light">
+                            <div className="space-y-6 text-neutral-400  leading-relaxed text-justify max-w-2xl font-light">
                                 {visionData.version.content.map((paragraph, index) => (
                                     <p key={index}>{paragraph}</p>
                                 ))}
-                            </div>
-                            
-                            <div className="mt-12 flex flex-wrap gap-4">
-                                <button className="px-8 py-4 bg-[#4600be] text-white rounded-full flex items-center gap-3 hover:bg-[#4600be]/90 transition-all text-xs font-bold tracking-widest shadow-[0_0_20px_rgba(70,0,190,0.3)] hover:shadow-[0_0_30px_rgba(70,0,190,0.6)] group/btn overflow-hidden relative">
-                                    <div className="absolute inset-0 bg-white/10 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
-                                    <span className="relative z-10">INITIALIZE PROTOCOL</span>
-                                    <ArrowUpRight className="w-4 h-4 relative z-10 group-hover/btn:rotate-45 transition-transform" />
-                                </button>
-                                <button className="px-8 py-4 border border-white/10 text-white rounded-full flex items-center gap-3 hover:bg-white/5 transition-all text-xs font-bold tracking-widest uppercase hover:border-white/30">
-                                    Download Specs
-                                </button>
                             </div>
                         </motion.div>
                     </div>
@@ -141,8 +130,7 @@ export default function VisionPage() {
                                     {visionData.agi.description}
                                 </p>
                                 <div className="flex items-center gap-2 text-[10px] font-mono text-[#4600be] bg-purple-500/5 border border-purple-500/20 px-4 py-2 rounded-lg w-fit">
-                                    <Info size={14} className="animate-pulse" />
-                                    <span>SYSTEM_ID: <span className="text-white">{visionData.agi.id}</span> // STATUS: <span className="text-green-500">ACTIVE_RESEARCH</span></span>
+                                    <span> {"// STATUS:"} <span className="text-green-500">ACTIVE_RESEARCH</span></span>
                                 </div>
                             </motion.div>
                         </div>

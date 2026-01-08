@@ -25,10 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${dm_sans.className} {roboto.className} antialiased w-full h-svh `} >
+      <body className={`${dm_sans.className} {roboto.className} antialiased w-full overflow-auto overflow-x-clip `} >
         <Navbar />
         {children}
-        <Script src="https://unpkg.com/ccapture.js@1.1.0/build/CCapture.all.min.js" strategy="beforeInteractive" />
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 'use client'
 import React, {useCallback, useEffect, useRef, useState} from "react";
-import EventCard, {EventCardData} from "@/components/EventCard";
 import EventPopUp, {FullEventData} from "@/components/EventPopup";
+import AGIEventPoster, {EventCardData} from "@/components/event-poster";
 
 
 interface event {
@@ -42,7 +42,7 @@ export default function CircularCarousel() {
         setIsModalOpen(true);
     }, []);
     const items = eventsData.map((event) => (
-        <EventCard key={event.id} data={event} onDetailsClickAction={openDetails}/>
+        <AGIEventPoster key={event.id} eventData={event} onClick={() => openDetails(event)} className="w-80 md:w-[624px] sm:w-96 aspect-[3/4]"/>
     ))
 
     const prev = useCallback(() => setIndex((i) => (i - 1 + items.length) % items.length), [items.length]);
@@ -211,5 +211,3 @@ export default function CircularCarousel() {
         </div>
     );
 }
-
-

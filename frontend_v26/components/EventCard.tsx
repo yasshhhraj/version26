@@ -1,6 +1,8 @@
 "use client";
 
 import Image from "next/image";
+import { MapPin, Trophy } from 'lucide-react';
+import { twMerge } from 'tailwind-merge';
 
 // Shared data contracts
 export interface EventCardData {
@@ -26,20 +28,16 @@ export interface EventCardData {
     locationType?: 'Virtual' | 'In-Person' | string;
 }
 
-
-
-
-import { Calendar, MapPin, Trophy } from 'lucide-react'; // Example icons
-
-export default function EventCard({ data, onDetailsClickAction }: {
+export default function EventCard({ data, onDetailsClickAction, className }: {
     data: EventCardData,
-    onDetailsClickAction?: (data: EventCardData) => void
+    onDetailsClickAction?: (data: EventCardData) => void,
+    className?: string
 }) {
     const hasImage = Boolean(data.imageUrl);
     const title = data.title ?? "Event";
 
     return (
-        <div className="relative group w-80 md:w-[624px] sm:w-96 aspect-square md:aspect-video bg-gray-900/50 border border-gray-800 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:border-purple-500/50">
+        <div className={twMerge("relative group bg-gray-900/50 border border-gray-800 rounded-3xl overflow-hidden transition-all duration-500 hover:scale-[1.02] hover:border-purple-500/50", className)}>
 
             {/* 1. Illustration/Image Area */}
             <div className="h-full w-full flex items-center justify-center bg-linear-to-b from-transparent to-gray-900/20">
@@ -116,64 +114,3 @@ export default function EventCard({ data, onDetailsClickAction }: {
         </div>
     );
 }
-
-
-
-
-
-
-
-    //
-    // export default function EventCard({ data, onDetailsClickAction }: EventCardProps) {
-    //     const hasImage = Boolean(data.imageUrl);
-    //     const title = data.title ?? "Event";
-    //     return (
-    //         <div className="relative group w-80 md:w-[624px] sm:w-96  aspect-square md:aspect-auto bg-gray-900/50 border border-gray-800 rounded-3xl overflow-hidden transition-transform duration-300 hover:scale-105 hover:border-purple-500/50">
-    //
-    //             {/* 1. Illustration Area */}
-    //             <div className="h-full w-full  flex items-center justify-center">
-    //                 {/* Placeholder for the image/illustration */}
-    //                 {hasImage ? (
-    //                   <Image loading="eager"
-    //                     width={500}
-    //                     height={300}
-    //                     src={data.imageUrl as string}
-    //                     alt={title}
-    //                     className="w-full  h-full object-contain drop-shadow-2xl"
-    //                   />
-    //                 ) : (
-    //                   <div className="w-full h-full flex items-center justify-center text-neutral-400">
-    //                     {title}
-    //                   </div>
-    //                 )}
-    //             </div>
-    //
-    //             {/* 2. Bottom Info Bar (The pill shape) */}
-    //             <div className="absolute bottom-4 left-4 right-4 bg-gray-800/90 backdrop-blur-sm border border-gray-700 p-3 rounded-2xl flex items-center justify-between">
-    //
-    //                 {/* Left Side: Icon & Text */}
-    //                 <div className="flex items-center gap-3">
-    //                     <div className="p-2 bg-gray-700/50 rounded-full text-gray-300">
-    //                         {/*<Trophy size={18} />*/}
-    //                     </div>
-    //                     <div className="flex flex-col">
-    //                         <h3 className="text-white text-sm font-bold leading-tight">{title}</h3>
-    //                         <p className="text-gray-400 text-xs truncate max-w-[100px]">{data.eventType??''}</p>
-    //                         {/*<p className="text-gray-400 text-xs truncate max-w-[100px]">{data.description??''}</p>*/}
-    //                     </div>
-    //                 </div>
-    //
-    //                 {/* Right Side: Button */}
-    //                 <button
-    //                     className="bg-purple-700 hover:bg-purple-600 text-white text-xs font-semibold px-4 py-2 rounded-xl transition-colors shadow-lg shadow-purple-900/20"
-    //                     onClick={(e) => {
-    //                       e.stopPropagation();
-    //                       onDetailsClickAction?.(data);
-    //                     }}
-    //                 >
-    //                     Details
-    //                 </button>
-    //             </div>
-    //         </div>
-    //     );
-    // }

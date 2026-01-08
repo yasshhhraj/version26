@@ -27,9 +27,9 @@ export default function LoginComponent({ menuOpen, toggleMenu}: { menuOpen: bool
                 onClick={() => toggleMenu()}
                 className="lg:hidden flex flex-col gap-1.5 p-1 z-50"
             >
-                <span className={`block w-6 h-0.5 bg-gray-900 dark:bg-white rounded transition-transform ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-                <span className={`block w-6 h-0.5 bg-gray-900 dark:bg-white rounded transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
-                <span className={`block w-6 h-0.5 bg-gray-900 dark:bg-white rounded transition-transform ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+                <span className={`block w-6 h-0.5 bg-white rounded transition-transform ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+                <span className={`block w-6 h-0.5 bg-white rounded transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
+                <span className={`block w-6 h-0.5 bg-white rounded transition-transform ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
             </button>
         </div>
     )
@@ -73,32 +73,32 @@ function ProfileBlock({ logout }: { logout: () => void }) {
         <div className="relative " ref={ref}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center gap-3 p-1  dark:bg-black/10 shadow-2xl  rounded-lg overflow-clip"
+                className="flex items-center gap-3 p-1  bg-black/10 shadow-2xl  rounded-lg overflow-clip"
             >
                 <div className="text-right hidden sm:block">
-                    <div className="text-sm font-medium text-gray-900 dark:text-white">{name}</div>
-                    <div className="text-[10px] text-gray-500 dark:text-gray-400">{email}</div>
+                    <div className="text-sm font-medium text-white">{name}</div>
+                    <div className="text-[10px] text-gray-400">{email}</div>
                 </div>
-                <div className="w-8 h-8 rounded-md bg-gray-200 dark:bg-gray-600 overflow-hidden relative">
+                <div className="w-8 h-8 rounded-md bg-gray-600 overflow-hidden relative">
                     {/* Use next/image here for real profile pic */}
                     <div className="absolute inset-0 bg-linear-to-tr from-purple-500 to-indigo-500" />
                 </div>
             </button>
 
             {isOpen && (
-                <div className="absolute glassmorphism top-[110%] right-0 mt-2 w-48 bg-white dark:bg-[#171717] border border-gray-200 dark:border-[#2E2F2F] rounded-lg shadow-xl py-1 animate-in fade-in slide-in-from-top-1 z-50">
+                <div className="absolute glassmorphism top-[110%] right-0 mt-2 w-48 bg-[#171717] border border-[#2E2F2F] rounded-lg shadow-xl py-1 animate-in fade-in slide-in-from-top-1 z-50">
                     {/* Mobile-only user info inside dropdown */}
-                    <div className="px-4 py-2 border-b border-gray-200 dark:border-[#2E2F2F] sm:hidden">
-                        <p className="text-sm font-medium text-gray-900 dark:text-white">{name}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">{email}</p>
+                    <div className="px-4 py-2 border-b border-[#2E2F2F] sm:hidden">
+                        <p className="text-sm font-medium text-white">{name}</p>
+                        <p className="text-xs text-gray-400">{email}</p>
                     </div>
 
-                    <a href="#" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#2E2F2F] transition-colors">
+                    <a href="#" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-200 hover:bg-[#2E2F2F] transition-colors">
                         Profile
                     </a>
                     <button
                         onClick={logout}
-                        className="w-full text-left flex items-center gap-2 px-4 py-2.5 text-sm text-red-500 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-[#2E2F2F] transition-colors"
+                        className="w-full text-left flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-[#2E2F2F] transition-colors"
                     >
                         Logout
                     </button>

@@ -46,7 +46,7 @@ export default function Navbar() {
           Renders outside the flow, aligned to the right.
       */}
       {menuOpen && (
-        <div className=" glassmorphism absolute lg:hidden top-15 right-0 bg-white/15 dark:bg-black/55  border border-gray-200 dark:border-[#2E2F2F] w-48 flex flex-col gap-2 animate-in slide-in-from-top-2 fade-in rounded-lg  lg:rounded-full">
+        <div className=" glassmorphism absolute lg:hidden top-15 right-0 bg-black/55  border border-[#2E2F2F] w-48 flex flex-col gap-2 animate-in slide-in-from-top-2 fade-in rounded-lg  lg:rounded-full">
           <NavItem icon="home.svg" path="/" label="Home" mobile />
           <NavItem icon="bill.svg" path="/events" label="Event" mobile />
           <NavItem icon="bulb.svg" path="/vision" label="Vision" mobile />
@@ -78,22 +78,21 @@ function NavItem({ icon, label, path='#', mobile = false }: { icon: string; path
     <a
       href={path}
       className={`group flex items-center gap-2 transition-colors duration-200 ${
-        mobile ? "p-3 hover:bg-gray-100 dark:hover:bg-[#2E2F2F]/20 rounded-md" : "hover:text-purple-600 dark:hover:text-purple-400"
+        mobile ? "p-3 hover:bg-[#2E2F2F]/20 rounded-md" : "hover:text-purple-400"
       }`}
     >
       {/* Icon Masking Technique */}
       <div
-        className={`bg-gray-700 dark:bg-white group-hover:bg-purple-600 dark:group-hover:bg-purple-400 transition-colors duration-200 ${mobile ? "w-5 h-5" : "w-5 h-5"}`}
+        className={`bg-white group-hover:bg-purple-400 transition-colors duration-200 ${mobile ? "w-5 h-5" : "w-5 h-5"}`}
         style={{
           maskImage: `url(/icons/${icon})`,
           maskSize: "contain",
           maskRepeat: "no-repeat",
         }}
       />
-      <span className="text-xl md:font-medium text-gray-700 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+      <span className="text-xl md:font-medium text-white group-hover:text-purple-400 transition-colors">
         {label}
       </span>
     </a>
   );
 }
-

@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {EventCardData} from "@/components/EventCard";
+import {EventCardData} from "@/components/event-poster";
 import {createPortal} from 'react-dom';
 import {X, Calendar, MapPin, Info, Link, Mail, LucideIcon} from 'lucide-react';
 import Image from "next/image";
