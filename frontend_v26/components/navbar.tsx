@@ -18,10 +18,10 @@ export default function Navbar() {
   }, []);
 
   return (
-    // NAVBAR CONTAINER: Absolute, Transparent, High Z-Index
+    // NAVBAR CONTAINER: Fixed, Transparent, High Z-Index
     <nav className={
           "glassmorphism h-14"
-        +" py-1 px-2 lg:px-6 lg:rounded-full absolute top-5 lg:top-8 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-50 flex items-center justify-between "
+        +" py-1 px-2 lg:px-6 lg:rounded-full fixed top-5 lg:top-8 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-50 flex items-center justify-between "
         +" rounded-lg  "
     }>
 
