@@ -1,23 +1,31 @@
 'use client'
-import { memo } from "react";
+import { memo, Suspense } from "react";
 import DotGrid from "@/components/ui/DotGrid";
 
 import dynamic from 'next/dynamic'
-import AGIScene from "@/components/three/AGIScene";
 import AGIGallery from "@/components/AGIGallery";
 import Footer from "@/components/Footer";
+import Loading from "@/app/(main)/loading";
 
 
 // Disable SSR for the 3D scene
 const ParticleWaves = dynamic(() => import('@/components/three/ParticleWaves'), {
-    ssr: false
+    ssr: false,
+    loading: () => <div className="w-full h-full bg-transparent" />
 })
 
 const InfinityParticles3D = dynamic(() => import('@/components/InfinityParticles3D'), {
-    ssr: false
+    ssr: false,
+    loading: () => <div className="w-full h-full bg-transparent" />
 })
 const StarField = dynamic(() => import('@/components/StarField'), {
-    ssr: false
+    ssr: false,
+    loading: () => <div className="w-full h-full bg-transparent" />
+})
+
+const AGIScene = dynamic(() => import('@/components/three/AGIScene'), {
+    ssr: false,
+    loading: () => <div className="w-full h-full flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#4600be] border-t-transparent rounded-full animate-spin"></div></div>
 })
 
 interface HeroData {
@@ -111,12 +119,16 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
           </div>
 
           <div className={'w-full bg-transparent -z-50 h-96 absolute overflow-y-visible bottom-0'}>
-              <ParticleWaves  />
+              <Suspense fallback={<div className="w-full h-full bg-transparent" />}>
+                  <ParticleWaves  />
+              </Suspense>
           </div>
 
           <div className={'absolute z-0 w-80 h-80 md:w-md md:h-112 lg:w-136 lg:h-136 top-[25%] md:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:right-[10%] md:left-auto md:translate-x-0'} >
               <div className={'relative w-full h-full '}>
-                  <AGIScene/>
+                  <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#4600be] border-t-transparent rounded-full animate-spin"></div></div>}>
+                      <AGIScene/>
+                  </Suspense>
               </div>
           </div>
 
@@ -193,7 +205,9 @@ const HeroSection2 = memo(function HeroSection2({ data }: { data: HeroData['hero
       {/* --- BACKGROUNDS --- */}
         <div className="absolute inset-0 -z-20 bg-gradient-to-b from-transparent via-black/50 to-black"/>
         <div className="absolute inset-0 -z-10">
-        <StarField />
+        <Suspense fallback={<div className="w-full h-full bg-transparent" />}>
+            <StarField />
+        </Suspense>
       </div>
       
       {/* --- CONTENT CONTAINER --- */}
@@ -208,7 +222,9 @@ const HeroSection2 = memo(function HeroSection2({ data }: { data: HeroData['hero
 
           <div className={'flex flex-col lg:flex-row mt-8 gap-8 items-center lg:items-start'}>
               <div className={'relative w-full lg:w-1/2 aspect-4/3 md:aspect-square h-auto max-h-64 md:max-h-136'}>
-                  <InfinityParticles3D />
+                  <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#4600be] border-t-transparent rounded-full animate-spin"></div></div>}>
+                      <InfinityParticles3D />
+                  </Suspense>
               </div>
               <p className="text-gray-200 text-lg md:text-xl lg:text-2xl w-full lg:w-1/2 leading-relaxed drop-shadow-md bg-black/5 border border-transparent p-6 md:p-8 rounded-2xl shadow-none text-center lg:text-left">
                   {data.description}

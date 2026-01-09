@@ -5,6 +5,7 @@ export default function InfinityParticles3D() {
     const containerRef = useRef<HTMLDivElement>(null);
     const particlesRef = useRef<THREE.Group | null>(null);
     const [isHovering, setIsHovering] = useState(false);
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -354,6 +355,7 @@ export default function InfinityParticles3D() {
         };
 
         animate();
+        setReady(true);
 
         // Expose rotation control
         window.setParticleRotation = (x: number, y: number) => {
@@ -395,7 +397,10 @@ export default function InfinityParticles3D() {
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
         >
-            <div ref={containerRef} className="w-full h-full" />
+            <div 
+                ref={containerRef} 
+                className={`w-full h-full transition-opacity duration-1000 ease-in-out ${ready ? 'opacity-100' : 'opacity-0'}`} 
+            />
         </div>
     );
 }

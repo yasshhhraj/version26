@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const CONFIG = {
     STAR_COUNT: 200,
@@ -48,6 +48,7 @@ class Star {
 
 export default function StarField() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -65,6 +66,9 @@ export default function StarField() {
         for (let i = 0; i < CONFIG.STAR_COUNT; i++) {
             stars.push(new Star(ctx, width, height));
         }
+
+        // Mark as ready after initialization
+        setReady(true);
 
         function animate() {
             ctx!.clearRect(0, 0, width, height);
@@ -98,6 +102,9 @@ export default function StarField() {
     }, []);
 
     return (
-        <canvas ref={canvasRef} className="block w-full h-full absolute inset-0 pointer-events-none" />
+        <canvas 
+            ref={canvasRef} 
+            className={`block w-full h-full absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-in-out ${ready ? 'opacity-100' : 'opacity-0'}`} 
+        />
     );
 }

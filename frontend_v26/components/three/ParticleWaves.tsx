@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useRef, useMemo, useState } from 'react'
+import React, { useRef, useMemo, useState, Suspense } from 'react'
 import {Canvas, useFrame} from '@react-three/fiber'
 import * as THREE from 'three'
 
@@ -131,6 +131,7 @@ function WavePoints() {
 }
 
 export default function ParticleWaves() {
+    const [ready, setReady] = useState(false);
 
     return (
         <div className="relative h-full w-full z-50 bg-transparent">
@@ -145,8 +146,12 @@ export default function ParticleWaves() {
                     camera={{ position: [0, 200, 2500], rotation: [0, 0, -0.1], fov: 60 }}
                     resize={{ scroll: false }}
                     gl={{ alpha: true, preserveDrawingBuffer: true }}
+                    onCreated={() => setReady(true)}
+                    className={`transition-opacity duration-1000 ease-in-out ${ready ? 'opacity-100' : 'opacity-0'}`}
                 >
-                    <WavePoints />
+                    <Suspense fallback={null}>
+                        <WavePoints />
+                    </Suspense>
                 </Canvas>
             </div>
         </div>

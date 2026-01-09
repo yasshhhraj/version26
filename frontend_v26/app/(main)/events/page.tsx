@@ -152,12 +152,12 @@ const EventsPage = () => {
                 <div className="w-full md:max-w-[1400px] px-4 sm:px-8 pb-20 z-10">
                     <div
                         ref={gridRef}
-                        className="relative grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8"
+                        className="relative grid place-items-center gap-6 md:gap-8 grid-cols-[repeat(auto-fit,minmax(260px,1fr))]"
                         onMouseLeave={handleMouseLeaveGrid}
                     >
                         {/* Magnet Shadow Element */}
                         <div
-                            className="absolute bg-purple-500/10 rounded-3xl pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0"
+                            className="absolute inset-0 bg-purple-500/10 rounded-3xl pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0"
                             style={shadowStyle}
                         />
 

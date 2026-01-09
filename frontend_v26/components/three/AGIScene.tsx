@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import Tesseract from "@/components/three/Tesserract";
 import InnerObjectSwitcher from "@/components/three/inner/InnerObjectSwitcher";
 
@@ -27,6 +27,7 @@ export default function AGIScene() {
     const [interactionState, setInteractionState] = useState<InteractionState>("PASSIVE");
     const [activeIndex, setActiveIndex] = useState(0);
     const [data, setData] = useState<Record<string, FaceData> | null>(null);
+    const [ready, setReady] = useState(false);
 
     // Fetch data
     useEffect(() => {
@@ -75,7 +76,7 @@ export default function AGIScene() {
         >
 
             {/* Info Overlay */}
-            <div className={`pointer-events-none absolute z-100
+            <div className={`pointer-events-none absolute z-50
                 top-0 left-0 w-full p-4 
                 md:top-4 md:left-4 md:w-auto md:p-3 
                 flex flex-col items-center md:items-start justify-start
@@ -120,16 +121,19 @@ export default function AGIScene() {
                     e.stopPropagation(); // Prevent double triggering if wrapper also catches it
                     handleInteraction();
                 }}
+                onCreated={() => setReady(true)}
+                className={`transition-opacity duration-1000 ease-in-out ${ready ? 'opacity-100' : 'opacity-0'}`}
             >
-                <ambientLight intensity={0.35} />
-                <directionalLight position={[4, 4, 6]} intensity={0.2} />
+                <Suspense fallback={null}>
+                    <ambientLight intensity={0.35} />
+                    <directionalLight position={[4, 4, 6]} intensity={0.2} />
 
-                <Tesseract
-                    onFaceChangeAction={(face) =>setActiveFace(face)}
-                    interactionState={interactionState}
-                />
-                <InnerObjectSwitcher activeIndex={activeIndex} />
-
+                    <Tesseract
+                        onFaceChangeAction={(face) =>setActiveFace(face)}
+                        interactionState={interactionState}
+                    />
+                    <InnerObjectSwitcher activeIndex={activeIndex} />
+                </Suspense>
             </Canvas>
         </div>
     );

@@ -135,12 +135,6 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
         }
     }, [])
 
-    // Split title into lines for dramatic effect
-    const titleWords = (title || "").split(" ")
-    const midPoint = Math.ceil(titleWords.length / 2)
-    const titleLine1 = titleWords.slice(0, midPoint).join(" ")
-    const titleLine2 = titleWords.slice(midPoint).join(" ")
-
     // Determine location badges
     const locationLower = locationType?.toLowerCase() || ""
     const isVirtual = locationLower.includes("virtual")
@@ -150,7 +144,7 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
     return (
         <div
             onClick={onClick}
-            className={`relative aspect-3/4 bg-linear-to-br from-black via-purple-950 to-black rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(139,92,246,0.5)] group cursor-pointer ${className}`}
+            className={`relative max-w-72 aspect-3/4 bg-linear-to-br from-black via-purple-950 to-black rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(139,92,246,0.5)] group cursor-pointer ${className}`}
         >
             {/* Background Image */}
             {imageUrl && (
@@ -246,15 +240,8 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
                 <div className="flex-1 flex flex-col justify-center">
                     <div className="space-y-2">
                         {/* Main Title */}
-                        <h1 className="text-4xl sm:text-4xl font-black leading-none tracking-tighter">
-                            <div className="bg-linear-to-br from-white via-cyan-200 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_0_80px_rgba(0,255,255,0.5)]">
-                                {titleLine1}
-                            </div>
-                            {titleLine2 && (
-                                <div className="bg-linear-to-br from-pink-300 via-purple-300 to-cyan-300 bg-clip-text text-transparent drop-shadow-[0_0_80px_rgba(255,0,255,0.5)] mt-1">
-                                    {titleLine2}
-                                </div>
-                            )}
+                        <h1 className="text-4xl sm:text-4xl font-black leading-none tracking-tighter bg-linear-to-r from-white via-cyan-200 to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_80px_rgba(0,255,255,0.5)]">
+                            {title}
                         </h1>
 
                         {/* Tagline */}
