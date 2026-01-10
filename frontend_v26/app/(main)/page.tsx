@@ -1,11 +1,11 @@
 'use client'
 import { memo, Suspense } from "react";
 import DotGrid from "@/components/ui/DotGrid";
+import { motion, Variants } from "framer-motion";
 
 import dynamic from 'next/dynamic'
 import AGIGallery from "@/components/AGIGallery";
 import Footer from "@/components/Footer";
-import Loading from "@/app/(main)/loading";
 
 
 // Disable SSR for the 3D scene
@@ -87,7 +87,14 @@ export default function Home() {
       <main className="flex h-full w-full relative flex-col  ">
         <HeroSection data={heroData.heroSection}/>
         <HeroSection2 data={heroData.heroSection2} />
-          <AGIGallery videoData={heroData.heroSection2.video} />
+        <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true, amount: 0.2 }}
+        >
+            <AGIGallery videoData={heroData.heroSection2.video} />
+        </motion.div>
         <Footer />
       </main>
     </div>
@@ -97,6 +104,26 @@ export default function Home() {
 
 
 const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSection'] }) {
+    const containerVariants: Variants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15,
+                delayChildren: 0.2
+            }
+        }
+    };
+
+    const itemVariants: Variants = {
+        hidden: { opacity: 0, x: -50 },
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: { duration: 0.6, ease: "easeOut" }
+        }
+    };
+
   return (
     // CONTAINER: Use Flexbox to center/position, use padding (px/py) for spacing.
     // min-h-screen ensures it takes up full view height (optional).
@@ -125,44 +152,54 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
           </div>
 
           <div className={'absolute z-0 w-80 h-80 md:w-md md:h-112 lg:w-136 lg:h-136 top-[25%] md:top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 md:right-[10%] md:left-auto md:translate-x-0'} >
-              <div className={'relative w-full h-full '}>
+              <motion.div
+                  className={'relative w-full h-full '}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 1.5, delay: 1.6, ease: "easeInOut" }}
+              >
                   <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#4600be] border-t-transparent rounded-full animate-spin"></div></div>}>
                       <AGIScene/>
                   </Suspense>
-              </div>
+              </motion.div>
           </div>
 
 
 
-          <div className="w-full flex flex-col justify-center md:justify-center px-6 py-20 md:px-12 lg:px-24 xl:px-32 min-h-screen grow pointer-events-none relative z-10">
+          <motion.div
+              className="w-full flex flex-col justify-center md:justify-center px-6 py-20 md:px-12 lg:px-24 xl:px-32 min-h-screen grow pointer-events-none relative z-10"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+          >
 
               {/* BADGE */}
-              <div className="mb-6 px-4 py-1.5 border border-white/10 bg-white/5 backdrop-blur-sm w-fit rounded-full flex gap-2 items-center transition-colors pointer-events-auto">
+              <motion.div variants={itemVariants} className="mb-6 px-4 py-1.5 border border-white/10 bg-white/5 backdrop-blur-sm w-fit rounded-full flex gap-2 items-center transition-colors pointer-events-auto">
                   <p className="text-xs font-mono tracking-widest text-gray-200 uppercase">{data.badge}</p>
-              </div>
+              </motion.div>
 
               {/* MAIN TITLE: Move ABOVE main hook */}
-              <p className="font-mono text-xl tracking-[0.4em] text-gray-500 font-bold uppercase mb-2 pointer-events-auto">
+              <motion.p variants={itemVariants} className="font-mono text-xl tracking-[0.4em] text-gray-500 font-bold uppercase mb-2 pointer-events-auto">
                   {data.mainTitle}
-              </p>
+              </motion.p>
 
               {/* SUBTITLE: MAIN VISUAL HOOK */}
-              <h1 className="text-7xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-purple-500 to-purple-600 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)] pointer-events-auto">
+              <motion.h1 variants={itemVariants} className="text-7xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-purple-500 to-purple-600 drop-shadow-[0_0_25px_rgba(168,85,247,0.4)] pointer-events-auto">
                   {data.subtitle}
-              </h1>
+              </motion.h1>
 
               {/* THEME TITLE: Render on single line */}
-              <h2 className="font-sans text-xl md:text-2xl font-light tracking-[0.2em] text-white/90 mt-2 uppercase pointer-events-auto">
+              <motion.h2 variants={itemVariants} className="font-sans text-xl md:text-2xl font-light tracking-[0.2em] text-white/90 mt-2 uppercase pointer-events-auto">
                   {data.themeTitle.prefix} {data.themeTitle.highlight} {data.themeTitle.suffix}
-              </h2>
+              </motion.h2>
 
               {/* DESCRIPTION */}
-              <p className="text-lg md:text-xl font-extralight text-gray-300 max-w-2xl pointer-events-auto leading-relaxed mt-4">
+              <motion.p variants={itemVariants} className="text-lg md:text-xl font-extralight text-gray-300 max-w-2xl pointer-events-auto leading-relaxed mt-4">
                   {data.description}
-              </p>
+              </motion.p>
 
               {/* BUTTONS: Hollow glass for primary */}
-              <div className="flex flex-col sm:flex-row gap-4 mt-8 pointer-events-auto">
+              <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 mt-8 pointer-events-auto">
                   <a
                       href="/events"
                       className="bg-transparent hover:bg-[#4600be]/10 border border-[#2E2F2F]  text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center"
@@ -192,8 +229,8 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
                           }}
                       />
                   </a>
-              </div>
-          </div>
+              </motion.div>
+          </motion.div>
       </div>
   );
 });
@@ -203,7 +240,7 @@ const HeroSection2 = memo(function HeroSection2({ data }: { data: HeroData['hero
     <div className="relative w-full flex flex-col overflow-hidden  transition-colors pt-20 md:pt-32 pb-20">
       
       {/* --- BACKGROUNDS --- */}
-        <div className="absolute inset-0 -z-20 bg-gradient-to-b from-transparent via-black/50 to-black"/>
+        <div className="absolute inset-0 -z-20 bg-linear-to-b from-transparent via-black/50 to-black"/>
         <div className="absolute inset-0 -z-10">
         <Suspense fallback={<div className="w-full h-full bg-transparent" />}>
             <StarField />
@@ -216,19 +253,37 @@ const HeroSection2 = memo(function HeroSection2({ data }: { data: HeroData['hero
         
         {/* TYPOGRAPHY */}
         <div className="w-full">
-          <h1 className="text-white text-5xl sm:text-7xl md:text-8xl lg:text-[120px] xl:text-[150px] font-bold leading-[0.9] tracking-tighter drop-shadow-2xl text-center md:text-right">
+          <motion.h1
+              initial={{ x: 100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              viewport={{ once: true, amount: 0.3 }}
+              className="text-white text-5xl sm:text-7xl md:text-8xl lg:text-[120px] xl:text-[150px] font-bold leading-[0.9] tracking-tighter drop-shadow-2xl text-center md:text-right"
+          >
             {data.title}
-          </h1>
+          </motion.h1>
 
           <div className={'flex flex-col lg:flex-row mt-8 gap-8 items-center lg:items-start'}>
-              <div className={'relative w-full lg:w-1/2 aspect-4/3 md:aspect-square h-auto max-h-64 md:max-h-136'}>
+              <motion.div
+                  initial={{ scale: 0, opacity: 0 }}
+                  whileInView={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 1, ease: "easeOut" }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  className={'relative w-full lg:w-1/2 aspect-4/3 md:aspect-square h-auto max-h-64 md:max-h-136'}
+              >
                   <Suspense fallback={<div className="w-full h-full flex items-center justify-center"><div className="w-8 h-8 border-2 border-[#4600be] border-t-transparent rounded-full animate-spin"></div></div>}>
                       <InfinityParticles3D />
                   </Suspense>
-              </div>
-              <p className="text-gray-200 text-lg md:text-xl lg:text-2xl w-full lg:w-1/2 leading-relaxed drop-shadow-md bg-black/5 border border-transparent p-6 md:p-8 rounded-2xl shadow-none text-center lg:text-left">
+              </motion.div>
+              <motion.p
+                  initial={{ x: 100, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  className="text-gray-200 text-lg md:text-xl lg:text-2xl w-full lg:w-1/2 leading-relaxed drop-shadow-md bg-black/5 border border-transparent p-6 md:p-8 rounded-2xl shadow-none text-center lg:text-left"
+              >
                   {data.description}
-              </p>
+              </motion.p>
           </div>
         </div>
       </div>

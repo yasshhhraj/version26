@@ -23,7 +23,7 @@ function TeamMemberCard({ name, role, committee, designation, image, linkedinid,
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: (index % 3) * 0.1 }}
-            className={`group relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:border-[#4600be]/30 hover:bg-white/10 ${className || ""}`}
+            className={`group w-full max-w-[280px] relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:border-[#4600be]/30 hover:bg-white/10 ${className || ""}`}
         >
             {/* Scanning Line Effect on Hover */}
             <div className="absolute inset-x-0 h-0.5 top-0 bg-linear-to-r from-transparent via-[#4600be] to-transparent opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:top-full z-20" />
@@ -202,6 +202,13 @@ interface CommitteeData {
     members: TeamMemberProps[]
 }
 
+interface Advisor {
+    name: string;
+    role: string;
+    image: string;
+    message: string;
+}
+
 export default function TeamPage() {
     const [modalState, setModalState] = useState({
         isOpen: false,
@@ -212,7 +219,7 @@ export default function TeamPage() {
     })
 
     const [teamData, setTeamData] = useState<{
-        advisors: any[];
+        advisors: Advisor[];
         cccMembers: TeamMemberProps[];
         executiveBoard: TeamMemberProps[];
         committees: CommitteeData[];
@@ -254,17 +261,15 @@ export default function TeamPage() {
 
             <div className="relative z-10 mx-auto max-w-7xl">
                 {/* Header Section */}
-                <div className="mb-16 flex flex-col items-start justify-between gap-4 border-b border-white/10 pb-10 md:flex-row md:items-end">
-                    <div>
-                        <div className="mb-4 flex items-center gap-2 text-xs font-medium text-purple-400 border border-purple-500/20 bg-purple-500/5 px-3 py-1 rounded-full w-fit">
-                            <Users size={14} />
-                            <span>VERSION&apos;26 ORGANIZATION</span>
-                        </div>
-                        <h2 className="text-5xl font-bold tracking-tighter text-white md:text-7xl lg:text-9xl uppercase">
-                            Meet the <span className="text-version-mauve italic">Team</span>
-                        </h2>
+                <div className="mb-16 flex flex-col items-center justify-center gap-4 border-b border-white/10 pb-10 text-center">
+                    <div className="mb-4 flex items-center gap-2 text-xs font-medium text-purple-400 border border-purple-500/20 bg-purple-500/5 px-3 py-1 rounded-full w-fit">
+                        <Users size={14} />
+                        <span>VERSION&apos;26 ORGANIZATION</span>
                     </div>
-                    <div className="flex items-center gap-4 text-xs font-bold tracking-widest text-neutral-400">
+                    <h2 className="text-5xl font-bold tracking-tighter text-white md:text-7xl lg:text-9xl uppercase">
+                        Meet the <span className="text-version-mauve italic">Team</span>
+                    </h2>
+                    <div className="flex items-center gap-4 text-xs font-bold tracking-widest text-neutral-400 mt-4">
                         <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-full border border-white/10">
                             <span className="relative flex h-2 w-2">
                                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-version-mauve opacity-75"></span>
@@ -278,14 +283,14 @@ export default function TeamPage() {
                 {/* Head of Department & Staff Advisor */}
                 {teamData.advisors.length > 0 && (
                     <section className="mb-32">
-                        <div className="flex flex-col gap-2 mb-10 text-center">
+                        <div className="flex flex-col items-center gap-2 mb-10 text-center">
                             <div className="flex items-center justify-center gap-2 text-[#4600be] mb-2">
                                 <ShieldCheck size={16} />
                                 <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Leadership</span>
                             </div>
                             <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">ADVISORY BOARD</h2>
                         </div>
-                        <div className="flex flex-wrap justify-center gap-12">
+                        <div className="flex flex-wrap justify-center gap-8">
                             {teamData.advisors.map((advisor, index) => (
                                 <AdvisorCard 
                                     key={index}
@@ -303,14 +308,15 @@ export default function TeamPage() {
                 {/* Central Coordination Committee */}
                 {teamData.cccMembers.length > 0 && (
                     <section className="mb-32">
-                        <div className="flex flex-col gap-2 mb-12">
+                        <div className="flex flex-col items-center gap-2 mb-12 text-center">
                             <div className="flex items-center gap-2 text-[#4600be] mb-2">
                                 <div className="h-px w-8 bg-[#4600be]" />
                                 <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Executive</span>
+                                <div className="h-px w-8 bg-[#4600be]" />
                             </div>
                             <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">Central Coordination <span className="text-[#4600be] italic font-serif">Committee</span></h2>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <div className="flex flex-wrap justify-center gap-8">
                             {teamData.cccMembers.map((member, index) => (
                                 <TeamMemberCard key={index} {...member} index={index} />
                             ))}
@@ -321,14 +327,15 @@ export default function TeamPage() {
                 {/* Executive Board (Secretary & Treasurer) */}
                 {teamData.executiveBoard.length > 0 && (
                     <section className="mb-32">
-                        <div className="flex flex-col gap-2 mb-12">
+                        <div className="flex flex-col items-center gap-2 mb-12 text-center">
                             <div className="flex items-center gap-2 text-[#4600be] mb-2">
                                 <div className="h-px w-8 bg-[#4600be]" />
                                 <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Executive</span>
+                                <div className="h-px w-8 bg-[#4600be]" />
                             </div>
                             <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">Executive <span className="text-[#4600be] italic font-serif">Board</span></h2>
                         </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <div className="flex flex-wrap justify-center gap-8">
                             {teamData.executiveBoard.map((member, index) => (
                                 <TeamMemberCard key={index} {...member} index={index} />
                             ))}
@@ -339,10 +346,11 @@ export default function TeamPage() {
                 {/* Committees */}
                 {teamData.committees.map((committee) => (
                     <section key={committee.id} className="mb-20">
-                        <div className="flex flex-col gap-2 mb-12">
+                        <div className="flex flex-col items-center gap-2 mb-12 text-center">
                             <div className="flex items-center gap-2 text-[#4600be] mb-2">
                                 <div className="h-px w-8 bg-[#4600be]" />
                                 <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{committee.name}</span>
+                                <div className="h-px w-8 bg-[#4600be]" />
                             </div>
                             <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">
                                 {committee.fullName.split(' ').slice(0, -1).join(' ')} <span className="text-[#4600be] italic font-serif">Committee</span>
@@ -350,22 +358,22 @@ export default function TeamPage() {
                         </div>
                         
                         {/* Heads */}
-                        <div className="mb-8">
-                            <h3 className="font-bold text-white/80 mb-6 uppercase tracking-widest text-sm">Heads</h3>
+                        <div className="mb-8 w-full">
+                            <h3 className="font-bold text-white/80 mb-6 uppercase tracking-widest text-sm text-center">Heads</h3>
                             <div className="flex flex-wrap justify-center gap-8">
                                 {committee.heads.map((member, index) => (
-                                    <TeamMemberCard key={index} {...member} index={index} className="w-full sm:w-[280px]" />
+                                    <TeamMemberCard key={index} {...member} index={index} />
                                 ))}
                             </div>
                         </div>
 
                         {/* Members */}
                         {committee.members.length > 0 && (
-                            <div>
-                                <h3 className="font-bold text-white/80 mb-6 uppercase tracking-widest text-sm">Members</h3>
+                            <div className="w-full">
+                                <h3 className="font-bold text-white/80 mb-6 uppercase tracking-widest text-sm text-center">Members</h3>
                                 <div className="flex flex-wrap justify-center gap-8">
                                     {committee.members.map((member, index) => (
-                                        <TeamMemberCard key={index} {...member} index={index + committee.heads.length} className="w-full sm:w-[280px]" />
+                                        <TeamMemberCard key={index} {...member} index={index + committee.heads.length} />
                                     ))}
                                 </div>
                             </div>

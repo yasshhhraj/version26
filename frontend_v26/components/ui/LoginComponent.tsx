@@ -1,23 +1,45 @@
 import {useEffect, useRef, useState} from "react";
-
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function LoginComponent({ menuOpen, toggleMenu}: { menuOpen: boolean, toggleMenu: () => void}) {
     const [loggedin, setLoggedin] = useState(false);
+    const router = useRouter();
 
     useEffect(() => {
-        setLoggedin(localStorage.getItem('loggedIn') === 'true');
+        // Check both cookie (via API) and localStorage for redundancy in this demo
+        const checkAuth = async () => {
+            try {
+                const res = await fetch('/api/auth/session');
+                if (res.ok) {
+                    setLoggedin(true);
+                } else {
+                    setLoggedin(localStorage.getItem('loggedIn') === 'true');
+                }
+            } catch {
+                setLoggedin(localStorage.getItem('loggedIn') === 'true');
+            }
+        };
+        void checkAuth();
     }, []);
 
+    const handleLogout = async () => {
+        try {
+            await fetch("/api/auth/logout", { method: "POST" });
+            localStorage.clear();
+            setLoggedin(false);
+            router.push("/");
+            router.refresh();
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    };
 
     return(
         <div className="  flex items-center gap-4">
             {/* Profile / Login State */}
             {loggedin ? (
-                <ProfileBlock
-                    logout={() => {
-                        localStorage.removeItem('loggedIn');
-                        window.location.reload();
-                    }} />
+                <ProfileBlock logout={handleLogout} />
             ) : (
                 <LoginButton />
             )}
@@ -38,11 +60,11 @@ export default function LoginComponent({ menuOpen, toggleMenu}: { menuOpen: bool
 
 function LoginButton() {
     return (
-        <a href={'/auth'}
+        <Link href={'/auth'}
            className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition-colors shadow-lg shadow-purple-900/20"
         >
             Login
-        </a>
+        </Link>
     );
 }
 
@@ -50,12 +72,14 @@ function ProfileBlock({ logout }: { logout: () => void }) {
     const [isOpen, setIsOpen] = useState(false);
     const ref = useRef<HTMLDivElement>(null);
 
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
+    const [userInfo, setUserInfo] = useState({ name: '', email: '' });
 
     useEffect(() => {
-        setName(localStorage.getItem('name') || '');
-        setEmail(localStorage.getItem('email') || '');
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setUserInfo({
+            name: localStorage.getItem('name') || 'User',
+            email: localStorage.getItem('email') || ''
+        });
     }, []);
 
     // Click outside to close dropdown
@@ -76,8 +100,8 @@ function ProfileBlock({ logout }: { logout: () => void }) {
                 className="flex items-center gap-3 p-1  bg-black/10 shadow-2xl  rounded-lg overflow-clip"
             >
                 <div className="text-right hidden sm:block">
-                    <div className="text-sm font-medium text-white">{name}</div>
-                    <div className="text-[10px] text-gray-400">{email}</div>
+                    <div className="text-sm font-medium text-white">{userInfo.name}</div>
+                    <div className="text-[10px] text-gray-400">{userInfo.email}</div>
                 </div>
                 <div className="w-8 h-8 rounded-md bg-gray-600 overflow-hidden relative">
                     {/* Use next/image here for real profile pic */}
@@ -89,13 +113,13 @@ function ProfileBlock({ logout }: { logout: () => void }) {
                 <div className="absolute glassmorphism top-[110%] right-0 mt-2 w-48 bg-[#171717] border border-[#2E2F2F] rounded-lg shadow-xl py-1 animate-in fade-in slide-in-from-top-1 z-50">
                     {/* Mobile-only user info inside dropdown */}
                     <div className="px-4 py-2 border-b border-[#2E2F2F] sm:hidden">
-                        <p className="text-sm font-medium text-white">{name}</p>
-                        <p className="text-xs text-gray-400">{email}</p>
+                        <p className="text-sm font-medium text-white">{userInfo.name}</p>
+                        <p className="text-xs text-gray-400">{userInfo.email}</p>
                     </div>
 
-                    <a href="#" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-200 hover:bg-[#2E2F2F] transition-colors">
+                    <Link href="/profile" className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-200 hover:bg-[#2E2F2F] transition-colors">
                         Profile
-                    </a>
+                    </Link>
                     <button
                         onClick={logout}
                         className="w-full text-left flex items-center gap-2 px-4 py-2.5 text-sm text-red-400 hover:bg-[#2E2F2F] transition-colors"
