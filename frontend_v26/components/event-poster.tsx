@@ -12,7 +12,8 @@ export interface EventCardData {
     eventType?: string
     date?: string
     dateRangeText?: string
-    locationType?: "Virtual" | "In-Person" | string
+    locationType?:  string
+    venue?: string
 }
 
 interface AGIEventPosterProps {
@@ -26,17 +27,18 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
 
     // Default values
     const {
-        title = "Event Title",
-        tagline = "",
+        title,
+        tagline,
         imageUrl,
-        eventType = "Event",
-        locationType = "Virtual",
+        eventType,
+        locationType,
+        venue,
     } = eventData
 
     // Parse date to extract more details if needed
     const dateDisplay = eventData.date || eventData.dateRangeText || "Coming Soon"
     const timeDisplay = "TBA"
-    const venueDisplay = locationType === "Virtual" ? "HYBRID EVENT" : locationType?.toUpperCase()
+    const venueDisplay = venue
 
     useEffect(() => {
         const canvas = canvasRef.current
