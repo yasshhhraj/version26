@@ -67,7 +67,7 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
     const [selectedId, setSelectedId] = useState<string | null>(null);
 
     return (
-        <section className="relative min-h-screen bg-gradient-to-b from-black to-transparent px-8 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
+        <section className="relative min-h-screen bg-transparent px-8 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
             {/* Ambient Background Glows */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#4600be]/10 blur-[120px] rounded-full -z-10" />
             <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-purple-900/10 blur-[150px] rounded-full -z-10" />

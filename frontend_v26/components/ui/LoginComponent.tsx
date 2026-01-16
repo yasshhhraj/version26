@@ -2,6 +2,8 @@ import {useEffect, useRef, useState} from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import {Loader} from "@/components/ui/Loader";
+
 export default function LoginComponent({ menuOpen, toggleMenu}: { menuOpen: boolean, toggleMenu: () => void}) {
     const [loggedin, setLoggedin] = useState(false);
     const router = useRouter();
@@ -103,9 +105,12 @@ function ProfileBlock({ logout }: { logout: () => void }) {
                     <div className="text-sm font-medium text-white">{userInfo.name}</div>
                     <div className="text-[10px] text-gray-400">{userInfo.email}</div>
                 </div>
-                <div className="w-8 h-8 rounded-md bg-gray-600 overflow-hidden relative">
+                <div className="w-8 h-8 rounded-md bg-gray-600 overflow-hidden relative flex items-center justify-center">
                     {/* Use next/image here for real profile pic */}
                     <div className="absolute inset-0 bg-linear-to-tr from-purple-500 to-indigo-500" />
+                    <span className="relative text-white font-bold text-sm uppercase">
+                        {userInfo.name.charAt(0)}
+                    </span>
                 </div>
             </button>
 

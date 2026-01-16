@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/Button"
 import {Toast, ToastProps} from "@/components/ui/Toast";
 import {useRouter} from "next/navigation";
 
+import {Loader} from "@/components/ui/Loader";
+
 export function Sign_in_form({slideAction}: {slideAction: () => void}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -118,10 +120,15 @@ export function Sign_in_form({slideAction}: {slideAction: () => void}) {
 
                 <Button
                     type="submit"
-                    className="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     disabled={isLoading}
                 >
-                    {isLoading ? 'Signing In...' : 'Sign In'}
+                    {isLoading ? (
+                        <>
+                            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                            <span>Signing In...</span>
+                        </>
+                    ) : 'Sign In'}
                 </Button>
 
                 <p className="text-center text-sm text-gray-400">

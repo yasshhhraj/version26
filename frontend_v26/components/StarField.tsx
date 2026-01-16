@@ -62,8 +62,10 @@ export default function StarField() {
         let animationId: number;
 
         const stars: Star[] = [];
+        const starCountInitial = Math.floor(CONFIG.STAR_COUNT * (width * height) / (1920 * 1080));
+        const actualCountInitial = Math.max(CONFIG.STAR_COUNT, starCountInitial);
 
-        for (let i = 0; i < CONFIG.STAR_COUNT; i++) {
+        for (let i = 0; i < actualCountInitial; i++) {
             stars.push(new Star(ctx, width, height));
         }
 
@@ -87,7 +89,9 @@ export default function StarField() {
             
             // Re-initialize stars on resize to cover new area
             stars.length = 0;
-            for (let i = 0; i < CONFIG.STAR_COUNT; i++) {
+            const starCount = Math.floor(CONFIG.STAR_COUNT * (width * height) / (1920 * 1080));
+            const actualCount = Math.max(CONFIG.STAR_COUNT, starCount);
+            for (let i = 0; i < actualCount; i++) {
                 stars.push(new Star(ctx!, width, height));
             }
         };
@@ -104,7 +108,7 @@ export default function StarField() {
     return (
         <canvas 
             ref={canvasRef} 
-            className={`block w-full h-full absolute inset-0 pointer-events-none transition-opacity duration-1000 ease-in-out ${ready ? 'opacity-100' : 'opacity-0'}`} 
+            className={`block w-full h-full pointer-events-none transition-opacity duration-1000 ease-in-out ${ready ? 'opacity-100' : 'opacity-0'}`} 
         />
     );
 }

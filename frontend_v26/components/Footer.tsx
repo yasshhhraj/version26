@@ -22,7 +22,7 @@ const Footer = () => {
     ];
 
     return (
-        <footer className="relative bg-black text-white pt-12 pb-6 overflow-hidden flex flex-col items-center">
+        <footer className="relative bg-transparent text-white pt-12 pb-6 overflow-hidden flex flex-col items-center">
             {/* Background Effects */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[300px] bg-[#4600be]/15 blur-[100px] rounded-full -z-10" />
             <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(0,0,0,0.8))] z-0" />
