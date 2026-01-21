@@ -3,13 +3,13 @@
     {
       "name": "Dr. S. Domnic",
       "role": "Head of Department",
-      "image": "/Assets/team/hod",
+      "image": "/Assets/team/hod.jpeg",
       "message": "Welcome to Version'26. As we embark on this journey of innovation and technical excellence, I am proud to see the dedication and creativity of our students.\n\nThis event stands as a testament to the department's commitment to fostering technological advancement and holistic development. I encourage all participants to make the most of this platform to learn, compete, and grow."
     },
     {
       "name": "Dr. S. Sangeetha",
       "role": "Staff Advisor",
-      "image": "/Assets/team/staff_advisor",
+      "image": "/Assets/team/staff_advisor.jpeg",
       "message": "Version has always been more than just a technical fest; it's a celebration of ideas and innovation. The team has worked tirelessly to curate events that challenge and inspire.\n\nI wish all the participants the very best. May this event spark new ideas and forge lasting connections in our technical community."
     }
   ],
@@ -17,7 +17,7 @@
     {
       "name": "Rohit Kumar Mishra",
       "role": "CHAIRPERSON",
-      "image": "/Assets/team/rohit",
+      "image": "/Assets/team/rohit.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
       "email_id": ""
@@ -25,7 +25,7 @@
     {
       "name": "Vivek Kumar",
       "role": "CHAIRPERSON - EEC",
-      "image": "/Assets/team/vivek",
+      "image": "/Assets/team/vivek.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
       "email_id": ""
@@ -33,7 +33,7 @@
     {
       "name": "Astik Verma",
       "role": "CHAIRPERSON - ARC",
-      "image": "/Assets/team/astik",
+      "image": "/Assets/team/astik.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
       "email_id": ""
@@ -41,7 +41,7 @@
     {
       "name": "Nitin Pandey",
       "role": "CHAIRPERSON - PRC",
-      "image": "/Assets/team/nitin",
+      "image": "/Assets/team/nitin.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
       "email_id": ""
@@ -49,7 +49,7 @@
     {
       "name": "Amandeep",
       "role": "CHAIRPERSON - HRC",
-      "image": "/Assets/team/amandeep",
+      "image": "/Assets/team/amandeep.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
       "email_id": ""
@@ -57,7 +57,7 @@
     {
       "name": "Sahil Kumar",
       "role": "CHAIRPERSON - PRC",
-      "image": "/Assets/team/sahil",
+      "image": "/Assets/team/sahil.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
       "email_id": ""
@@ -67,77 +67,77 @@
     {
       "name": "Alok Nath Solanky",
       "role": "SECRETARY",
-      "image": "/Assets/team/alok",
+      "image": "/Assets/team/alok.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/alok-solanky-648b4816b",
       "email_id": "aloksolanky1@gmail.com"
     },
     {
       "name": "Sudhir Kumar",
       "role": "TREASURER",
-      "image": "/Assets/team/sudhir",
+      "image": "/Assets/team/sudhir.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/sudiirkumar",
       "email_id": "sudhir9122kumar@gmail.com"
     },
     {
       "name": "Yashraj Jangir",
       "role": "HEAD - EEC",
-      "image": "/Assets/team/yashraj",
+      "image": "/Assets/team/yashraj.jpeg",
       "linkedin_id": "https://in.linkedin.com/in/yashraj-jangir-a6111512b",
       "email_id": "Yashraj.jangir69@gmail.com"
     },
     {
       "name": "Vanshu Galhotra",
       "role": "HEAD - EEC",
-      "image": "/Assets/team/vanshu",
+      "image": "/Assets/team/vanshu.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/vanshugalhotra/",
       "email_id": "205124107@nitt.edu"
     },
     {
       "name": "Rishu Kumar",
       "role": "HEAD - PPC",
-      "image": "/Assets/team/rishu",
+      "image": "/Assets/team/rishu.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/rishu-kumar-71a509287?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "email_id": "rishurk9955@gmail.com"
     },
     {
       "name": "Harsh Pathekar",
       "role": "HEAD - PPC",
-      "image": "/Assets/team/harsh",
+      "image": "/Assets/team/harsh.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/harsh-pathekar-42b7971b8/",
       "email_id": "pathekarharsh@gmail.com"
     },
     {
       "name": "Rohit Kumar",
       "role": "HEAD - PRC",
-      "image": "/Assets/team/rohit1",
+      "image": "/Assets/team/rohit1.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/rohit-kumar-243764346/",
       "email_id": "rohitgyl787@gmail.com"
     },
     {
       "name": "Sachin Panwar",
       "role": "HEAD - PRC",
-      "image": "/Assets/team/sachin",
+      "image": "/Assets/team/sachin.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/sachin-panwar-7b10b7346/",
       "email_id": "sp970000@gmail.com"
     },
     {
       "name": "Anshika Mishra",
       "role": "HEAD - ARC",
-      "image": "/Assets/team/anshika",
+      "image": "/Assets/team/anshika.jpeg",
       "linkedin_id": "www.linkedin.com/in/anshika-mishra-440415230",
       "email_id": "anshikamishra2313@gmail.com"
     },
     {
       "name": "Avika Sachan",
       "role": "HEAD - HRC",
-      "image": "/Assets/team/avika",
+      "image": "/Assets/team/avika.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/avika-sachan",
       "email_id": "avikasachan0909@gmail.com"
     },
     {
       "name": "Pradeep Yadav",
       "role": "HEAD - HRC",
-      "image": "/Assets/team/pradeep",
+      "image": "/Assets/team/pradeep.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/pradeepyadav5137?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
       "email_id": "pradeepapex27@gmail.com"
     }
@@ -152,7 +152,7 @@
           "name": "Yashvant Gautam",
           "role": "MEMBER",
           "committee": "EEC",
-          "image": "/Assets/team/eec/yashvant",
+          "image": "/Assets/team/eec/yashvant.jpeg",
           "linkedin_id": "www.linkedin.com/in/ yashvant-gautam",
           "email_id": "yashvant.2003@gmail.com"
         },
@@ -160,7 +160,7 @@
           "name": "Vishesh Sharma",
           "role": "MEMBER",
           "committee": "EEC",
-          "image": "/Assets/team/eec/vishesh",
+          "image": "/Assets/team/eec/vishesh.jpeg",
           "linkedin_id": "https://www.linkedin.com/in/vishesh3569",
           "email_id": "vishesh059@gmail.com"
         },
@@ -168,7 +168,7 @@
           "name": "Shivam Das",
           "role": "MEMBER",
           "committee": "EEC",
-          "image": "/Assets/team/eec/shivam",
+          "image": "/Assets/team/eec/shivam.jpeg",
           "linkedin_id": "https://www.linkedin.com/in/shivam-das-614b8121b",
           "email_id": "shivamdas16122002@gmail.com"
         },
@@ -176,7 +176,7 @@
           "name": "Tanmoy Roy",
           "role": "MEMBER",
           "committee": "EEC",
-          "image": "/Assets/team/eec/tanmoy",
+          "image": "/Assets/team/eec/tanmoy.jpeg",
           "linkedin_id": "https://www.linkedin.com/in/tempewda",
           "email_id": "205124100@nitt.edu"
         }
