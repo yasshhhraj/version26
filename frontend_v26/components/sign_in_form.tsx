@@ -7,8 +7,6 @@ import { Button } from "@/components/ui/Button"
 import {Toast, ToastProps} from "@/components/ui/Toast";
 import {useRouter} from "next/navigation";
 
-import {Loader} from "@/components/ui/Loader";
-
 export function Sign_in_form({slideAction}: {slideAction: () => void}) {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")

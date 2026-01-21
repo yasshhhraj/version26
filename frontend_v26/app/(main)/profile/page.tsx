@@ -55,7 +55,7 @@ export default function ProfilePage() {
       }
     };
 
-    fetchProfile();
+    fetchProfile().then(() => {});
   }, [router]);
 
   const handleLogout = async () => {

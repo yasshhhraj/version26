@@ -2,8 +2,6 @@ import {useEffect, useRef, useState} from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-import {Loader} from "@/components/ui/Loader";
-
 export default function LoginComponent({ menuOpen, toggleMenu}: { menuOpen: boolean, toggleMenu: () => void}) {
     const [loggedin, setLoggedin] = useState(false);
     const router = useRouter();

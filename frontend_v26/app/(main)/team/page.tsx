@@ -16,7 +16,6 @@ interface TeamMemberProps {
 }
 
 
-//todo password validation length and complexity check
 function TeamMemberCard({ name, role, committee, image, linkedin_id, email_id, index, className }: TeamMemberProps & { index: number }) {
     return (
         <motion.div

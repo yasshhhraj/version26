@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect } from "react";
+import {JSX, useEffect} from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Mail, Phone, MapPin, Instagram, Linkedin, Globe } from "lucide-react";
+import { X, Mail, Phone, MapPin, Instagram, Linkedin } from "lucide-react";
+import {Icon} from "next/dist/lib/metadata/types/metadata-types";
 
 interface ContactPopupProps {
     isOpen: boolean;

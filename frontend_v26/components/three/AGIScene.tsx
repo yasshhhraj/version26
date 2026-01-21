@@ -23,7 +23,7 @@ interface FaceData {
 }
 
 export default function AGIScene() {
-    const [activeFace, setActiveFace] = useState(0);
+    const [_, setActiveFace] = useState(0);
     const [interactionState, setInteractionState] = useState<InteractionState>("PASSIVE");
     const [activeIndex, setActiveIndex] = useState(0);
     const [data, setData] = useState<Record<string, FaceData> | null>(null);
