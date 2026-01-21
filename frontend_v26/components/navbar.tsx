@@ -1,6 +1,6 @@
 'use client'
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import LoginComponent from "@/components/ui/LoginComponent";
 
 export default function Navbar() {

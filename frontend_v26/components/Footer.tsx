@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Instagram, Linkedin, MapPin, Mail } from "lucide-react";
+import { Instagram, Linkedin, MapPin } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import ContactPopup from "@/components/ContactPopup";
