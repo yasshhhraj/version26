@@ -26,7 +26,7 @@ const EventsPage = () => {
 
     useEffect(() => {
         // Read static JSON from /public folder instead of calling API
-        fetch('/events/events.json')
+        fetch('/data/events.json')
             .then(res => (res.ok ? res.json() : []))
             .then(data => {
                 setEventsData(data);

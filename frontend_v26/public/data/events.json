@@ -1,0 +1,191 @@
+[
+  {
+    "id": "01",
+    "title": "Workshop",
+    "tagline": "A workshop closely tied to the theme of version'26.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "technical",
+    "date": "March 20",
+    "participation": "solo",
+    "fullDescription": "An interactive learning session focused on emerging technologies and practical skills. Designed to provide hands-on exposure and industry relevant insights beyond competitive events.",
+    "rules": [],
+    "prize": [],
+    "venue": "TBD",
+    "platform": "TBD",
+    "contact": "evparticipationents@version.com"
+  },
+  {
+    "id": "02",
+    "title": "AlgoRhythm",
+    "tagline": "Challenge your Data Structures & Algorithms skills.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "technical",
+    "date": "March 20",
+    "participation": "solo",
+    "fullDescription": "A high-speed competitive programming contest that tests logic,efficiency, and problem-solving skills. Participants tackle curated DSA problems under strict time pressure to climb the leaderboard through accuracy and speed.",
+    "rules": [
+      "Participation is Solo.",
+      "Must be proficient in DSA."
+    ],
+    "prize": [],
+    "venue": "TBD.",
+    "platform": "HackerEarth",
+    "contact": "events@version.com"
+  },
+  {
+    "id": "03",
+    "title": "Meet up Mania",
+    "tagline": "Networking and social gathering.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "non-technical",
+    "date": "March 20",
+    "participation": "solo",
+    "fullDescription": "A social engagement event aimed at fostering connections, collaboration, and shared experiences. Designed to blend fun, interaction, and community bonding within VERSION 2026.",
+    "rules": [],
+    "prize": [],
+    "venue": "TBD",
+    "contact": "events@version.com"
+  },
+  {
+    "id": "04",
+    "title": "BackTrack",
+    "tagline": "Decode pattern and solve reverse engineering problems.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "technical",
+    "date": "March 21",
+    "participation": "solo",
+    "fullDescription": "A reverse-engineering challenge where logic must be discovered, not given. Participants analyze input-output behavior, decode hidden patterns, and implement solutions purely through deduction and experimentation.",
+    "rules": [
+      "Participation is Solo."
+    ],
+    "prize": [],
+    "venue": "TBD",
+    "platform": "Custom Platform + HackerEarth",
+    "contact": "events@version.com"
+  },
+  {
+    "id": "06",
+    "title": "Emoji Charades",
+    "tagline": "Guess the movie name using only emojis.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "non-technical",
+    "date": "March 21",
+    "participation": "team",
+    "teamSize": 2,
+    "fullDescription": "A fast-paced communication game where movies are described using only emojis. Teams race against time to decode symbols into cinematic titles, testing creativity, synergy, and pop-culture knowledge.",
+    "rules": [
+      "Participation is a Team of 2. "
+    ],
+    "prize": [],
+    "venue": "TBD",
+    "contact": "events@version.com"
+  },
+  {
+    "id": "07",
+    "title": "CoreTex",
+    "tagline": "Test your knowledge in CS core topics across two challenging rounds.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "technical",
+    "date": "March 21",
+    "participation": "solo",
+    "teamSize": 2,
+    "fullDescription": "A two-round technical showdown combining core CS fundamentals with advanced analytical reasoning. From MCQs on OS, DBMS, and DSA to deep pen-and-paper problem solving, CoreTex finds the most well Crounded minds.",
+    "rules": [
+      "Participation is a Team of 2. ",
+      "Knowledge of CS Core topics is essential."
+    ],
+    "prize": [],
+    "venue": "TBD",
+    "platform": "HackerEarth",
+    "contact": "events@version.com"
+  },
+  {
+    "id": "08",
+    "title": "Treasure Hunt",
+    "tagline": "Solve puzzles and riddles across the NIT Campus.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "non-technical",
+    "date": "March 21",
+    "participation": "team",
+    "teamSize": 5,
+    "fullDescription": "A two-round event for teams of 5. Round 1 involves 40 questions (Puzzles, NIT Based GK) on a custom platform (30-40 mins). The Top 5 teams move to Round 2, which is a 3-hour physical hunt on the NIT Campus. The exact format of Round 2 is to be decided.",
+    "rules": [
+      "Participation is a Team of 5."
+    ],
+    "prize": [],
+    "venue": "TBD",
+    "platform": "Custom Platform + NIT Campus",
+    "contact": "events@version.com"
+  },
+  {
+    "id": "09",
+    "title": "Replicode",
+    "tagline": "Replicate design and functionality of given web components.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "technical",
+    "date": "March 21",
+    "participation": "solo",
+    "fullDescription": "A rapid development race where teams recreate real software components with high visual and functional accuracy. Speed, attention to detail, and smart use of modern tools define success in this real world coding simulation.",
+    "rules": [
+      "Participation is Solo. ",
+      "Experience with Frontend and Backend development."
+    ],
+    "prize": [],
+    "venue": "TBD",
+    "platform": "Custom Platform + Local IDE",
+    "contact": "events@version.com"
+  },
+  {
+    "id": "10",
+    "title": "Crypt of The NecroDancer",
+    "tagline": "Rhythm-based dungeon crawling competition.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "non-technical",
+    "date": "March 21",
+    "participation": "solo",
+    "fullDescription": "A rhythm-based dungeon adventure where every move must sync with the beat. Players battle enemies, explore procedurally generated levels, and survive the crypt through timing, precision, and skill.",
+    "rules": [
+      "Participation is Solo."
+    ],
+    "prize": [],
+    "venue": "TBD",
+    "platform": "Custom",
+    "contact": "events@version.com"
+  },
+  {
+    "id": "11",
+    "title": "Pitch 2 Rich",
+    "tagline": "Develop and pitch a business proposal to judges.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "non-technical",
+    "date": "March 22",
+    "participation": "team",
+    "teamSize": 5,
+    "fullDescription": "An entrepreneurship battle where ideas meet execution. Teams identify real-world problems, build viable business models, and pitch to a panel of judges in a high-pressure investor-style environment.",
+    "rules": [
+      "Participation is a Team of 4-5. "
+    ],
+    "prize": [],
+    "venue": "TBD",
+    "platform": "On Stage",
+    "contact": "events@version.com"
+  },
+  {
+    "id": "14",
+    "title": "Destinite",
+    "tagline": "Live 1 on 1 interviews for top performers.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "non-technical",
+    "date": "March 22",
+    "participation": "solo",
+    "fullDescription": "The grand finale of VERSION 2026, featuring the top performers of the symposium. Finalists face a live professional interview testing technical depth, communication, leadership, and decision-making under pressure.",
+    "rules": [
+      "Participation is Solo.",
+      "Open only to the Top 3 performers (selection method TBD)."
+    ],
+    "prize": [],
+    "venue": "TBD",
+    "platform": "On Stage",
+    "contact": "events@version.com"
+  }
+]

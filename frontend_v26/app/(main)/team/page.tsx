@@ -9,16 +9,15 @@ interface TeamMemberProps {
     name: string
     role: string
     committee?: string
-    designation?: string
     image: string
-    linkedinid?: string
-    emailid?: string
+    linkedin_id?: string
+    email_id?: string
     className?: string
 }
 
 
-
-function TeamMemberCard({ name, role, committee, designation, image, linkedinid, emailid, index, className }: TeamMemberProps & { index: number }) {
+//todo password validation length and complexity check
+function TeamMemberCard({ name, role, committee, image, linkedin_id, email_id, index, className }: TeamMemberProps & { index: number }) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -40,7 +39,7 @@ function TeamMemberCard({ name, role, committee, designation, image, linkedinid,
                     src={image || "/placeholder.svg"} 
                     alt={name} 
                     fill 
-                    className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0" 
+                    className="object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
                 />
                 
                 {/* Version Tag */}
@@ -54,13 +53,13 @@ function TeamMemberCard({ name, role, committee, designation, image, linkedinid,
                 {/* Card Overlay / Socials */}
                 <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-6 flex flex-col justify-end">
                     <div className="flex gap-3 mb-4">
-                         {linkedinid && (
-                             <a href={linkedinid} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-[#4600be]/20 border border-[#4600be]/40 hover:bg-[#4600be] transition-colors">
+                         {linkedin_id && (
+                             <a href={linkedin_id} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full bg-[#4600be]/20 border border-[#4600be]/40 hover:bg-[#4600be] transition-colors">
                                 <Linkedin className="w-3 h-3 text-white" />
                              </a>
                          )}
-                         {emailid && (
-                             <a href={`mailto:${emailid}`} className="p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 transition-colors">
+                         {email_id && (
+                             <a href={`mailto:${email_id}`} className="p-2 rounded-full bg-white/5 border border-white/10 hover:bg-white/20 transition-colors">
                                 <Mail className="w-3 h-3 text-white" />
                              </a>
                          )}
@@ -73,7 +72,6 @@ function TeamMemberCard({ name, role, committee, designation, image, linkedinid,
                     {role}
                 </motion.p>
                 <h3 className="text-lg font-bold text-white tracking-tight leading-tight">{name}</h3>
-                {designation && <p className="text-white/60 text-xs mt-1 font-medium">{designation}</p>}
                 {committee && <p className="text-white/40 text-[10px] mt-1 font-mono tracking-tighter uppercase">{committee}</p>}
             </div>
         </motion.div>
@@ -200,7 +198,6 @@ interface CommitteeData {
     id: string
     name: string
     fullName: string
-    heads: TeamMemberProps[]
     members: TeamMemberProps[]
 }
 
@@ -223,17 +220,17 @@ export default function TeamPage() {
     const [teamData, setTeamData] = useState<{
         advisors: Advisor[];
         cccMembers: TeamMemberProps[];
-        executiveBoard: TeamMemberProps[];
+        coreTeam: TeamMemberProps[];
         committees: CommitteeData[];
     }>({
         advisors: [],
         cccMembers: [],
-        executiveBoard: [],
+        coreTeam: [],
         committees: []
     });
 
     useEffect(() => {
-        fetch('/team.json')
+        fetch('/data/team.json')
             .then(res => res.json())
             .then(data => {
                 setTeamData(data);
@@ -254,6 +251,7 @@ export default function TeamPage() {
     const closeModal = () => {
         setModalState(prev => ({ ...prev, isOpen: false }))
     }
+
 
     return (
         <section className="relative min-h-screen bg-black px-4 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
@@ -290,7 +288,7 @@ export default function TeamPage() {
                                 <ShieldCheck size={16} />
                                 <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Leadership</span>
                             </div>
-                            <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">ADVISORY BOARD</h2>
+                            <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">Advisory <span className="text-[#4600be] italic font-serif">Board</span></h2>
                         </div>
                         <div className="flex flex-wrap justify-center gap-8">
                             {teamData.advisors.map((advisor, index) => (
@@ -313,75 +311,66 @@ export default function TeamPage() {
                         <div className="flex flex-col items-center gap-2 mb-12 text-center">
                             <div className="flex items-center gap-2 text-[#4600be] mb-2">
                                 <div className="h-px w-8 bg-[#4600be]" />
-                                <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Executive</span>
+                                <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Committee</span>
                                 <div className="h-px w-8 bg-[#4600be]" />
                             </div>
                             <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">Central Coordination <span className="text-[#4600be] italic font-serif">Committee</span></h2>
                         </div>
                         <div className="flex flex-wrap justify-center gap-8">
                             {teamData.cccMembers.map((member, index) => (
-                                <TeamMemberCard key={index} {...member} index={index} />
+                                <TeamMemberCard key={index} {...member} role={member.role} index={index} />
                             ))}
                         </div>
                     </section>
                 )}
 
-                {/* Executive Board (Secretary & Treasurer) */}
-                {teamData.executiveBoard.length > 0 && (
+                {/* Executive Board (Secretary, Treasurer & Heads) */}
+                {teamData.coreTeam.length > 0 && (
                     <section className="mb-32">
                         <div className="flex flex-col items-center gap-2 mb-12 text-center">
                             <div className="flex items-center gap-2 text-[#4600be] mb-2">
                                 <div className="h-px w-8 bg-[#4600be]" />
-                                <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Executive</span>
+                                <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Core</span>
                                 <div className="h-px w-8 bg-[#4600be]" />
                             </div>
-                            <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">Executive <span className="text-[#4600be] italic font-serif">Board</span></h2>
+                            <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">Core <span className="text-[#4600be] italic font-serif">Team</span></h2>
                         </div>
                         <div className="flex flex-wrap justify-center gap-8">
-                            {teamData.executiveBoard.map((member, index) => (
-                                <TeamMemberCard key={index} {...member} index={index} />
+                            {teamData.coreTeam.map((member, index) => (
+                                <TeamMemberCard key={index} {...member} role={member.role} index={index} />
                             ))}
                         </div>
                     </section>
                 )}
 
                 {/* Committees */}
-                {teamData.committees.map((committee) => (
-                    <section key={committee.id} className="mb-20">
-                        <div className="flex flex-col items-center gap-2 mb-12 text-center">
-                            <div className="flex items-center gap-2 text-[#4600be] mb-2">
-                                <div className="h-px w-8 bg-[#4600be]" />
-                                <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{committee.name}</span>
-                                <div className="h-px w-8 bg-[#4600be]" />
-                            </div>
-                            <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">
-                                {committee.fullName.split(' ').slice(0, -1).join(' ')} <span className="text-[#4600be] italic font-serif">Committee</span>
-                            </h2>
+                <section className="mb-20">
+                    <div className="flex flex-col items-center gap-2 mb-12 text-center">
+                        <div className="flex items-center gap-2 text-[#4600be] mb-2">
+                            <div className="h-px w-8 bg-[#4600be]" />
+                            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Members</span>
+                            <div className="h-px w-8 bg-[#4600be]" />
                         </div>
-                        
-                        {/* Heads */}
-                        <div className="mb-8 w-full">
-                            <h3 className="font-bold text-white/80 mb-6 uppercase tracking-widest text-sm text-center">Heads</h3>
+                        <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">
+                            Our <span className="text-[#4600be] italic font-serif">Members</span>
+                        </h2>
+                    </div>
+
+                    {teamData.committees.map((committee) => (
+                        <div key={committee.id} className="mb-16">
+                            <div className="flex flex-col items-center gap-2 mb-8 text-center">
+                                <h3 className="text-xl font-bold tracking-tighter text-white uppercase opacity-80">
+                                    {committee.fullName.split(' ').slice(0, -1).join(' ')} <span className="text-[#4600be] italic font-serif">Committee</span>
+                                </h3>
+                            </div>
                             <div className="flex flex-wrap justify-center gap-8">
-                                {committee.heads.map((member, index) => (
-                                    <TeamMemberCard key={index} {...member} index={index} />
+                                {committee.members.map((member, index) => (
+                                    <TeamMemberCard key={index} {...member} role={member.role} index={index} />
                                 ))}
                             </div>
                         </div>
-
-                        {/* Members */}
-                        {committee.members.length > 0 && (
-                            <div className="w-full">
-                                <h3 className="font-bold text-white/80 mb-6 uppercase tracking-widest text-sm text-center">Members</h3>
-                                <div className="flex flex-wrap justify-center gap-8">
-                                    {committee.members.map((member, index) => (
-                                        <TeamMemberCard key={index} {...member} index={index + committee.heads.length} />
-                                    ))}
-                                </div>
-                            </div>
-                        )}
-                    </section>
-                ))}
+                    ))}
+                </section>
             </div>
 
             <MessageModal 

@@ -31,13 +31,11 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
         tagline,
         imageUrl,
         eventType,
-        locationType,
         venue,
     } = eventData
 
     // Parse date to extract more details if needed
     const dateDisplay = eventData.date || eventData.dateRangeText || "Coming Soon"
-    const timeDisplay = "TBA"
     const venueDisplay = venue
 
     useEffect(() => {
@@ -137,11 +135,6 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
         }
     }, [])
 
-    // Determine location badges
-    const locationLower = locationType?.toLowerCase() || ""
-    const isVirtual = locationLower.includes("virtual")
-    const isInPerson = locationLower.includes("in-person") || locationLower.includes("in person")
-    const isHybrid = isVirtual && isInPerson
 
     return (
         <div
@@ -212,30 +205,6 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
                         </div>
                     </div>
 
-                    <div className="flex gap-1">
-                        {isHybrid ? (
-                            <>
-                                <div className="px-2 py-1 bg-cyan-500/20 border border-cyan-500/50 rounded-full text-[10px] font-bold text-cyan-400 tracking-wider backdrop-blur-sm">
-                                    VIRTUAL
-                                </div>
-                                <div className="px-2 py-1 bg-pink-500/20 border border-pink-500/50 rounded-full text-[10px] font-bold text-pink-400 tracking-wider backdrop-blur-sm">
-                                    IN-PERSON
-                                </div>
-                            </>
-                        ) : isVirtual ? (
-                            <div className="px-2 py-1 bg-cyan-500/20 border border-cyan-500/50 rounded-full text-[10px] font-bold text-cyan-400 tracking-wider backdrop-blur-sm">
-                                VIRTUAL
-                            </div>
-                        ) : isInPerson ? (
-                            <div className="px-2 py-1 bg-pink-500/20 border border-pink-500/50 rounded-full text-[10px] font-bold text-pink-400 tracking-wider backdrop-blur-sm">
-                                IN-PERSON
-                            </div>
-                        ) : (
-                            <div className="px-2 py-1 bg-purple-500/20 border border-purple-500/50 rounded-full text-[10px] font-bold text-purple-400 tracking-wider backdrop-blur-sm">
-                                {locationType?.toUpperCase()}
-                            </div>
-                        )}
-                    </div>
                 </div>
 
                 {/* Main Content */}
@@ -257,10 +226,9 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
 
                 {/* Footer */}
                 <div className="flex flex-col items-start justify-between mt-auto pt-4 border-t border-white/10 gap-4">
-                    <div className="grid grid-cols-3 gap-2 w-full">
+                    <div className="grid grid-cols-2 gap-2 w-full">
                         {[
                             { label: "DATE", value: dateDisplay },
-                            { label: "TIME", value: timeDisplay },
                             { label: "VENUE", value: venueDisplay },
                         ].map((item, i) => (
                             <div key={i} className="space-y-0.5">

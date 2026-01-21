@@ -1,6 +1,5 @@
 'use client'
 import { memo, Suspense, useState } from "react";
-import DotGrid from "@/components/ui/DotGrid";
 import { motion, Variants } from "framer-motion";
 import { Mail } from "lucide-react";
 
@@ -99,10 +98,10 @@ export default function Home() {
         <HeroSection data={heroData.heroSection} onContactClick={() => setIsContactOpen(true)} />
         <HeroSection2 data={heroData.heroSection2} />
         <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            viewport={{ once: true, amount: 0.2 }}
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, amount: 0.1 }}
         >
             <AGIGallery videoData={heroData.heroSection2.video} />
         </motion.div>

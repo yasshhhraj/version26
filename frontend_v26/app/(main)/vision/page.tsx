@@ -2,7 +2,7 @@
 
 import { ArrowUpRight, Zap, Target, Cpu, BarChart3, Quote, Info } from "lucide-react"
 import Image from "next/image"
-import visionData from "@/public/vision.json"
+import visionData from "@/public/data/vision.json"
 import { motion } from "framer-motion"
 
 export default function VisionPage() {

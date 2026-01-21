@@ -23,17 +23,33 @@ export default function LoginComponent({ menuOpen, toggleMenu}: { menuOpen: bool
             }
         };
         void checkAuth();
+
+        // Listen for storage changes (to sync across tabs or from other components)
+        const handleStorageChange = () => {
+            setLoggedin(localStorage.getItem('loggedIn') === 'true');
+        };
+        window.addEventListener('storage', handleStorageChange);
+        
+        // Custom event for same-tab updates
+        window.addEventListener('auth-change', handleStorageChange);
+
+        return () => {
+            window.removeEventListener('storage', handleStorageChange);
+            window.removeEventListener('auth-change', handleStorageChange);
+        };
     }, []);
 
     const handleLogout = async () => {
         try {
             await fetch("/api/auth/logout", { method: "POST" });
-            localStorage.clear();
-            setLoggedin(false);
-            router.push("/");
-            router.refresh();
         } catch (error) {
             console.error("Logout failed", error);
+        } finally {
+            localStorage.clear();
+            setLoggedin(false);
+            window.dispatchEvent(new Event('auth-change'));
+            router.push("/");
+            router.refresh();
         }
     };
 
@@ -77,11 +93,22 @@ function ProfileBlock({ logout }: { logout: () => void }) {
     const [userInfo, setUserInfo] = useState({ name: '', email: '' });
 
     useEffect(() => {
-        // eslint-disable-next-line react-hooks/set-state-in-effect
-        setUserInfo({
-            name: localStorage.getItem('name') || 'User',
-            email: localStorage.getItem('email') || ''
-        });
+        const updateUserInfo = () => {
+            setUserInfo({
+                name: localStorage.getItem('name') || 'User',
+                email: localStorage.getItem('email') || ''
+            });
+        };
+        updateUserInfo();
+
+        // Sync with other components/tabs
+        window.addEventListener('storage', updateUserInfo);
+        window.addEventListener('auth-change', updateUserInfo);
+
+        return () => {
+            window.removeEventListener('storage', updateUserInfo);
+            window.removeEventListener('auth-change', updateUserInfo);
+        };
     }, []);
 
     // Click outside to close dropdown

@@ -27,7 +27,7 @@ const ContactPopup = ({ isOpen, onClose }: ContactPopupProps) => {
     return createPortal(
         <AnimatePresence>
             {isOpen && (
-                <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4 sm:p-6">
+                <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 sm:p-6">
                     {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
@@ -46,7 +46,7 @@ const ContactPopup = ({ isOpen, onClose }: ContactPopupProps) => {
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* Header Image/Gradient */}
-                        <div className="h-32 bg-gradient-to-r from-purple-900 via-[#4600be] to-blue-900 relative">
+                        <div className="h-32 bg-linear-to-r from-purple-900 via-[#4600be] to-blue-900 relative">
                             <button
                                 onClick={onClose}
                                 className="absolute top-4 right-4 p-2 rounded-full bg-black/20 hover:bg-black/40 text-white transition-colors border border-white/10 backdrop-blur-md"
@@ -81,14 +81,20 @@ const ContactPopup = ({ isOpen, onClose }: ContactPopupProps) => {
                                     <ContactItem
                                         icon={Phone}
                                         label="Phone"
-                                        value="+91 12345 67890"
-                                        href="tel:+911234567890"
+                                        value="Rohit "
+                                        href="tel:+917870365623"
+                                    />
+                                    <ContactItem
+                                        icon={Phone}
+                                        label="Phone"
+                                        value="Alok"
+                                        href="tel:+919871943540"
                                     />
                                     <ContactItem
                                         icon={MapPin}
                                         label="Location"
                                         value="NIT Trichy, Tamil Nadu, India"
-                                        href="https://goo.gl/maps/xyz"
+                                        href="https://maps.app.goo.gl/7ba91TRgTXJg4iEu5"
                                     />
                                 </div>
 
@@ -105,11 +111,6 @@ const ContactPopup = ({ isOpen, onClose }: ContactPopupProps) => {
                                             icon={Linkedin}
                                             label="LinkedIn"
                                             href="https://www.linkedin.com/company/version-mca-nit-trichy/"
-                                        />
-                                        <SocialButton
-                                            icon={Globe}
-                                            label="Website"
-                                            href="https://nitt.edu"
                                         />
                                     </div>
                                 </div>

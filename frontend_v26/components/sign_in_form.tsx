@@ -41,6 +41,7 @@ export function Sign_in_form({slideAction}: {slideAction: () => void}) {
                 // Also keep localStorage for compatibility if needed, but cookies are now primary
                 localStorage.setItem('loggedIn', 'true');
                 localStorage.setItem('email', email);
+                window.dispatchEvent(new Event('auth-change'));
                 
                 setTimeout(() =>{
                     router.push('/');

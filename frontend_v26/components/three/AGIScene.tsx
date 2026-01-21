@@ -31,7 +31,7 @@ export default function AGIScene() {
 
     // Fetch data
     useEffect(() => {
-        fetch('/data.json')
+        fetch('/data/data.json')
             .then(res => res.json())
             .then(setData)
             .catch(err => console.error("Failed to load data.json", err));

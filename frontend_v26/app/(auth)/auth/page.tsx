@@ -22,7 +22,7 @@ export default function AuthPage() {
           <div className="w-full pt-8 px-8 flex items-center justify-between relative z-10">
               <div className="w-10"></div> {/* Spacer */}
               <Image 
-                  src={'/Assets/final-logo.png'} 
+                  src={'/Assets/logo_version.png'}
                   alt={'version logo'} 
                   width={512} 
                   height={256} 
