@@ -2,13 +2,13 @@
   "hero": {
     "title": "VISION",
     "subtitle": "SYSTEM ARCHITECTURE & ROADMAP",
-    "image": "/Assets/vision.png"
+    "image": "/Assets/vision_zero.png"
   },
   "version": {
     "id": "REF_ARCH_033",
     "title": "Version '26",
     "tag": "EST. 1991",
-    "image": "/Assets/two.png",
+    "image": "/Assets/vision_two.png",
     "content": [
       "Embarking on its 33rd edition, Version 2026, the annual All India MCA meet hosted by the students of NIT Trichy, stands as the pinnacle event for MCA students nationwide. Since 1991, Version has been a platform for showcasing talent, fostering healthy competition, and promoting creativity.",
       "Beyond a mere contest, Version is an immersive experience featuring coding challenges, hackathons, workshops, and interactions with industry experts. As the star event for MCA at NIT Trichy, it continues to be eagerly anticipated, drawing participants from across India.",
@@ -20,7 +20,7 @@
     "subtitle": "THEMATIC CORE",
     "title": "Artificial General Intelligence",
     "description": "Current AI predicts the next token. Future AGI will predict the consequences of its actions. Version'26 is dedicated to bridging this gap. We are pivoting from standard machine learning to the Cognitive Architectures of tomorrow. This year's event dissects the reality of AGI research, separating science fiction from scientific hurdles. From Spiking Neural Networks to World Models, we invite participants to experiment with the emerging prototypes of general intelligence and solve the engineering limits that currently constrain our digital minds. While today’s models excel at pattern matching, true AGI—systems capable of autonomous reasoning, cross-domain adaptation, and real-time learning—remains a theoretical frontier. This year, we explore the roadmap to that future. Through expert lectures and hands-on workshops, we will dissect the critical technologies bridging this gap, from Neuromorphic Hardware and Mixture of Experts (MoE) architectures to System 2 Reasoning models.",
-    "image": "/Assets/one.png"
+    "image": "/Assets/vision_one.png"
   },
   "stats": {
     "title": "Execution Metrics",
@@ -41,6 +41,6 @@
   },
   "quote": {
     "text": "Research without boundaries. Innovation without limits. Version'26 serves not just as a meet, but as a crucible for the engineering challenges that define the AGI frontier. We are gathering to dissect the gap between narrow AI and general intelligence, building a collaborative understanding of the technologies that will power tomorrow's autonomous systems.",
-    "image": "/Assets/three.png"
+    "image": "/Assets/vision_three.png"
   }
 }

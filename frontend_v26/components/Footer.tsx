@@ -39,7 +39,7 @@ const Footer = () => {
                     className="relative w-48 h-16 md:w-64 md:h-24 mb-4"
                 >
                      <Image
-                        src="/Assets/final-logo.png"
+                        src="/Assets/logo_version.png"
                         alt="Version'26 Logo"
                         fill
                         className="object-contain"

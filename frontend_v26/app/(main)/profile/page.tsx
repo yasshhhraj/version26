@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
 import { motion } from "framer-motion";
-import { User, Mail, Phone, BookOpen, Hash, School, LogOut } from "lucide-react";
+import { Mail, Phone, BookOpen, Hash, School, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Toast, ToastProps } from "@/components/ui/Toast";
 
