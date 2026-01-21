@@ -5,6 +5,29 @@ import LoginComponent from "@/components/ui/LoginComponent";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  useEffect(() => {
+    const checkPopup = () => {
+      setIsPopupVisible(document.body.style.overflow === 'hidden');
+    };
+
+    // Initial check
+    checkPopup();
+
+    // Create a MutationObserver to watch for style changes on body
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.attributeName === 'style') {
+          checkPopup();
+        }
+      });
+    });
+
+    observer.observe(document.body, { attributes: true });
+
+    return () => observer.disconnect();
+  }, []);
 
 
 
@@ -22,7 +45,8 @@ export default function Navbar() {
     <nav className={
           "glassmorphism h-14"
         +" py-1 px-2 lg:px-6 lg:rounded-full fixed top-5 lg:top-8 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-50 flex items-center justify-between "
-        +" rounded-lg  "
+        +" rounded-lg transition-transform duration-500 "
+        + (isPopupVisible ? " -translate-y-[200%] " : " translate-y-0 ")
     }>
 
       {/* 1. LEFT: LOGO */}

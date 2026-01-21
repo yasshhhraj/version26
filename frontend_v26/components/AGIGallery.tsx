@@ -4,8 +4,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, Layers, Terminal, Camera } from "lucide-react";
 import Image from "next/image";
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { clsx } from "clsx";
 
 
 // --- Types ---
@@ -17,49 +16,126 @@ type Photo = {
     timestamp: string; // e.g., "Day 1"
 };
 
-// --- Dummy Data (Replace with your actual images) ---
+// --- Gallery Data ---
 const photos: Photo[] = [
     {
         id: "1",
-        src: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800",
-        alt: "Cybersecurity Workshop",
-        category: "Workshops",
-        timestamp: "Day 1 - 10:00 AM",
+        src: "/Assets/gallery/0.JPG",
+        alt: "Event Snapshot",
+        category: "Highlights",
+        timestamp: "Day 1",
     },
     {
         id: "2",
-        src: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800",
-        alt: "Hackathon Coding",
-        category: "Competitions",
-        timestamp: "Day 1 - 02:00 PM",
+        src: "/Assets/gallery/c1.JPG",
+        alt: "Ceremony Moments",
+        category: "Ceremony",
+        timestamp: "Day 1",
     },
     {
         id: "3",
-        src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&q=80&w=800",
-        alt: "Main Stage Event",
-        category: "Keynote",
-        timestamp: "Day 2 - 09:00 AM",
+        src: "/Assets/gallery/c2.JPG",
+        alt: "Crowd Engagement",
+        category: "Crowd",
+        timestamp: "Day 1",
     },
     {
         id: "4",
-        src: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&q=80&w=800",
-        alt: "Networking",
-        category: "Community",
-        timestamp: "Day 2 - 05:00 PM",
+        src: "/Assets/gallery/c4.jpg",
+        alt: "Keynote Session",
+        category: "Keynote",
+        timestamp: "Day 2",
     },
     {
         id: "5",
-        src: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?auto=format&fit=crop&q=80&w=800",
-        alt: "Prize Distribution",
-        category: "Awards",
-        timestamp: "Day 3 - 06:00 PM",
+        src: "/Assets/gallery/f1.jpg",
+        alt: "Tech Interaction",
+        category: "Tech",
+        timestamp: "Day 2",
     },
     {
         id: "6",
-        src: "https://images.unsplash.com/photo-1504384308090-c54be3855833?auto=format&fit=crop&q=80&w=800",
-        alt: "Tech Talk",
+        src: "/Assets/gallery/f3.JPG",
+        alt: "Workshop Fun",
+        category: "Workshops",
+        timestamp: "Day 2",
+    },
+    {
+        id: "7",
+        src: "/Assets/gallery/f4.JPG",
+        alt: "Collaborative Coding",
+        category: "Competitions",
+        timestamp: "Day 3",
+    },
+    {
+        id: "8",
+        src: "/Assets/gallery/f5.jpg",
+        alt: "Main Stage",
+        category: "Keynote",
+        timestamp: "Day 3",
+    },
+    {
+        id: "9",
+        src: "/Assets/gallery/g1.jpg",
+        alt: "Global Connections",
+        category: "Community",
+        timestamp: "Day 3",
+    },
+    {
+        id: "10",
+        src: "/Assets/gallery/g2.jpg",
+        alt: "Innovation Lab",
+        category: "Workshops",
+        timestamp: "Day 1",
+    },
+    {
+        id: "11",
+        src: "/Assets/gallery/g3.jpg",
+        alt: "Speaker Series",
         category: "Seminars",
-        timestamp: "Day 3 - 11:00 AM",
+        timestamp: "Day 2",
+    },
+    {
+        id: "12",
+        src: "/Assets/gallery/h.jpg",
+        alt: "Networking Hour",
+        category: "Community",
+        timestamp: "Day 1",
+    },
+    {
+        id: "13",
+        src: "/Assets/gallery/i1.JPG",
+        alt: "Immersive Experience",
+        category: "Tech",
+        timestamp: "Day 2",
+    },
+    {
+        id: "14",
+        src: "/Assets/gallery/i2.JPG",
+        alt: "Inspiration Gallery",
+        category: "Highlights",
+        timestamp: "Day 3",
+    },
+    {
+        id: "15",
+        src: "/Assets/gallery/i3.JPG",
+        alt: "Informative Panels",
+        category: "Seminars",
+        timestamp: "Day 1",
+    },
+    {
+        id: "16",
+        src: "/Assets/gallery/m3.jpg",
+        alt: "Morning Session",
+        category: "Keynote",
+        timestamp: "Day 2",
+    },
+    {
+        id: "17",
+        src: "/Assets/gallery/m8.jpg",
+        alt: "Memorable Moments",
+        category: "Highlights",
+        timestamp: "Day 3",
     },
 ];
 
@@ -100,31 +176,28 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
                 <div className="flex flex-col gap-12">
                     {videoData && (
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            whileInView={{ opacity: 1, scale: 1 }}
-                            viewport={{ once: true }}
+                            initial={{opacity: 0, scale: 0.95}}
+                            whileInView={{opacity: 1, scale: 1}}
+                            viewport={{once: true}}
                             className="w-full aspect-video rounded-3xl border border-white/10 overflow-hidden bg-zinc-900 shadow-[0_0_50px_-12px_rgba(70,0,190,0.3)] relative group"
                         >
                             <iframe
-                                className="w-full h-full grayscale-[0.5] contrast-[1.1] group-hover:grayscale-0 transition-all duration-700"
-                                src={videoData.src}
-                                title={videoData.title}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                className="absolute top-0 left-0 w-full h-full"
+                                src="https://www.youtube.com/embed/C1GOcj_aLPQ?si=7c_doixXs2p4XMi-&modestbranding=1&rel=0"
+                                title="YouTube video player"
+                                frameBorder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                referrerPolicy="strict-origin-when-cross-origin"
                                 allowFullScreen
                             />
-                            <div className="absolute top-4 left-4 md:top-6 md:left-6 z-10 pointer-events-none">
-                                <div className="flex items-center gap-1.5 md:gap-2 text-[8px] md:text-[10px] font-bold tracking-[0.2em] text-white bg-[#4600be] border border-white/20 px-3 py-1.5 md:px-4 md:py-2 rounded-full backdrop-blur-md shadow-lg">
-                                    <div className="w-1 md:w-1.5 h-1 md:h-1.5 bg-red-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(239,68,68,1)]" />
-                                    OFFICIAL AFTERMOVIE
-                                </div>
-                            </div>
-                            <div className="absolute inset-0 pointer-events-none border-[20px] border-black/20 mix-blend-overlay" />
+                            <div
+                                className="absolute inset-0 pointer-events-none border-20 border-black/20 mix-blend-overlay"/>
                         </motion.div>
                     )}
 
                     <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
                         {photos.map((photo, index) => (
-                            <Card key={photo.id} photo={photo} index={index} onClick={() => setSelectedId(photo.id)} />
+                            <Card key={photo.id} photo={photo} index={index} onClick={() => setSelectedId(photo.id)}/>
                         ))}
                     </div>
                 </div>
@@ -163,17 +236,15 @@ function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick:
             <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 transition-all group-hover:border-[#4600be] group-hover:w-4 group-hover:h-4 z-20" />
 
             {/* Image Container */}
-            <div className={clsx(
-                "overflow-hidden",
-                index % 3 === 0 ? "aspect-[3/4]" : index % 3 === 1 ? "aspect-square" : "aspect-[4/3]"
-            )}>
-                <motion.div layoutId={`image-${photo.id}`} className="h-full w-full">
+            <div className="overflow-hidden bg-zinc-900/50">
+                <motion.div layoutId={`image-${photo.id}`} className="w-full">
                     <Image
                         src={photo.src}
                         alt={photo.alt}
-                        width={600}
-                        height={800}
-                        className="h-full w-full object-cover transition-transform duration-1000 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
+                        width={800}
+                        height={1200}
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        className="h-auto w-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale-[0.3] group-hover:grayscale-0"
                     />
                 </motion.div>
             </div>
@@ -205,62 +276,85 @@ function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick:
 
 // --- Lightbox Component ---
 function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
+    React.useEffect(() => {
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = 'unset';
+        };
+    }, []);
+
     return (
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-xl"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 p-4 md:p-8 backdrop-blur-2xl"
             onClick={onClose}
         >
             <motion.div
                 layoutId={`card-${photo.id}`}
-                className="relative w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/90 shadow-2xl"
-                onClick={(e) => e.stopPropagation()} // Prevent closing when clicking content
+                className="relative max-h-full max-w-6xl w-full overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/90 shadow-[0_0_100px_rgba(70,0,190,0.2)]"
+                onClick={(e) => e.stopPropagation()}
             >
                 {/* Modal Header */}
-                <div className="flex items-center justify-between border-b border-white/5 bg-white/5 p-6 backdrop-blur-md">
+                <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between bg-gradient-to-b from-black/80 to-transparent p-6 md:p-8">
                     <div className="flex items-center gap-4">
-                        <div className="rounded-full bg-[#4600be]/20 p-2 border border-[#4600be]/30">
+                        <div className="rounded-full bg-[#4600be]/20 p-2.5 border border-[#4600be]/30 backdrop-blur-md">
                             <Camera className="h-5 w-5 text-[#4600be]" />
                         </div>
                         <div className="flex flex-col">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4600be]">{photo.timestamp}</span>
-                            <span className="text-xl font-bold text-white tracking-tight mt-1">{photo.alt}</span>
+                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4600be] drop-shadow-md">{photo.timestamp}</span>
+                            <span className="text-xl md:text-2xl font-bold text-white tracking-tight mt-1 drop-shadow-md">{photo.alt}</span>
                         </div>
                     </div>
                     <button
                         onClick={onClose}
-                        className="rounded-full bg-white/5 p-3 text-white/70 transition-all hover:bg-white/10 hover:text-white border border-white/10"
+                        className="group relative rounded-full bg-black/40 p-4 text-white/70 transition-all hover:bg-[#4600be] hover:text-white border border-white/10 backdrop-blur-md"
                     >
-                        <X size={20} />
+                        <X size={24} className="transition-transform duration-300 group-hover:rotate-90" />
                     </button>
                 </div>
 
-                {/* Full Image */}
-                <div className="relative aspect-video w-full bg-black/40">
-                    <motion.div layoutId={`image-${photo.id}`} className="h-full w-full">
+                {/* Image Section */}
+                <div className="relative flex min-h-[50vh] max-h-[85vh] w-full items-center justify-center bg-zinc-950/50">
+                    <motion.div layoutId={`image-${photo.id}`} className="relative max-h-full w-full flex items-center justify-center">
                         <Image
                             src={photo.src}
                             alt={photo.alt}
-                            fill
-                            className="object-contain"
+                            width={1920}
+                            height={1080}
+                            className="max-h-[85vh] w-auto object-contain"
                             priority
                         />
                     </motion.div>
                 </div>
 
                 {/* Modal Footer / Details */}
-                <div className="flex items-center justify-between border-t border-white/5 bg-white/5 p-6 text-xs text-neutral-400">
-                    <div className="flex gap-8">
-                        <div className="flex items-center gap-2">
-                            <Layers size={14} className="text-[#4600be]" />
-                            <span>High Resolution</span>
+                <div className="flex items-center justify-between border-t border-white/5 bg-black/40 p-6 md:p-8 backdrop-blur-md">
+                    <div className="flex flex-wrap gap-6 md:gap-12">
+                        <div className="flex items-center gap-3">
+                            <div className="rounded-lg bg-white/5 p-2">
+                                <Layers size={18} className="text-[#4600be]" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-[10px] uppercase tracking-widest text-neutral-500">Resolution</span>
+                                <span className="text-sm font-medium text-neutral-200">High Definition</span>
+                            </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <Terminal size={14} className="text-[#4600be]" />
-                            <span>Source: Main Camera</span>
+                        <div className="flex items-center gap-3">
+                            <div className="rounded-lg bg-white/5 p-2">
+                                <Terminal size={18} className="text-[#4600be]" />
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-[10px] uppercase tracking-widest text-neutral-500">Category</span>
+                                <span className="text-sm font-medium text-neutral-200">{photo.category}</span>
+                            </div>
                         </div>
+                    </div>
+                    <div className="hidden md:block">
+                        <span className="font-mono text-[10px] text-neutral-500 tracking-tighter">
+                            UID_{photo.id.padStart(6, '0')} {"// ARCHIVE_2026"}
+                        </span>
                     </div>
                 </div>
             </motion.div>

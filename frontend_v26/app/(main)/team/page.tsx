@@ -16,6 +16,8 @@ interface TeamMemberProps {
     className?: string
 }
 
+
+
 function TeamMemberCard({ name, role, committee, designation, image, linkedinid, emailid, index, className }: TeamMemberProps & { index: number }) {
     return (
         <motion.div

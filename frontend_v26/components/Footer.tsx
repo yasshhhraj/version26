@@ -2,12 +2,14 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Instagram, Linkedin, MapPin } from "lucide-react";
+import { Instagram, Linkedin, MapPin, Mail } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import ContactPopup from "@/components/ContactPopup";
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
+    const [isContactOpen, setIsContactOpen] = React.useState(false);
 
     const socialLinks = [
         { icon: Instagram, href: "https://www.instagram.com/version_nit_trichy/", label: "Instagram" },
@@ -18,11 +20,11 @@ const Footer = () => {
         { name: "Events", href: "/events" },
         { name: "Team", href: "/team" },
         { name: "Vision", href: "/vision" },
-        { name: "Contact", href: "mailto:version26.nitt@gmail.com" },
     ];
 
     return (
         <footer className="relative bg-transparent text-white pt-12 pb-6 overflow-hidden flex flex-col items-center">
+            <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
             {/* Background Effects */}
             <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[300px] bg-[#4600be]/15 blur-[100px] rounded-full -z-10" />
             <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(0,0,0,0.8))] z-0" />
@@ -74,6 +76,13 @@ const Footer = () => {
                             <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#4600be] transition-all group-hover:w-full" />
                         </Link>
                     ))}
+                    <button 
+                        onClick={() => setIsContactOpen(true)}
+                        className="text-sm md:text-base font-medium tracking-wide hover:text-[#4600be] transition-colors relative group cursor-pointer"
+                    >
+                        Contact
+                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#4600be] transition-all group-hover:w-full" />
+                    </button>
                 </motion.div>
 
                 {/* 4. Socials */}

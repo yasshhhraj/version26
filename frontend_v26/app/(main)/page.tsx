@@ -1,11 +1,13 @@
 'use client'
-import { memo, Suspense } from "react";
+import { memo, Suspense, useState } from "react";
 import DotGrid from "@/components/ui/DotGrid";
 import { motion, Variants } from "framer-motion";
+import { Mail } from "lucide-react";
 
 import dynamic from 'next/dynamic'
 import AGIGallery from "@/components/AGIGallery";
 import Footer from "@/components/Footer";
+import ContactPopup from "@/components/ContactPopup";
 
 
 import { Loader } from "@/components/ui/Loader";
@@ -76,7 +78,7 @@ const heroData: HeroData = {
     "title": "Beyond Intelligence. Toward Infinity.",
     "description": "Artificial General Intelligence represents a long-term pursuit — systems capable of learning, adapting, and reasoning beyond narrowly defined tasks. While still an open research challenge, AGI invites us to rethink how intelligence might evolve in computational systems. VERSION’26 explores this frontier, focusing on ideas, questions, and possibilities that shape the future of intelligent technology.",
     "video": {
-      "src": "https://www.youtube.com/embed/wPSnOqOJYM4?autoplay=1&mute=1&loop=1&playlist=wPSnOqOJYM4",
+      "src": "https://www.youtube.com/embed/C1GOcj_aLPQ",
       "title": "VERSION’25 After Movie"
     },
     "button": "Watch VERSION’25 After Movie"
@@ -84,6 +86,8 @@ const heroData: HeroData = {
 };
 
 export default function Home() {
+  const [isContactOpen, setIsContactOpen] = useState(false);
+
   return (
     <div className="h-auto w-full overflow-x-clip bg-black">
       <div className="fixed inset-0 z-0 pointer-events-none">
@@ -92,7 +96,7 @@ export default function Home() {
           </Suspense>
       </div>
       <main className="flex h-full w-full relative flex-col z-10 bg-transparent">
-        <HeroSection data={heroData.heroSection}/>
+        <HeroSection data={heroData.heroSection} onContactClick={() => setIsContactOpen(true)} />
         <HeroSection2 data={heroData.heroSection2} />
         <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -104,13 +108,14 @@ export default function Home() {
         </motion.div>
         <Footer />
       </main>
+      <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />
     </div>
   );
 }
 
 
 
-const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSection'] }) {
+const HeroSection = memo(function HeroSection({ data, onContactClick }: { data: HeroData['heroSection'], onContactClick: () => void }) {
     const containerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
@@ -210,20 +215,13 @@ const HeroSection = memo(function HeroSection({ data }: { data: HeroData['heroSe
                       />
                   </a>
 
-                  <a
-                      href="/team"
-                      className="bg-transparent hover:bg-[#4600be]/10 border border-[#2E2F2F]  text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center"
+                  <button
+                      onClick={onContactClick}
+                      className="bg-transparent hover:bg-[#4600be]/10 border border-[#2E2F2F]  text-white font-semibold py-4 px-8 rounded-full transition-colors duration-300 flex gap-3 items-center justify-center cursor-pointer"
                   >
-                      <span>{data.buttons.secondary}</span>
-                      <div
-                          className="w-5 h-5 bg-white"
-                          style={{
-                              maskImage: `url(/icons/linkarrow.svg)`,
-                              maskSize: "contain",
-                              maskRepeat: "no-repeat",
-                          }}
-                      />
-                  </a>
+                      <span>CONTACT</span>
+                      <Mail size={18} />
+                  </button>
               </motion.div>
           </motion.div>
       </div>
