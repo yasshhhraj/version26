@@ -86,3 +86,23 @@ body {
 .border-glow {
   box-shadow: 0 0 15px rgba(70, 0, 190, 0.2);
 }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-version-indigo-ink);
+  border-radius: 5px;
+  border: 2px solid var(--background);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-version-lavender-purple);
+}
