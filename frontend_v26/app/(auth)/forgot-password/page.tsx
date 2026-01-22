@@ -3,59 +3,46 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { Toast, ToastProps } from "@/components/ui/Toast";
+import { useAuth } from "@/src/auth/use-auth";
 
 export default function ForgotPasswordPage() {
+  const { forgotPasswordRequestOtp, resetPassword } = useAuth();
+
   const [email, setEmail] = useState("");
-  // stages: email -> otp -> reset
-  const [stage, setStage] = useState<"email" | "otp" | "reset">("email");
+  const [stage, setStage] = useState<"email" | "otp">("email"); // merged stage reset into otp
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleGetOtp = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setMessage(null);
-    if (!email) {
-      setError("Please enter your email address.");
-      return;
-    }
-    // Placeholder: Request OTP from backend
-    setStage("otp");
-    setMessage("An OTP has been sent to your email (mock). Please verify it.");
-  };
+  const [toast, setToast] = useState<ToastProps | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (stage === "otp") {
-      // focus first box when entering OTP stage
-      otpRefs.current[0]?.focus();
-    }
+    if (stage === "otp") otpRefs.current[0]?.focus();
   }, [stage]);
 
+  // OTP input handlers
   const handleOtpChange = (index: number, value: string) => {
-    // allow only single numeric digit
     const digit = value.replace(/\D/g, "").slice(0, 1);
     const next = [...otp];
     next[index] = digit;
     setOtp(next);
-    if (digit && index < otpRefs.current.length - 1) {
+    if (digit && index < otpRefs.current.length - 1)
       otpRefs.current[index + 1]?.focus();
-    }
   };
 
-  const handleOtpKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleOtpKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>,
+  ) => {
     if (e.key === "Backspace") {
       if (otp[index]) {
-        // clear current value first
         const next = [...otp];
         next[index] = "";
         setOtp(next);
-        return; // keep focus here
+        return;
       }
-      // move to previous if current is empty
       if (index > 0) {
         otpRefs.current[index - 1]?.focus();
         const next = [...otp];
@@ -65,52 +52,103 @@ export default function ForgotPasswordPage() {
     }
   };
 
-  const handleOtpPaste = (index: number, e: React.ClipboardEvent<HTMLInputElement>) => {
+  const handleOtpPaste = (
+    index: number,
+    e: React.ClipboardEvent<HTMLInputElement>,
+  ) => {
     e.preventDefault();
-    const text = e.clipboardData.getData("text");
-    const digits = text.replace(/\D/g, "").slice(0, 6).split("");
-    if (digits.length === 0) return;
+    const digits = e.clipboardData
+      .getData("text")
+      .replace(/\D/g, "")
+      .slice(0, 6)
+      .split("");
+    if (!digits.length) return;
     const next = [...otp];
-    for (let i = 0; i < digits.length && index + i < 6; i++) {
+    for (let i = 0; i < digits.length && index + i < 6; i++)
       next[index + i] = digits[i];
-    }
     setOtp(next);
-    const nextIndex = Math.min(index + digits.length, 5);
-    otpRefs.current[nextIndex]?.focus();
+    otpRefs.current[Math.min(index + digits.length, 5)]?.focus();
   };
 
-  const handleVerifyOtp = (e: React.FormEvent) => {
+  // Step 1: send OTP
+  const handleGetOtp = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError(null);
-    setMessage(null);
+    setToast(null);
+
+    if (!email)
+      return setToast({
+        message: "Enter your email",
+        type: "error",
+        duration: 2000,
+      });
+
+    setIsLoading(true);
+    try {
+      await forgotPasswordRequestOtp({ email });
+      setStage("otp");
+      setToast({
+        message: "OTP sent to your email",
+        type: "success",
+        duration: 2000,
+      });
+    } catch (err: unknown) {
+      setToast({
+        message: err instanceof Error ? err.message : "Failed to send OTP",
+        type: "error",
+        duration: 2000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Step 2: verify OTP + reset password
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setToast(null);
+
     const code = otp.join("");
-    if (code.length !== 6 || /\D/.test(code)) {
-      setError("Please enter the 6-digit OTP.");
-      return;
-    }
-    // Dummy verification success
-    setMessage("OTP verified (mock). You can now set a new password.");
-    setStage("reset");
-  };
+    if (code.length !== 6)
+      setToast({
+        message: "Enter 6-digit OTP",
+        type: "error",
+        duration: 2000,
+      });
+    if (!newPassword || !confirmPassword)
+      setToast({
+        message: "Fill all password fields",
+        type: "error",
+        duration: 2000,
+      });
+    if (newPassword !== confirmPassword)
+      setToast({
+        message: "Passwords do not match",
+        type: "error",
+        duration: 2000,
+      });
 
-  const handleResetPassword = (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    setMessage(null);
-    if (!newPassword || !confirmPassword) {
-      setError("Please fill in both password fields.");
-      return;
+    setIsLoading(true);
+    try {
+      await resetPassword({ email, otp: code, password: newPassword });
+      setToast({
+        message: "Password reset successful! You can now sign in.",
+        type: "success",
+        duration: 2000,
+      });
+      setStage("email");
+      setOtp(["", "", "", "", "", ""]);
+      setNewPassword("");
+      setConfirmPassword("");
+    } catch (err: unknown) {
+      setToast({
+        message:
+          err instanceof Error ? err.message : "Failed to reset password",
+        type: "error",
+        duration: 2000,
+      });
+    } finally {
+      setIsLoading(false);
     }
-    if (newPassword.length < 8) {
-      setError("Password should be at least 8 characters long.");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-    // Placeholder: Submit new password with OTP to backend
-    setMessage("Password has been reset (mock). You can now sign in.");
   };
 
   return (
@@ -120,11 +158,20 @@ export default function ForgotPasswordPage() {
           Forgot Password
         </h2>
 
-        <form className="space-y-6" onSubmit={
-          stage === "email" ? handleGetOtp : stage === "otp" ? handleVerifyOtp : handleResetPassword
-        }>
+        <form
+          className="space-y-6"
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (stage === "email") handleGetOtp(e);
+            else handleResetPassword(e); 
+          }}
+        >
+          {/* Email field */}
           <div className="space-y-2">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-300"
+            >
               Email address
             </label>
             <input
@@ -138,17 +185,21 @@ export default function ForgotPasswordPage() {
             />
           </div>
 
+          {/* Stage: email */}
           {stage === "email" && (
             <Button
               type="submit"
+              disabled={isLoading}
               className="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors text-lg"
             >
-              Get OTP
+              {isLoading ? "Sending OTP..." : "Get OTP"}
             </Button>
           )}
 
+          {/* Stage: OTP + reset */}
           {stage === "otp" && (
             <>
+              {/* OTP inputs */}
               <div className="space-y-2">
                 <label className="block text-sm font-medium text-gray-300">
                   Enter 6-digit OTP
@@ -173,19 +224,12 @@ export default function ForgotPasswordPage() {
                 </div>
               </div>
 
-              <Button
-                type="submit"
-                className="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors text-lg"
-              >
-                Verify OTP
-              </Button>
-            </>
-          )}
-
-          {stage === "reset" && (
-            <>
+              {/* New password */}
               <div className="space-y-2">
-                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-300">
+                <label
+                  htmlFor="newPassword"
+                  className="block text-sm font-medium text-gray-300"
+                >
                   New Password
                 </label>
                 <input
@@ -199,7 +243,10 @@ export default function ForgotPasswordPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-300">
+                <label
+                  htmlFor="confirmPassword"
+                  className="block text-sm font-medium text-gray-300"
+                >
                   Confirm New Password
                 </label>
                 <input
@@ -214,23 +261,23 @@ export default function ForgotPasswordPage() {
 
               <Button
                 type="submit"
+                disabled={isLoading || otp.some((v) => v === "")}
                 className="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors text-lg"
               >
-                Reset Password
+                {isLoading ? "Resetting..." : "Reset Password"}
               </Button>
             </>
           )}
         </form>
 
-        {(error || message) && (
-          <p className={`mt-4 text-sm ${error ? "text-red-400" : "text-green-400"}`}>
-            {error ?? message}
-          </p>
-        )}
+        {toast && <Toast {...toast} />}
 
         <p className="text-center text-sm text-gray-400 mt-6">
           Remembered your password?{" "}
-          <Link href="/auth" className="font-medium text-blue-500 hover:text-blue-400 transition-colors">
+          <Link
+            href="/auth"
+            className="font-medium text-blue-500 hover:text-blue-400 transition-colors"
+          >
             Sign In
           </Link>
         </p>
