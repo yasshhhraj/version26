@@ -179,6 +179,38 @@
           "image": "/Assets/team/eec/tanmoy.jpeg",
           "linkedin_id": "https://www.linkedin.com/in/tempewda",
           "email_id": "205124100@nitt.edu"
+        },
+        {
+          "name": "Prakhar Srivastava ",
+          "role": "MEMBER",
+          "committee": "EEC",
+          "image": "/Assets/team/eec/prakhar.jpeg",
+          "linkedin_id": "https://www.linkedin.com/in/prakhar-srivastava-42a5a3319/",
+          "email_id": "Mathsmaticprakhar@gmail.com"
+        },
+        {
+          "name": "Kumar Manglam ",
+          "role": "MEMBER",
+          "committee": "EEC",
+          "image": "/Assets/team/eec/manglam.jpeg",
+          "linkedin_id": "https://www.linkedin.com/in/kumar-manglam-760142364?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+          "email_id": "kr.manglam1010@gmail.com"
+        },
+        {
+          "name": "INDERPREET SINGH",
+          "role": "MEMBER",
+          "committee": "EEC",
+          "image": "/Assets/team/eec/inderpreet.jpeg",
+          "linkedin_id": "https://www.linkedin.com/in/inderpreet-singh-659354323",
+          "email_id": "inderpreetsingh74188@gmail.com"
+        },
+        {
+          "name": "Lokendra Patidar",
+          "role": "MEMBER",
+          "committee": "EEC",
+          "image": "/Assets/team/eec/lokendra.jpeg",
+          "linkedin_id": "https://www.linkedin.com/in/lokendra-patidar-b55b10341/",
+          "email_id": "lokinitt7@gmail.com"
         }
       ]
     },

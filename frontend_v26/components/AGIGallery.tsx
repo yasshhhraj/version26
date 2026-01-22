@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn, Layers, Terminal, Camera } from "lucide-react";
 import Image from "next/image";
@@ -140,6 +140,39 @@ const photos: Photo[] = [
 
 export default function AGIGallery({ videoData }: { videoData?: { src: string; title: string } }) {
     const [selectedId, setSelectedId] = useState<string | null>(null);
+    const [visibleCount, setVisibleCount] = useState(2);
+    const loaderRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const updateInitialCount = () => {
+            if (window.innerWidth >= 1024) {
+                setVisibleCount(6);
+            } else if (window.innerWidth >= 640) {
+                setVisibleCount(4);
+            } else {
+                setVisibleCount(2);
+            }
+        };
+
+        updateInitialCount();
+    }, []);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && visibleCount < photos.length) {
+                    setVisibleCount((prev) => Math.min(prev + 3, photos.length));
+                }
+            },
+            { threshold: 0.1, rootMargin: "200px" }
+        );
+
+        if (loaderRef.current) {
+            observer.observe(loaderRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [visibleCount]);
 
     return (
         <section className="relative min-h-screen bg-transparent px-8 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
@@ -191,11 +224,18 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
                         </div>
                     )}
 
-                    <div className="columns-1 sm:columns-2 lg:columns-3 gap-8 space-y-8">
-                        {photos.map((photo, index) => (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {photos.slice(0, visibleCount).map((photo, index) => (
                             <Card key={photo.id} photo={photo} index={index} onClick={() => setSelectedId(photo.id)} />
                         ))}
                     </div>
+
+                    {/* Sentinel for Infinite Scroll */}
+                    {visibleCount < photos.length && (
+                        <div ref={loaderRef} className="h-10 w-full flex items-center justify-center">
+                            <div className="h-2 w-2 rounded-full bg-[#4600be] animate-pulse" />
+                        </div>
+                    )}
                 </div>
             </div>
 
@@ -214,35 +254,44 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
 
 // --- Individual Card Component ---
 function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick: () => void }) {
+    const [isLoading, setIsLoading] = useState(true);
+
     return (
         <div
             onClick={onClick}
-            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:border-[#4600be]/30 hover:bg-white/10 break-inside-avoid"
+            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:border-[#4600be]/30 hover:bg-white/10 break-inside-avoid min-h-[200px]"
         >
+            {/* Loading State Overlay */}
+            {isLoading && (
+                <div className="absolute inset-0 z-30 flex items-center justify-center bg-zinc-900/80 backdrop-blur-sm">
+                    <div className="h-8 w-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
+                </div>
+            )}
+
             {/* Scanning Line Effect on Hover */}
-            <div className="absolute inset-x-0 h-0.5 top-0 bg-linear-to-r from-transparent via-[#4600be] to-transparent opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:top-full z-20" />
+            {!isLoading && <div className="absolute inset-x-0 h-0.5 top-0 bg-linear-to-r from-transparent via-[#4600be] to-transparent opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:top-full z-20" />}
 
             {/* Corner Accents */}
-            <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20 transition-all group-hover:border-[#4600be] group-hover:w-4 group-hover:h-4 z-20" />
-            <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 transition-all group-hover:border-[#4600be] group-hover:w-4 group-hover:h-4 z-20" />
+            <div className={`absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20 transition-all group-hover:border-[#4600be] group-hover:w-4 group-hover:h-4 z-20 ${isLoading ? 'opacity-30' : ''}`} />
+            <div className={`absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 transition-all group-hover:border-[#4600be] group-hover:w-4 group-hover:h-4 z-20 ${isLoading ? 'opacity-30' : ''}`} />
 
             {/* Image Container */}
-            <div className="overflow-hidden bg-zinc-900/50">
-                <div className="w-full">
+            <div className="overflow-hidden bg-zinc-900/50 aspect-square">
+                <div className="w-full h-full">
                     <Image
                         src={photo.src}
                         alt={photo.alt}
-                        width={800}
-                        height={1200}
+                        fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         priority={index < 4}
-                        className="h-auto w-full object-cover transition-transform duration-1000 group-hover:scale-105 grayscale-[0.3] group-hover:grayscale-0"
+                        onLoad={() => setIsLoading(false)}
+                        className={`object-cover transition-all duration-1000 group-hover:scale-105 ${isLoading ? 'opacity-0 scale-95' : 'opacity-100 scale-100 grayscale-[0.3] group-hover:grayscale-0'}`}
                     />
                 </div>
             </div>
 
             {/* Card Overlay / Metadata */}
-            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-6 flex flex-col justify-end">
+            <div className={`absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-6 flex flex-col justify-end ${isLoading ? 'hidden' : ''}`}>
                 <p className="font-bold text-[10px] uppercase tracking-[0.2em] text-[#4600be] mb-1">
                     {photo.category}
                 </p>
@@ -257,7 +306,7 @@ function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick:
             </div>
 
             {/* Static Bottom Info (Visible when not hovered) */}
-            <div className="absolute bottom-4 left-4 group-hover:opacity-0 transition-opacity duration-300">
+            <div className={`absolute bottom-4 left-4 group-hover:opacity-0 transition-opacity duration-300 ${isLoading ? 'hidden' : ''}`}>
                 <p className="text-[10px] font-mono text-white/40 tracking-tighter">
                     REF_{photo.id.padStart(4, '0')} {'//'} {photo.timestamp}
                 </p>

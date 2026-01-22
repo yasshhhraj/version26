@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Toast, ToastProps } from "@/components/ui/Toast";
@@ -21,6 +21,10 @@ export default function ForgotPasswordPage() {
   useEffect(() => {
     if (stage === "otp") otpRefs.current[0]?.focus();
   }, [stage]);
+
+  const showToast = (message: string, type: "success" | "error") => {
+    setToast({ message, type, duration: 2000 });
+  };
 
   // OTP input handlers
   const handleOtpChange = (index: number, value: string) => {
@@ -57,99 +61,78 @@ export default function ForgotPasswordPage() {
     e: React.ClipboardEvent<HTMLInputElement>,
   ) => {
     e.preventDefault();
-    const digits = e.clipboardData
-      .getData("text")
-      .replace(/\D/g, "")
-      .slice(0, 6)
-      .split("");
-    if (!digits.length) return;
+    const pastedData = e.clipboardData.getData("text");
+    const digits = pastedData.replace(/\D/g, "").slice(0, 6).split("");
+
+    if (digits.length === 0) return;
+
     const next = [...otp];
-    for (let i = 0; i < digits.length && index + i < 6; i++)
-      next[index + i] = digits[i];
+    digits.forEach((digit, i) => {
+      if (index + i < 6) {
+        next[index + i] = digit;
+      }
+    });
     setOtp(next);
-    otpRefs.current[Math.min(index + digits.length, 5)]?.focus();
+    
+    const focusIndex = Math.min(index + digits.length, 5);
+    otpRefs.current[focusIndex]?.focus();
   };
 
   // Step 1: send OTP
-  const handleGetOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleGetOtp = async () => {
     setToast(null);
 
     if (!email)
-      return setToast({
-        message: "Enter your email",
-        type: "error",
-        duration: 2000,
-      });
+      return showToast("Enter your email", "error");
 
     setIsLoading(true);
     try {
       await forgotPasswordRequestOtp({ email });
       setStage("otp");
-      setToast({
-        message: "OTP sent to your email",
-        type: "success",
-        duration: 2000,
-      });
+      showToast("OTP sent to your email", "success");
     } catch (err: unknown) {
-      setToast({
-        message: err instanceof Error ? err.message : "Failed to send OTP",
-        type: "error",
-        duration: 2000,
-      });
+      showToast(err instanceof Error ? err.message : "Failed to send OTP", "error");
     } finally {
       setIsLoading(false);
     }
   };
 
   // Step 2: verify OTP + reset password
-  const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleResetPassword = async () => {
     setToast(null);
 
     const code = otp.join("");
     if (code.length !== 6)
-      setToast({
-        message: "Enter 6-digit OTP",
-        type: "error",
-        duration: 2000,
-      });
+      return showToast("Enter 6-digit OTP", "error");
     if (!newPassword || !confirmPassword)
-      setToast({
-        message: "Fill all password fields",
-        type: "error",
-        duration: 2000,
-      });
+      return showToast("Fill all password fields", "error");
     if (newPassword !== confirmPassword)
-      setToast({
-        message: "Passwords do not match",
-        type: "error",
-        duration: 2000,
-      });
+      return showToast("Passwords do not match", "error");
 
     setIsLoading(true);
     try {
       await resetPassword({ email, otp: code, password: newPassword });
-      setToast({
-        message: "Password reset successful! You can now sign in.",
-        type: "success",
-        duration: 2000,
-      });
+      showToast("Password reset successful! You can now sign in.", "success");
       setStage("email");
       setOtp(["", "", "", "", "", ""]);
       setNewPassword("");
       setConfirmPassword("");
     } catch (err: unknown) {
-      setToast({
-        message:
+      showToast(
           err instanceof Error ? err.message : "Failed to reset password",
-        type: "error",
-        duration: 2000,
-      });
+          "error"
+      );
     } finally {
       setIsLoading(false);
     }
   };
+
+  const isResetDisabled =
+    isLoading ||
+    otp.some((v) => v === "") ||
+    !newPassword ||
+    !confirmPassword ||
+    newPassword !== confirmPassword;
 
   return (
     <div className="w-full flex flex-col items-center justify-center px-4">
@@ -162,8 +145,8 @@ export default function ForgotPasswordPage() {
           className="space-y-6"
           onSubmit={(e) => {
             e.preventDefault();
-            if (stage === "email") handleGetOtp(e);
-            else handleResetPassword(e); 
+            if (stage === "email") void handleGetOtp();
+            else void handleResetPassword();
           }}
         >
           {/* Email field */}
@@ -261,8 +244,8 @@ export default function ForgotPasswordPage() {
 
               <Button
                 type="submit"
-                disabled={isLoading || otp.some((v) => v === "")}
-                className="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors text-lg"
+                disabled={isResetDisabled}
+                className="w-full max-w-sm bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors text-lg disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? "Resetting..." : "Reset Password"}
               </Button>

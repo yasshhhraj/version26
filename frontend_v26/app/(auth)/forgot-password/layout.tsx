@@ -11,7 +11,7 @@ export default function ForgotPasswordLayout({
 }: Readonly<{ children: ReactNode }>) {
   return (
     <>
-      {/* background blobs to match auth layout theme */}
+      {/* background blobs to match the auth layout theme */}
       <div
         className={
           "absolute -z-10 left-1/2 transform  bottom-0 translate-y-2/3  -translate-x-1/2 h-1/3 aspect-video  bg-blue-400 rounded-full  blur-[clamp(64px,75vw,256px)]  "

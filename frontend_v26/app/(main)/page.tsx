@@ -4,7 +4,10 @@ import { motion, Variants } from "framer-motion";
 import { Mail } from "lucide-react";
 
 import dynamic from 'next/dynamic'
-import AGIGallery from "@/components/AGIGallery";
+const AGIGallery = dynamic(() => import("@/components/AGIGallery"), {
+    ssr: false,
+    loading: () => <div className="min-h-screen flex items-center justify-center"><Loader /></div>
+});
 import Footer from "@/components/Footer";
 import ContactPopup from "@/components/ContactPopup";
 
@@ -97,14 +100,7 @@ export default function Home() {
       <main className="flex h-full w-full relative flex-col z-10 bg-transparent">
         <HeroSection data={heroData.heroSection} onContactClick={() => setIsContactOpen(true)} />
         <HeroSection2 data={heroData.heroSection2} />
-        <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true, amount: 0.1 }}
-        >
-            <AGIGallery videoData={heroData.heroSection2.video} />
-        </motion.div>
+        <AGIGallery videoData={heroData.heroSection2.video}/>
         <Footer />
       </main>
       <ContactPopup isOpen={isContactOpen} onClose={() => setIsContactOpen(false)} />

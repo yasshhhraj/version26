@@ -6,48 +6,30 @@
     "imageUrl": "/Assets/eventposters/event_placeholder.png",
     "eventType": "technical",
     "date": "March 20",
-    "participation": "solo",
+    "participation": "solo/team",
     "fullDescription": "An interactive learning session focused on emerging technologies and practical skills. Designed to provide hands-on exposure and industry relevant insights beyond competitive events.",
     "rules": [],
-    "prize": [],
-    "venue": "TBD",
+    "venue": "Third-i",
     "platform": "TBD",
-    "contact": "evparticipationents@version.com"
+    "contact": "version26.nitt@gmail.com"
   },
   {
     "id": "02",
-    "title": "AlgoRhythm",
-    "tagline": "Challenge your Data Structures & Algorithms skills.",
-    "imageUrl": "/Assets/eventposters/event_placeholder.png",
-    "eventType": "technical",
-    "date": "March 20",
-    "participation": "solo",
-    "fullDescription": "A high-speed competitive programming contest that tests logic,efficiency, and problem-solving skills. Participants tackle curated DSA problems under strict time pressure to climb the leaderboard through accuracy and speed.",
-    "rules": [
-      "Participation is Solo.",
-      "Must be proficient in DSA."
-    ],
-    "prize": [],
-    "venue": "TBD.",
-    "platform": "HackerEarth",
-    "contact": "events@version.com"
-  },
-  {
-    "id": "03",
     "title": "Meet up Mania",
     "tagline": "Networking and social gathering.",
     "imageUrl": "/Assets/eventposters/event_placeholder.png",
     "eventType": "non-technical",
     "date": "March 20",
-    "participation": "solo",
+    "participation": "team",
     "fullDescription": "A social engagement event aimed at fostering connections, collaboration, and shared experiences. Designed to blend fun, interaction, and community bonding within VERSION 2026.",
-    "rules": [],
-    "prize": [],
-    "venue": "TBD",
-    "contact": "events@version.com"
+    "rules": [
+
+    ],
+    "venue": "Third-i",
+    "contact": "version26.nitt@gmail.com"
   },
   {
-    "id": "04",
+    "id": "03",
     "title": "BackTrack",
     "tagline": "Decode pattern and solve reverse engineering problems.",
     "imageUrl": "/Assets/eventposters/event_placeholder.png",
@@ -56,15 +38,17 @@
     "participation": "solo",
     "fullDescription": "A reverse-engineering challenge where logic must be discovered, not given. Participants analyze input-output behavior, decode hidden patterns, and implement solutions purely through deduction and experimentation.",
     "rules": [
-      "Participation is Solo."
+      "Platform Usage: Participants must use the official custom platform for pattern discovery",
+      "sharing patterns or input/output data with others is prohibited.",
+      "Submission & Scoring: Only submissions made on HackerEarth and successfully passed will be considered for scoring.",
+      "Integrity: Any attempt to bypass the custom platform or access the simulation tool’s source code will result in disqualification."
     ],
-    "prize": [],
-    "venue": "TBD",
-    "platform": "Custom Platform + HackerEarth",
-    "contact": "events@version.com"
+    "venue": "Third-i",
+    "platform": "Custom Platform",
+    "contact": "version26.nitt@gmail.com"
   },
   {
-    "id": "06",
+    "id": "04",
     "title": "Emoji Charades",
     "tagline": "Guess the movie name using only emojis.",
     "imageUrl": "/Assets/eventposters/event_placeholder.png",
@@ -74,11 +58,51 @@
     "teamSize": 2,
     "fullDescription": "A fast-paced communication game where movies are described using only emojis. Teams race against time to decode symbols into cinematic titles, testing creativity, synergy, and pop-culture knowledge.",
     "rules": [
-      "Participation is a Team of 2. "
+      "Emoji-Only Rule: The Messenger may use only emojis—no text, numbers, or spoken hints. Any violation forfeits the round.",
+      "No External Help: Using search engines or “emoji cheat sheets” is prohibited.",
+      "Fair Play: No pre-planned secret signals or codes; all communication must occur only through the provided platform."
+    ],
+    "venue": "Third-i",
+    "platform": "Custom Plateform",
+    "contact": "version26.nitt@gmail.com"
+  },
+  {
+    "id": "05",
+    "title": "AlgoRhythm",
+    "tagline": "Challenge your Data Structures & Algorithms skills.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "technical",
+    "date": "March 21",
+    "participation": "solo",
+    "fullDescription": "A high-speed competitive programming contest that tests logic,efficiency, and problem-solving skills. Participants tackle curated DSA problems under strict time pressure to climb the leaderboard through accuracy and speed.",
+    "rules": [
+      "Solo Participation & Fair Play: This is an individual event; collaboration, plagiarism, external resources, AI tools, or pre-written code are prohibited unless explicitly allowed by invigilators. Violations lead to immediate disqualification.",
+      "Platform & Submission: Use only the official HackerEarth link shared at the start and submit code in any language supported by HackerEarth."
     ],
     "prize": [],
-    "venue": "TBD",
-    "contact": "events@version.com"
+    "venue": "Third-i",
+    "platform": "Online Plateform",
+    "contact": "version26.nitt@gmail.com"
+  },
+  {
+    "id": "06",
+    "title": "Treasure Hunt",
+    "tagline": "Solve puzzles and riddles across the NIT Campus.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.png",
+    "eventType": "non-technical",
+    "date": "March 21",
+    "participation": "team",
+    "teamSize": 5,
+    "fullDescription": "A two-round event for teams of 5. Round 1 involves 40 questions (Puzzles, NIT Based GK) on a custom platform (30-40 mins). The Top 5 teams move to Round 2, which is a 3-hour physical hunt on the NIT Campus. The exact format of Round 2 is to be decided.",
+    "rules": [
+      "Team Integrity: All 5 members must remain together at all times during Round 2. Splitting up to cover multiple locations simultaneously is strictly prohibited.",
+      "Fair Play: No use of motorized vehicles (scooters, cars, etc.) is allowed during the campus hunt; movement must be on foot or via bicycle which will be provided.",
+      "Interaction: Teams must not interfere with the clues or progress of other competing teams.",
+      "Safety: Participants must adhere to campus safety guidelines and avoid restricted areas."
+    ],
+    "venue": "Third-i",
+    "platform": "Custom Platform + NIT Campus",
+    "contact": "version26.nitt@gmail.com"
   },
   {
     "id": "07",
@@ -91,34 +115,16 @@
     "teamSize": 2,
     "fullDescription": "A two-round technical showdown combining core CS fundamentals with advanced analytical reasoning. From MCQs on OS, DBMS, and DSA to deep pen-and-paper problem solving, CoreTex finds the most well Crounded minds.",
     "rules": [
-      "Participation is a Team of 2. ",
-      "Knowledge of CS Core topics is essential."
+      "Team Coordination: Teams may communicate only within their own team; inter-team communication is strictly prohibited.",
+      "Resources: Round 1 is closed-book; Round 2 allows only basic stationery and calculators.",
+      "Round 2 Eligibility: Only the Top 10 qualifiers from Round 1 may participate in Round 2."
     ],
-    "prize": [],
-    "venue": "TBD",
-    "platform": "HackerEarth",
-    "contact": "events@version.com"
+    "venue": "Third-i",
+    "platform": "Online Plateform",
+    "contact": "version26.nitt@gmail.com"
   },
   {
     "id": "08",
-    "title": "Treasure Hunt",
-    "tagline": "Solve puzzles and riddles across the NIT Campus.",
-    "imageUrl": "/Assets/eventposters/event_placeholder.png",
-    "eventType": "non-technical",
-    "date": "March 21",
-    "participation": "team",
-    "teamSize": 5,
-    "fullDescription": "A two-round event for teams of 5. Round 1 involves 40 questions (Puzzles, NIT Based GK) on a custom platform (30-40 mins). The Top 5 teams move to Round 2, which is a 3-hour physical hunt on the NIT Campus. The exact format of Round 2 is to be decided.",
-    "rules": [
-      "Participation is a Team of 5."
-    ],
-    "prize": [],
-    "venue": "TBD",
-    "platform": "Custom Platform + NIT Campus",
-    "contact": "events@version.com"
-  },
-  {
-    "id": "09",
     "title": "Replicode",
     "tagline": "Replicate design and functionality of given web components.",
     "imageUrl": "/Assets/eventposters/event_placeholder.png",
@@ -127,16 +133,16 @@
     "participation": "solo",
     "fullDescription": "A rapid development race where teams recreate real software components with high visual and functional accuracy. Speed, attention to detail, and smart use of modern tools define success in this real world coding simulation.",
     "rules": [
-      "Participation is Solo. ",
-      "Experience with Frontend and Backend development."
+      "Resource Access: Internet and LLMs are allowed; scoring prioritizes speed and effective tool usage.",
+      "Originality: Final integration and deployment must be completed by the team during the session.",
+      "Submission: Submit full source code at the end for manual review."
     ],
-    "prize": [],
-    "venue": "TBD",
-    "platform": "Custom Platform + Local IDE",
-    "contact": "events@version.com"
+    "venue": "Third-i",
+    "platform": "Custom Platform",
+    "contact": "version26.nitt@gmail.com"
   },
   {
-    "id": "10",
+    "id": "09",
     "title": "Crypt of The NecroDancer",
     "tagline": "Rhythm-based dungeon crawling competition.",
     "imageUrl": "/Assets/eventposters/event_placeholder.png",
@@ -145,15 +151,15 @@
     "participation": "solo",
     "fullDescription": "A rhythm-based dungeon adventure where every move must sync with the beat. Players battle enemies, explore procedurally generated levels, and survive the crypt through timing, precision, and skill.",
     "rules": [
-      "Participation is Solo."
+      "Beat-Matching: Actions must stay on-beat; off-rhythm moves reduce effectiveness and increase vulnerability.",
+      "Time Limit: You have 60 minutes to achieve the highest possible score/progress."
     ],
-    "prize": [],
-    "venue": "TBD",
-    "platform": "Custom",
-    "contact": "events@version.com"
+    "venue": "Third-i",
+    "platform": "Windows",
+    "contact": "version26.nitt@gmail.com"
   },
   {
-    "id": "11",
+    "id": "10",
     "title": "Pitch 2 Rich",
     "tagline": "Develop and pitch a business proposal to judges.",
     "imageUrl": "/Assets/eventposters/event_placeholder.png",
@@ -163,15 +169,17 @@
     "teamSize": 5,
     "fullDescription": "An entrepreneurship battle where ideas meet execution. Teams identify real-world problems, build viable business models, and pitch to a panel of judges in a high-pressure investor-style environment.",
     "rules": [
-      "Participation is a Team of 4-5. "
+      "Time Limit: The presentation must stay within 20 minutes; exceeding the limit will result in point deductions.",
+      "Originality: The business idea must be original; plagiarism or copying existing startups without significant innovation leads to disqualification.",
+      "Team Participation: All team members must be present for Q&A, even if one person delivers the pitch."
+
     ],
-    "prize": [],
-    "venue": "TBD",
-    "platform": "On Stage",
-    "contact": "events@version.com"
+    "venue": "A2 Hall",
+    "platform": "Stage",
+    "contact": "version26.nitt@gmail.com"
   },
   {
-    "id": "14",
+    "id": "11",
     "title": "Destinite",
     "tagline": "Live 1 on 1 interviews for top performers.",
     "imageUrl": "/Assets/eventposters/event_placeholder.png",
@@ -180,12 +188,13 @@
     "participation": "solo",
     "fullDescription": "The grand finale of VERSION 2026, featuring the top performers of the symposium. Finalists face a live professional interview testing technical depth, communication, leadership, and decision-making under pressure.",
     "rules": [
-      "Participation is Solo.",
-      "Open only to the Top 3 performers (selection method TBD)."
+      "Eligibility: Only the top 3 cumulative scorers of the symposium may participate.",
+      "Professionalism: Maintain corporate-level interview decorum and appropriate formal dress code.",
+      "Live Interview: The interview will be conducted on stage in front of a live audience.",
+      "Fairness: All candidates receive the same core questions, followed by role-specific technical deep-dives."
     ],
-    "prize": [],
-    "venue": "TBD",
-    "platform": "On Stage",
-    "contact": "events@version.com"
+    "venue": "A2 Hall",
+    "platform": "Stage",
+    "contact": "version26.nitt@gmail.com"
   }
 ]

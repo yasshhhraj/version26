@@ -102,7 +102,7 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
                             <div className="p-5 rounded-2xl bg-white/5 border border-white/5 space-y-5">
                                 <InfoItem icon={Calendar} label="Date" value={data.date??'undefined'}/>
                                 <InfoItem icon={MapPin} label="Venue" value={data.venue}/>
-                                <InfoItem icon={Link} label="Platform" value={data.platform}/>
+                                {data.platform && <InfoItem icon={Link} label="Platform" value={data.platform}/>}
                             </div>
                             {data.contact && (
                                 <div className="p-5 rounded-2xl bg-purple-600/5 border border-purple-500/10">
@@ -116,12 +116,6 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
                         </aside>
                     </div>
 
-                    {/*<footer className="mt-6 pt-8 border-t border-white/5">*/}
-                    {/*    <button*/}
-                    {/*        className="w-full bg-white hover:bg-neutral-200 text-black font-bold py-4 rounded-xl transition-all active:scale-[0.98] shadow-lg">*/}
-                    {/*        Register for {data.title}*/}
-                    {/*    </button>*/}
-                    {/*</footer>*/}
                 </div>
             </div>
         </div>,
