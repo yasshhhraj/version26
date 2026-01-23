@@ -343,33 +343,33 @@ export default function TeamPage() {
                 )}
 
                 {/* Committees */}
-                <section className="mb-20">
-                    <div className="flex flex-col items-center gap-2 mb-12 text-center">
-                        <div className="flex items-center gap-2 text-[#4600be] mb-2">
-                            <div className="h-px w-8 bg-[#4600be]" />
-                            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Members</span>
-                            <div className="h-px w-8 bg-[#4600be]" />
-                        </div>
-                        <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">
-                            Our <span className="text-[#4600be] italic font-serif">Members</span>
-                        </h2>
-                    </div>
+                {/*<section className="mb-20">*/}
+                {/*    <div className="flex flex-col items-center gap-2 mb-12 text-center">*/}
+                {/*        <div className="flex items-center gap-2 text-[#4600be] mb-2">*/}
+                {/*            <div className="h-px w-8 bg-[#4600be]" />*/}
+                {/*            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Members</span>*/}
+                {/*            <div className="h-px w-8 bg-[#4600be]" />*/}
+                {/*        </div>*/}
+                {/*        <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">*/}
+                {/*            Our <span className="text-[#4600be] italic font-serif">Members</span>*/}
+                {/*        </h2>*/}
+                {/*    </div>*/}
 
-                    {teamData.committees.map((committee) => (
-                        <div key={committee.id} className="mb-16">
-                            <div className="flex flex-col items-center gap-2 mb-8 text-center">
-                                <h3 className="text-xl font-bold tracking-tighter text-white uppercase opacity-80">
-                                    {committee.fullName.split(' ').slice(0, -1).join(' ')} <span className="text-[#4600be] italic font-serif">Committee</span>
-                                </h3>
-                            </div>
-                            <div className="flex flex-wrap justify-center gap-8">
-                                {committee.members.map((member, index) => (
-                                    <TeamMemberCard key={index} {...member} role={member.role} index={index} />
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </section>
+                {/*    {teamData.committees.map((committee) => (*/}
+                {/*        <div key={committee.id} className="mb-16">*/}
+                {/*            <div className="flex flex-col items-center gap-2 mb-8 text-center">*/}
+                {/*                <h3 className="text-xl font-bold tracking-tighter text-white uppercase opacity-80">*/}
+                {/*                    {committee.fullName.split(' ').slice(0, -1).join(' ')} <span className="text-[#4600be] italic font-serif">Committee</span>*/}
+                {/*                </h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="flex flex-wrap justify-center gap-8">*/}
+                {/*                {committee.members.map((member, index) => (*/}
+                {/*                    <TeamMemberCard key={index} {...member} role={member.role} index={index} />*/}
+                {/*                ))}*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    ))}*/}
+                {/*</section>*/}
             </div>
 
             <MessageModal 
