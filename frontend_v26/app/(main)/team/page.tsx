@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { FileText, Users, ShieldCheck, Mail, Linkedin, X } from "lucide-react"
+import {FileText, Users, ShieldCheck, Mail, X, Linkedin} from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
 
@@ -253,7 +253,7 @@ export default function TeamPage() {
 
 
     return (
-        <section className="relative min-h-screen bg-black px-4 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
+        <main className="relative min-h-screen bg-black px-4 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-x-hidden">
              {/* Ambient Background Glows */}
              <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#4600be]/10 blur-[120px] rounded-full -z-10" />
             <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-purple-900/10 blur-[150px] rounded-full -z-10" />
@@ -380,6 +380,6 @@ export default function TeamPage() {
                 title={modalState.title}
                 image={modalState.image}
             />
-        </section>
+        </main>
     )
 }
