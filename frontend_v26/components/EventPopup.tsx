@@ -48,9 +48,9 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
 
     return createPortal(
         <div
-            className="fixed inset-0 z-9999 flex items-end sm:items-center justify-center bg-black/90 backdrop-blur-md p-0 sm:p-4">
+            className="fixed  inset-0 z-9999 flex items-center sm:items-center justify-center bg-black/90 backdrop-blur-md p-0 sm:p-4">
             <div
-                className="relative w-full h-[95vh] sm:h-auto sm:max-h-[90vh] lg:w-1/2 bg-neutral-950 border-t sm:border border-white/10 rounded-t-4xl sm:rounded-4xl overflow-hidden flex flex-col shadow-2xl">
+                className="relative  w-[90vw] sm:w-[80vw] lg:w-1/2 max-h-[90vh] bg-neutral-950 border-t sm:border border-white/10 rounded-t-4xl sm:rounded-4xl overflow-hidden flex flex-col  shadow-2xl">
                 {/* Header */}
                 <header className="relative h-56 shrink-0">
                     <Image src={data.imageUrl??''} width={1024} height={1024}  className="w-full h-full object-cover opacity-50" alt={data.title??'undefined'}/>
