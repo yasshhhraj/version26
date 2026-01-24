@@ -85,14 +85,16 @@ export default function Navbar() {
 
 function Logo({ className }: { className?: string }) {
   return (
-    <div className={`relative w-32 lg:w-38 h-10 shrink-0 transition-all duration-500 ${className}`}>
-      <Image
-        src="/Assets/logo_version.png"
-        alt="Logo"
-        fill
-        className="object-contain object-left"
-        priority
-      />
+    <div  className={`relative w-32 lg:w-38 h-10 shrink-0 transition-all duration-500 ${className}`}>
+      <a href={'/'}>
+        <Image
+            src="/Assets/logo_version.png"
+            alt="Logo"
+            fill
+            className="object-contain object-left"
+            priority
+        />
+      </a>
     </div>
   );
 }
