@@ -5,8 +5,8 @@ interface HeroProps {
   data: {
     badge: string;
     mainTitle: string; // COGNIX
-    subtitle: string;  // VERSION '26
-    tagline: string;   // INTELLIGENCE WITHOUT LIMITS
+    subtitle: string; // VERSION '26
+    tagline: string; // INTELLIGENCE WITHOUT LIMITS
     description: string;
     buttons: {
       primary: string;
@@ -44,7 +44,6 @@ export default function Hero({ data }: HeroProps) {
       {/* Content Overlay */}
       <div className="relative z-10 w-[95%] max-w-7xl mx-auto px-6 pointer-events-none">
         <div className="flex flex-col items-start text-left max-w-4xl mt-[-5vh]">
-          
           {/* EST Badge */}
           <div className="mb-6 pointer-events-auto">
             <span className="px-5 py-1.5 rounded-full border border-white/20 text-white/80 text-xs md:text-sm font-mono tracking-widest bg-white/5 backdrop-blur-sm">
@@ -70,13 +69,13 @@ export default function Hero({ data }: HeroProps) {
           </h3>
 
           {/* Description */}
-          <p className="text-gray-400 text-base md:text-lg max-w-2xl leading-relaxed mb-10 pl-1">
+          <p className="text-gray-400 text-base md:text-lg max-w-md leading-relaxed mb-10 pl-1">
             {data.description}
           </p>
 
           {/* Buttons */}
           <div className="flex flex-col md:flex-row gap-6 items-center pointer-events-auto pl-1">
-            <button className="group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-black/40 backdrop-blur-md hover:bg-white/10 transition-all duration-300 flex items-center gap-2 cursor-pointer">
+            <button className="group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-gradient-to-r from-[#4600be] to-[#371768] hover:from-[#5b1ad4] hover:to-[#4a1f8c] shadow-[0_0_20px_rgba(70,0,190,0.3)] hover:shadow-[0_0_30px_rgba(70,0,190,0.5)] transition-all duration-300 flex items-center gap-2 cursor-pointer">
               {data.buttons.primary}
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </button>
@@ -86,7 +85,6 @@ export default function Hero({ data }: HeroProps) {
               <Mail className="w-4 h-4" />
             </button>
           </div>
-
         </div>
       </div>
     </div>
