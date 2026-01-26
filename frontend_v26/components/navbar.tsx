@@ -27,12 +27,14 @@ function NavLink({
   children,
   icon: Icon,
   isActive,
+  isMobile = false,
   className,
 }: {
   href: string;
   children: React.ReactNode;
   icon: LucideIcon;
   isActive: boolean;
+  isMobile?: boolean;
   className?: string;
 }) {
   return (
@@ -56,18 +58,18 @@ function NavLink({
         {children}
       </span>
       
-      {/* Active State Sliding Underline */}
-      {isActive && (
+      {/* Active State Sliding Underline (Desktop Only) */}
+      {isActive && !isMobile && (
         <motion.span
           layoutId="navbar-active"
-          className="absolute bottom-0 left-0 w-full h-[2px] bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]"
+          className="absolute bottom-[-10px] left-3 right-3 h-[3px] bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)] rounded-t-full"
           transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
         />
       )}
 
-      {/* Hover Underline (only visible when NOT active) */}
-      {!isActive && (
-        <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-purple-500/50 transition-all duration-300 group-hover:w-full"></span>
+      {/* Hover Underline (Desktop Only, not active) */}
+      {!isActive && !isMobile && (
+        <span className="absolute bottom-0 left-3 right-3 w-0 h-[2px] bg-purple-500/50 transition-all duration-300 group-hover:w-[calc(100%-1.5rem)]"></span>
       )}
     </Link>
   );
@@ -168,6 +170,7 @@ export default function Navbar() {
               href={link.href}
               icon={link.icon}
               isActive={pathname === link.href}
+              isMobile={true}
               className="block w-full py-3 px-4 text-center hover:bg-white/5 rounded-lg text-lg font-medium"
             >
               {link.label}
