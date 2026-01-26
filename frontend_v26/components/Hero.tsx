@@ -80,32 +80,32 @@ export default function Hero({ data, onContactClick }: HeroProps) {
           </motion.div>
 
           {/* Version Subtitle */}
-          <motion.h2 variants={itemVariants} className="text-white/60 text-sm md:text-lg tracking-[0.3em] uppercase font-medium mb-2 pl-1">
+          <motion.h2 variants={itemVariants} className="text-white/60 text-xs md:text-lg tracking-[0.3em] uppercase font-medium mb-2 pl-1">
             {data.subtitle}
           </motion.h2>
 
           {/* COGNIX Main Title */}
-          <motion.h1 variants={itemVariants} className="text-7xl md:text-9xl font-bold tracking-tighter mb-4 leading-none">
+          <motion.h1 variants={itemVariants} className="text-5xl sm:text-7xl md:text-9xl font-bold tracking-tighter mb-4 leading-none">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]">
               {data.mainTitle}
             </span>
           </motion.h1>
 
           {/* Tagline */}
-          <motion.h3 variants={itemVariants} className="text-white text-lg md:text-2xl tracking-[0.2em] font-light uppercase mb-8 text-shadow-sm pl-1">
+          <motion.h3 variants={itemVariants} className="text-white text-sm sm:text-lg md:text-2xl tracking-[0.2em] font-light uppercase mb-6 md:mb-8 text-shadow-sm pl-1">
             {data.tagline}
           </motion.h3>
 
           {/* Description */}
-          <motion.p variants={itemVariants} className="text-gray-400 text-base md:text-lg max-w-md leading-relaxed mb-10 pl-1">
+          <motion.p variants={itemVariants} className="text-gray-400 text-sm sm:text-base md:text-lg max-w-sm md:max-w-md leading-relaxed mb-8 md:mb-10 pl-1">
             {data.description}
           </motion.p>
 
           {/* Buttons */}
-          <motion.div variants={itemVariants} className="flex flex-col md:flex-row gap-6 items-center pointer-events-auto pl-1">
+          <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-start sm:items-center pointer-events-auto pl-1">
             <Link
               href="/events"
-              className="group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-gradient-to-r from-[#4600be] to-[#371768] hover:from-[#5b1ad4] hover:to-[#4a1f8c] shadow-[0_0_20px_rgba(70,0,190,0.3)] hover:shadow-[0_0_30px_rgba(70,0,190,0.5)] transition-all duration-300 flex items-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto text-center group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-gradient-to-r from-[#4600be] to-[#371768] hover:from-[#5b1ad4] hover:to-[#4a1f8c] shadow-[0_0_20px_rgba(70,0,190,0.3)] hover:shadow-[0_0_30px_rgba(70,0,190,0.5)] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
             >
               {data.buttons.primary}
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -113,7 +113,7 @@ export default function Hero({ data, onContactClick }: HeroProps) {
 
             <button
               onClick={onContactClick}
-              className="group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-black/40 backdrop-blur-md hover:bg-white/10 transition-all duration-300 flex items-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto text-center group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-black/40 backdrop-blur-md hover:bg-white/10 transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer"
             >
               {data.buttons.secondary}
               <Mail className="w-4 h-4" />
