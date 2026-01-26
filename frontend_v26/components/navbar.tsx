@@ -45,19 +45,19 @@ function NavLink({
         isActive
           ? "text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"
           : "text-white/80 hover:text-white",
-        className
+        className,
       )}
     >
       <Icon
         className={cn(
           "w-4 h-4 transition-transform duration-300",
-          isActive ? "scale-110 text-purple-400" : "group-hover:scale-110 group-hover:text-purple-400"
+          isActive
+            ? "scale-110 text-purple-400"
+            : "group-hover:scale-110 group-hover:text-purple-400",
         )}
       />
-      <span className="relative font-medium tracking-wide">
-        {children}
-      </span>
-      
+      <span className="relative font-medium tracking-wide">{children}</span>
+
       {/* Active State Sliding Underline (Desktop Only) */}
       {isActive && !isMobile && (
         <motion.span
@@ -65,11 +65,6 @@ function NavLink({
           className="absolute bottom-[-10px] left-3 right-3 h-[3px] bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)] rounded-t-full"
           transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
         />
-      )}
-
-      {/* Hover Underline (Desktop Only, not active) */}
-      {!isActive && !isMobile && (
-        <span className="absolute bottom-0 left-3 right-3 w-0 h-[2px] bg-purple-500/50 transition-all duration-300 group-hover:w-[calc(100%-1.5rem)]"></span>
       )}
     </Link>
   );
@@ -171,7 +166,7 @@ export default function Navbar() {
               icon={link.icon}
               isActive={pathname === link.href}
               isMobile={true}
-              className="block w-full py-3 px-4 text-center hover:bg-white/5 rounded-lg text-lg font-medium"
+              className="w-full py-3 px-4 flex items-center justify-center hover:bg-white/5 rounded-lg text-lg font-medium"
             >
               {link.label}
             </NavLink>
