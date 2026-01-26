@@ -90,7 +90,10 @@ export default function Home() {
           </Suspense>
       </div>
       <main className="flex h-full w-full relative flex-col z-10 bg-transparent">
-        <Hero data={heroData.heroSection} />
+        <Hero
+          data={heroData.heroSection}
+          onContactClick={() => setIsContactOpen(true)}
+        />
         <HeroSection2 data={heroData.heroSection2} />
         <AGIGallery videoData={heroData.heroSection2.video}/>
         <Footer />

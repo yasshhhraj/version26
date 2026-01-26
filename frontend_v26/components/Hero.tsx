@@ -1,7 +1,9 @@
 "use client";
+import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
 
 interface HeroProps {
+  onContactClick?: () => void;
   data: {
     badge: string;
     mainTitle: string; // COGNIX
@@ -15,7 +17,7 @@ interface HeroProps {
   };
 }
 
-export default function Hero({ data }: HeroProps) {
+export default function Hero({ data, onContactClick }: HeroProps) {
   // Fallback if data is missing (e.g. during dev/refactor)
   if (!data) return null;
 
@@ -75,12 +77,18 @@ export default function Hero({ data }: HeroProps) {
 
           {/* Buttons */}
           <div className="flex flex-col md:flex-row gap-6 items-center pointer-events-auto pl-1">
-            <button className="group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-gradient-to-r from-[#4600be] to-[#371768] hover:from-[#5b1ad4] hover:to-[#4a1f8c] shadow-[0_0_20px_rgba(70,0,190,0.3)] hover:shadow-[0_0_30px_rgba(70,0,190,0.5)] transition-all duration-300 flex items-center gap-2 cursor-pointer">
+            <Link
+              href="/events"
+              className="group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-gradient-to-r from-[#4600be] to-[#371768] hover:from-[#5b1ad4] hover:to-[#4a1f8c] shadow-[0_0_20px_rgba(70,0,190,0.3)] hover:shadow-[0_0_30px_rgba(70,0,190,0.5)] transition-all duration-300 flex items-center gap-2 cursor-pointer"
+            >
               {data.buttons.primary}
               <ArrowUpRight className="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </button>
-            
-            <button className="group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-black/40 backdrop-blur-md hover:bg-white/10 transition-all duration-300 flex items-center gap-2 cursor-pointer">
+            </Link>
+
+            <button
+              onClick={onContactClick}
+              className="group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-black/40 backdrop-blur-md hover:bg-white/10 transition-all duration-300 flex items-center gap-2 cursor-pointer"
+            >
               {data.buttons.secondary}
               <Mail className="w-4 h-4" />
             </button>
