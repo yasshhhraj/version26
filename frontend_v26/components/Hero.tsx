@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import { ArrowUpRight, Mail } from "lucide-react";
+import { motion, Variants } from "framer-motion";
 
 interface HeroProps {
   onContactClick?: () => void;
@@ -20,6 +21,26 @@ interface HeroProps {
 export default function Hero({ data, onContactClick }: HeroProps) {
   // Fallback if data is missing (e.g. during dev/refactor)
   if (!data) return null;
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15,
+        delayChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, x: -50 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
 
   return (
     <div className="w-full h-screen relative flex items-center bg-black overflow-hidden">
@@ -45,38 +66,43 @@ export default function Hero({ data, onContactClick }: HeroProps) {
 
       {/* Content Overlay */}
       <div className="relative z-10 w-[95%] max-w-7xl mx-auto px-6 pointer-events-none">
-        <div className="flex flex-col items-start text-left max-w-4xl mt-[-5vh]">
+        <motion.div
+          className="flex flex-col items-start text-left max-w-4xl mt-[-5vh]"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {/* EST Badge */}
-          <div className="mb-6 pointer-events-auto">
+          <motion.div variants={itemVariants} className="mb-6 pointer-events-auto">
             <span className="px-5 py-1.5 rounded-full border border-white/20 text-white/80 text-xs md:text-sm font-mono tracking-widest bg-white/5 backdrop-blur-sm">
               {data.badge}
             </span>
-          </div>
+          </motion.div>
 
           {/* Version Subtitle */}
-          <h2 className="text-white/60 text-sm md:text-lg tracking-[0.3em] uppercase font-medium mb-2 pl-1">
+          <motion.h2 variants={itemVariants} className="text-white/60 text-sm md:text-lg tracking-[0.3em] uppercase font-medium mb-2 pl-1">
             {data.subtitle}
-          </h2>
+          </motion.h2>
 
           {/* COGNIX Main Title */}
-          <h1 className="text-7xl md:text-9xl font-bold tracking-tighter mb-4 leading-none">
+          <motion.h1 variants={itemVariants} className="text-7xl md:text-9xl font-bold tracking-tighter mb-4 leading-none">
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 drop-shadow-[0_0_30px_rgba(59,130,246,0.5)]">
               {data.mainTitle}
             </span>
-          </h1>
+          </motion.h1>
 
           {/* Tagline */}
-          <h3 className="text-white text-lg md:text-2xl tracking-[0.2em] font-light uppercase mb-8 text-shadow-sm pl-1">
+          <motion.h3 variants={itemVariants} className="text-white text-lg md:text-2xl tracking-[0.2em] font-light uppercase mb-8 text-shadow-sm pl-1">
             {data.tagline}
-          </h3>
+          </motion.h3>
 
           {/* Description */}
-          <p className="text-gray-400 text-base md:text-lg max-w-md leading-relaxed mb-10 pl-1">
+          <motion.p variants={itemVariants} className="text-gray-400 text-base md:text-lg max-w-md leading-relaxed mb-10 pl-1">
             {data.description}
-          </p>
+          </motion.p>
 
           {/* Buttons */}
-          <div className="flex flex-col md:flex-row gap-6 items-center pointer-events-auto pl-1">
+          <motion.div variants={itemVariants} className="flex flex-col md:flex-row gap-6 items-center pointer-events-auto pl-1">
             <Link
               href="/events"
               className="group relative px-8 py-3 rounded-full border border-white/20 text-white font-medium text-sm tracking-wide bg-gradient-to-r from-[#4600be] to-[#371768] hover:from-[#5b1ad4] hover:to-[#4a1f8c] shadow-[0_0_20px_rgba(70,0,190,0.3)] hover:shadow-[0_0_30px_rgba(70,0,190,0.5)] transition-all duration-300 flex items-center gap-2 cursor-pointer"
@@ -92,8 +118,8 @@ export default function Hero({ data, onContactClick }: HeroProps) {
               {data.buttons.secondary}
               <Mail className="w-4 h-4" />
             </button>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </div>
   );
