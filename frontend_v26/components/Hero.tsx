@@ -43,7 +43,7 @@ export default function Hero({ data, onContactClick }: HeroProps) {
   };
 
   return (
-    <div className="w-full h-screen relative flex items-center bg-black overflow-hidden">
+    <div className="w-full h-screen relative flex items-center overflow-hidden">
       {/* Spline Scene via Iframe - Restored Background */}
       <div className="absolute inset-0 w-full h-full z-0">
         <iframe
@@ -67,7 +67,7 @@ export default function Hero({ data, onContactClick }: HeroProps) {
       {/* Content Overlay */}
       <div className="relative z-10 w-[95%] max-w-7xl mx-auto px-6 pointer-events-none">
         <motion.div
-          className="flex flex-col items-start text-left max-w-4xl mt-[-5vh]"
+          className="flex flex-col items-start text-left max-w-4xl"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
