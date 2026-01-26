@@ -3,6 +3,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 import LoginComponent from "@/components/ui/LoginComponent";
 import { Home, Calendar, Lightbulb, Users, LucideIcon } from "lucide-react";
@@ -24,27 +26,49 @@ function NavLink({
   href,
   children,
   icon: Icon,
+  isActive,
   className,
 }: {
   href: string;
   children: React.ReactNode;
   icon: LucideIcon;
+  isActive: boolean;
   className?: string;
 }) {
   return (
     <Link
       href={href}
       className={cn(
-        "group flex items-center gap-2 relative px-3 py-2 transition-colors",
-        "text-white/80 hover:text-white",
+        "group flex items-center gap-2 relative px-3 py-2 transition-colors duration-300",
+        isActive
+          ? "text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"
+          : "text-white/80 hover:text-white",
         className
       )}
     >
-      <Icon className="w-4 h-4 transition-transform duration-300 group-hover:scale-110 group-hover:text-purple-400" />
+      <Icon
+        className={cn(
+          "w-4 h-4 transition-transform duration-300",
+          isActive ? "scale-110 text-purple-400" : "group-hover:scale-110 group-hover:text-purple-400"
+        )}
+      />
       <span className="relative font-medium tracking-wide">
         {children}
-        <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-purple-500 transition-all duration-300 group-hover:w-full shadow-[0_0_8px_rgba(168,85,247,0.8)]"></span>
       </span>
+      
+      {/* Active State Sliding Underline */}
+      {isActive && (
+        <motion.span
+          layoutId="navbar-active"
+          className="absolute bottom-0 left-0 w-full h-[2px] bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)]"
+          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+        />
+      )}
+
+      {/* Hover Underline (only visible when NOT active) */}
+      {!isActive && (
+        <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-purple-500/50 transition-all duration-300 group-hover:w-full"></span>
+      )}
     </Link>
   );
 }
@@ -53,6 +77,7 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const navRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -115,7 +140,12 @@ export default function Navbar() {
       {/* 2. CENTER: NAVIGATION LINKS */}
       <div className="hidden md:flex gap-6 font-semibold">
         {NAV_LINKS.map((link) => (
-          <NavLink key={link.label} href={link.href} icon={link.icon}>
+          <NavLink
+            key={link.label}
+            href={link.href}
+            icon={link.icon}
+            isActive={pathname === link.href}
+          >
             {link.label}
           </NavLink>
         ))}
@@ -137,6 +167,7 @@ export default function Navbar() {
               key={link.label}
               href={link.href}
               icon={link.icon}
+              isActive={pathname === link.href}
               className="block w-full py-3 px-4 text-center hover:bg-white/5 rounded-lg text-lg font-medium"
             >
               {link.label}
