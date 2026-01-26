@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, Layers, Terminal, Camera } from "lucide-react";
+import { X, ZoomIn, Camera, Play, Layers, Terminal } from "lucide-react";
 import Image from "next/image";
 
 
@@ -140,23 +140,25 @@ const photos: Photo[] = [
 
 export default function AGIGallery({ videoData }: { videoData?: { src: string; title: string } }) {
     const [selectedId, setSelectedId] = useState<string | null>(null);
-    const [visibleCount, setVisibleCount] = useState(2);
+    const [visibleCount, setVisibleCount] = useState(6);
     const loaderRef = useRef<HTMLDivElement>(null);
 
+    // Initial load adjustment based on screen size
     useEffect(() => {
         const updateInitialCount = () => {
             if (window.innerWidth >= 1024) {
-                setVisibleCount(6);
+                setVisibleCount(9);
             } else if (window.innerWidth >= 640) {
-                setVisibleCount(4);
+                setVisibleCount(6);
             } else {
-                setVisibleCount(2);
+                setVisibleCount(3);
             }
         };
 
         updateInitialCount();
     }, []);
 
+    // Infinite scroll observer
     useEffect(() => {
         const observer = new IntersectionObserver(
             (entries) => {
@@ -175,68 +177,64 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
     }, [visibleCount]);
 
     return (
-        <section className="relative min-h-screen bg-transparent px-8 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
+        <section className="relative min-h-screen bg-transparent px-4 md:px-8 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
             {/* Ambient Background Glows */}
             <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#4600be]/10 blur-[120px] rounded-full -z-10" />
             <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-purple-900/10 blur-[150px] rounded-full -z-10" />
             
             <div className="relative z-10 mx-auto max-w-7xl">
                 {/* Header Section */}
-                <div className="mb-12 flex flex-col items-start justify-between gap-4 border-b border-white/10 pb-10 md:flex-row md:items-end">
-                    <div>
-                        <div className="mb-4 flex items-center gap-2 text-xs font-medium text-purple-400 border border-purple-500/20 bg-purple-500/5 px-3 py-1 rounded-full w-fit">
-                            <Camera size={14} />
-                            <span>VERSION&apos;26 ARCHIVE</span>
-                        </div>
-                        <h2 className="text-5xl font-bold tracking-tighter text-white md:text-7xl lg:text-9xl">
-                            Event <span className="text-[#4600be] italic">Gallery</span>
-                        </h2>
+                <div className="mb-16 flex flex-col items-center text-center">
+                    <div className="mb-4 flex items-center gap-2 text-xs font-medium text-purple-400 border border-purple-500/20 bg-purple-500/5 px-3 py-1 rounded-full">
+                        <Camera size={14} />
+                        <span>VERSION&apos;26 ARCHIVE</span>
                     </div>
-                        <div className="flex items-center gap-4 text-xs font-bold tracking-widest text-neutral-400">
-                            <div className="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-full border border-white/10">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#4600be] opacity-75"></span>
-                                    <span className="relative inline-flex h-2 w-2 rounded-full bg-[#4600be]"></span>
-                                </span>
-                                LIVE FEED
-                            </div>
-                            <div className="border-l border-white/10 pl-4 py-2 uppercase tracking-[0.2em]">{photos.length + (videoData ? 1 : 0)} Moments Captured</div>
-                        </div>
+                    <h2 className="text-5xl font-bold tracking-tighter text-white md:text-7xl lg:text-8xl mb-6">
+                        Event <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4600be] to-purple-400 italic">Gallery</span>
+                    </h2>
+                    <p className="max-w-xl text-neutral-400 text-lg">
+                        Explore the defining moments of the 33rd edition. A curated collection of innovation, community, and technological breakthroughs.
+                    </p>
                 </div>
 
-                {/* Gallery Items */}
-                <div className="flex flex-col gap-12">
+                {/* Main Content Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                    
+                    {/* Featured Video Card - Spans 2 cols on large screens if first item, or just fits in grid */}
                     {videoData && (
-                        <div
-                            className="w-full aspect-video rounded-3xl border border-white/10 overflow-hidden bg-zinc-900 shadow-[0_0_50px_-12px_rgba(70,0,190,0.3)] relative group"
-                        >
-                            <iframe
-                                className="absolute top-0 left-0 w-full h-full border-0"
-                                src="https://www.youtube.com/embed/C1GOcj_aLPQ?si=7c_doixXs2p4XMi-&modestbranding=1&rel=0"
-                                title="YouTube video player"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                referrerPolicy="strict-origin-when-cross-origin"
+                        <div className="col-span-1 md:col-span-2 lg:col-span-2 row-span-2 relative group rounded-3xl overflow-hidden border border-white/10 bg-zinc-900 shadow-2xl aspect-video lg:aspect-auto">
+                             <div className="absolute inset-0 z-10 bg-black/20 group-hover:bg-transparent transition-colors duration-500 pointer-events-none" />
+                             <iframe
+                                className="w-full h-full object-cover"
+                                src={`${videoData.src}?controls=0&rel=0&modestbranding=1`}
+                                title={videoData.title}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen
-                                loading="lazy"
                             />
-                            <div
-                                className="absolute inset-0 pointer-events-none border-20 border-black/20 mix-blend-overlay"/>
+                            <div className="absolute bottom-6 left-6 z-20 flex items-center gap-3">
+                                <div className="w-12 h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20">
+                                    <Play className="w-5 h-5 text-white fill-white" />
+                                </div>
+                                <div>
+                                    <p className="text-xs text-purple-300 font-mono uppercase tracking-widest">Featured Video</p>
+                                    <h3 className="text-xl font-bold text-white">{videoData.title}</h3>
+                                </div>
+                            </div>
                         </div>
                     )}
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {photos.slice(0, visibleCount).map((photo, index) => (
-                            <Card key={photo.id} photo={photo} index={index} onClick={() => setSelectedId(photo.id)} />
-                        ))}
-                    </div>
-
-                    {/* Sentinel for Infinite Scroll */}
-                    {visibleCount < photos.length && (
-                        <div ref={loaderRef} className="h-10 w-full flex items-center justify-center">
-                            <div className="h-2 w-2 rounded-full bg-[#4600be] animate-pulse" />
-                        </div>
-                    )}
+                    {/* Photo Cards */}
+                    {photos.slice(0, visibleCount).map((photo, index) => (
+                        <Card key={photo.id} photo={photo} index={index} onClick={() => setSelectedId(photo.id)} />
+                    ))}
                 </div>
+
+                {/* Sentinel for Infinite Scroll */}
+                {visibleCount < photos.length && (
+                    <div ref={loaderRef} className="h-24 w-full flex items-center justify-center mt-12">
+                        <div className="h-2 w-2 rounded-full bg-[#4600be] animate-pulse" />
+                    </div>
+                )}
             </div>
 
             {/* Lightbox Modal */}
@@ -257,61 +255,48 @@ function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick:
     const [isLoading, setIsLoading] = useState(true);
 
     return (
-        <div
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.5, delay: index % 3 * 0.1 }}
             onClick={onClick}
-            className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/5 backdrop-blur-sm transition-all duration-500 hover:border-[#4600be]/30 hover:bg-white/10 break-inside-avoid min-h-[200px]"
+            className="group relative cursor-pointer rounded-3xl overflow-hidden border border-white/10 bg-zinc-900/50 aspect-4/3 md:aspect-square"
         >
-            {/* Loading State Overlay */}
-            {isLoading && (
-                <div className="absolute inset-0 z-30 flex items-center justify-center bg-zinc-900/80 backdrop-blur-sm">
-                    <div className="h-8 w-8 border-2 border-purple-500 border-t-transparent rounded-full animate-spin" />
-                </div>
-            )}
-
-            {/* Scanning Line Effect on Hover */}
-            {!isLoading && <div className="absolute inset-x-0 h-0.5 top-0 bg-linear-to-r from-transparent via-[#4600be] to-transparent opacity-0 transition-all duration-700 group-hover:opacity-100 group-hover:top-full z-20" />}
-
-            {/* Corner Accents */}
-            <div className={`absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20 transition-all group-hover:border-[#4600be] group-hover:w-4 group-hover:h-4 z-20 ${isLoading ? 'opacity-30' : ''}`} />
-            <div className={`absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 transition-all group-hover:border-[#4600be] group-hover:w-4 group-hover:h-4 z-20 ${isLoading ? 'opacity-30' : ''}`} />
-
-            {/* Image Container */}
-            <div className="overflow-hidden bg-zinc-900/50 aspect-square">
-                <div className="w-full h-full">
-                    <Image
-                        src={photo.src}
-                        alt={photo.alt}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        priority={index < 4}
-                        onLoad={() => setIsLoading(false)}
-                        className={`object-cover transition-all duration-1000 group-hover:scale-105 ${isLoading ? 'opacity-0 scale-95' : 'opacity-100 scale-100 grayscale-[0.3] group-hover:grayscale-0'}`}
-                    />
-                </div>
+            {/* Image */}
+            <div className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover:scale-105">
+                <Image
+                    src={photo.src}
+                    alt={photo.alt}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    onLoad={() => setIsLoading(false)}
+                    className={`object-cover ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}
+                />
+                {/* Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
             </div>
 
-            {/* Card Overlay / Metadata */}
-            <div className={`absolute inset-0 bg-linear-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-6 flex flex-col justify-end ${isLoading ? 'hidden' : ''}`}>
-                <p className="font-bold text-[10px] uppercase tracking-[0.2em] text-[#4600be] mb-1">
-                    {photo.category}
-                </p>
-                <div className="flex items-end justify-between gap-4">
-                    <h3 className="text-lg font-bold text-white leading-tight">
+            {/* Content */}
+            <div className="absolute inset-0 p-6 flex flex-col justify-end items-start">
+                <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-purple-400 mb-2 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                        {photo.category}
+                    </p>
+                    <h3 className="text-2xl font-bold text-white leading-tight mb-1">
                         {photo.alt}
                     </h3>
-                    <div className="shrink-0 rounded-full bg-[#4600be] p-2 shadow-[0_0_15px_rgba(70,0,190,0.5)]">
-                        <ZoomIn className="h-4 w-4 text-white" />
-                    </div>
+                    <p className="text-xs text-neutral-400 font-mono">
+                        {photo.timestamp}
+                    </p>
+                </div>
+                
+                {/* Icon Button */}
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-[-10px] group-hover:translate-y-0">
+                    <ZoomIn className="w-4 h-4 text-white" />
                 </div>
             </div>
-
-            {/* Static Bottom Info (Visible when not hovered) */}
-            <div className={`absolute bottom-4 left-4 group-hover:opacity-0 transition-opacity duration-300 ${isLoading ? 'hidden' : ''}`}>
-                <p className="text-[10px] font-mono text-white/40 tracking-tighter">
-                    REF_{photo.id.padStart(4, '0')} {'//'} {photo.timestamp}
-                </p>
-            </div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -329,73 +314,39 @@ function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-9999 flex items-center justify-center bg-black/95 p-4 md:p-8 backdrop-blur-2xl"
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 md:p-8 backdrop-blur-sm"
             onClick={onClose}
         >
             <div
-                className="relative max-h-full max-w-6xl w-full overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/90 shadow-[0_0_100px_rgba(70,0,190,0.2)]"
+                className="relative max-h-full max-w-6xl w-full overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/90 shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Modal Header */}
-                <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between bg-linear-to-b from-black/80 to-transparent p-6 md:p-8">
-                    <div className="flex items-center gap-4">
-                        <div className="rounded-full bg-[#4600be]/20 p-2.5 border border-[#4600be]/30 backdrop-blur-md">
-                            <Camera className="h-5 w-5 text-[#4600be]" />
+                <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between bg-gradient-to-b from-black/80 to-transparent p-6">
+                    <div className="flex items-center gap-3">
+                        <div className="rounded-full bg-purple-500/20 p-2 border border-purple-500/30">
+                            <Camera className="h-4 w-4 text-purple-400" />
                         </div>
-                        <div className="flex flex-col">
-                            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#4600be] drop-shadow-md">{photo.timestamp}</span>
-                            <span className="text-xl md:text-2xl font-bold text-white tracking-tight mt-1 drop-shadow-md">{photo.alt}</span>
-                        </div>
+                        <span className="text-xs font-bold uppercase tracking-widest text-white/80">{photo.category}</span>
                     </div>
                     <button
                         onClick={onClose}
-                        className="group relative rounded-full bg-black/40 p-4 text-white/70 transition-all hover:bg-[#4600be] hover:text-white border border-white/10 backdrop-blur-md"
+                        className="rounded-full bg-white/10 p-3 text-white/70 hover:bg-white/20 hover:text-white transition-colors"
                     >
-                        <X size={24} className="transition-transform duration-300 group-hover:rotate-90" />
+                        <X size={20} />
                     </button>
                 </div>
 
                 {/* Image Section */}
-                <div className="relative flex min-h-[50vh] max-h-[85vh] w-full items-center justify-center bg-zinc-950/50">
-                    <div className="relative max-h-full w-full flex items-center justify-center">
-                        <Image
-                            src={photo.src}
-                            alt={photo.alt}
-                            width={1920}
-                            height={1080}
-                            className="max-h-[85vh] w-auto object-contain"
-                            priority
-                        />
-                    </div>
-                </div>
-
-                {/* Modal Footer / Details */}
-                <div className="flex items-center justify-between border-t border-white/5 bg-black/40 p-6 md:p-8 backdrop-blur-md">
-                    <div className="flex flex-wrap gap-6 md:gap-12">
-                        <div className="flex items-center gap-3">
-                            <div className="rounded-lg bg-white/5 p-2">
-                                <Layers size={18} className="text-[#4600be]" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] uppercase tracking-widest text-neutral-500">Resolution</span>
-                                <span className="text-sm font-medium text-neutral-200">High Definition</span>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <div className="rounded-lg bg-white/5 p-2">
-                                <Terminal size={18} className="text-[#4600be]" />
-                            </div>
-                            <div className="flex flex-col">
-                                <span className="text-[10px] uppercase tracking-widest text-neutral-500">Category</span>
-                                <span className="text-sm font-medium text-neutral-200">{photo.category}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="hidden md:block">
-                        <span className="font-mono text-[10px] text-neutral-500 tracking-tighter">
-                            UID_{photo.id.padStart(6, '0')} {"// ARCHIVE_2026"}
-                        </span>
-                    </div>
+                <div className="relative flex min-h-[50vh] max-h-[85vh] w-full items-center justify-center bg-black">
+                    <Image
+                        src={photo.src}
+                        alt={photo.alt}
+                        width={1920}
+                        height={1080}
+                        className="max-h-[85vh] w-auto object-contain"
+                        priority
+                    />
                 </div>
             </div>
         </motion.div>
