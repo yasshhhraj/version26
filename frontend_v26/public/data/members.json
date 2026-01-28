@@ -1,0 +1,138 @@
+[
+  {
+    "name": "Yashvant Gautam",
+    "role": "MEMBER",
+    "committee": "EEC",
+    "image": "/Assets/team/members/yashvant.jpeg",
+    "linkedin_id": "www.linkedin_id.com/in/ yashvant-gautam",
+    "email_id": "yashvant.2003@gmail.com"
+  },
+  {
+    "name": "Vishesh Sharma",
+    "role": "MEMBER",
+    "committee": "EEC",
+    "image": "/Assets/team/members/vishesh.jpeg",
+    "linkedin_id": "https://www.linkedin_id.com/in/vishesh3569",
+    "email_id": "vishesh059@gmail.com"
+  },
+  {
+    "name": "Shivam Das",
+    "role": "MEMBER",
+    "committee": "EEC",
+    "image": "/Assets/team/members/shivam.jpeg",
+    "linkedin_id": "https://www.linkedin_id.com/in/shivam-das-614b8121b",
+    "email_id": "shivamdas16122002@gmail.com"
+  },
+  {
+    "name": "Tanmoy Roy",
+    "role": "MEMBER",
+    "committee": "EEC",
+    "image": "/Assets/team/members/tanmoy.jpeg",
+    "linkedin_id": "https://www.linkedin_id.com/in/tempewda",
+    "email_id": "205124100@nitt.edu"
+  },
+  {
+    "name": "Prakhar Srivastava ",
+    "role": "MEMBER",
+    "committee": "EEC",
+    "image": "/Assets/team/members/prakhar.jpeg",
+    "linkedin_id": "https://www.linkedin_id.com/in/prakhar-srivastava-42a5a3319/",
+    "email_id": "Mathsmaticprakhar@gmail.com"
+  },
+  {
+    "name": "Kumar Manglam ",
+    "role": "MEMBER",
+    "committee": "EEC",
+    "image": "/Assets/team/members/manglam.jpeg",
+    "linkedin_id": "https://www.linkedin_id.com/in/kumar-manglam-760142364?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "email_id": "kr.manglam1010@gmail.com"
+  },
+  {
+    "name": "INDERPREET SINGH",
+    "role": "MEMBER",
+    "committee": "EEC",
+    "image": "/Assets/team/members/inderpreet.jpeg",
+    "linkedin_id": "https://www.linkedin_id.com/in/inderpreet-singh-659354323",
+    "email_id": "inderpreetsingh74188@gmail.com"
+  },
+  {
+    "name": "Lokendra Patidar",
+    "role": "MEMBER",
+    "committee": "EEC",
+    "image": "/Assets/team/members/lokendra.jpeg",
+    "linkedin_id": "https://www.linkedin_id.com/in/lokendra-patidar-b55b10341/",
+    "email_id": "lokinitt7@gmail.com"
+  },
+  {
+    "Timestamp": "23/01/2026 10:34:51",
+    "name": "Divyanshi Rajput",
+    "committee": "ARC",
+    "linkedin_id": "https://www.linkedin_id.com/in/divyanshirajput0405/",
+    "email_id": "divyanshirajput02003@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/divyanshi.jpeg"
+  },
+  {
+    "Timestamp": "24/01/2026 09:36:27",
+    "name": "Harinarayan",
+    "committee": "HRC",
+    "linkedin_id": "https://www.linkedin_id.com/in/hari-narayan-138a401a4?utm_source=share_via&utm_content=profile&utm_medium=member_android",
+    "email_id": "harry21sidar@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/harinarayan.jpeg"
+  },
+  {
+    "Timestamp": "24/01/2026 11:18:34",
+    "name": "Mukul",
+    "committee": "EEC",
+    "linkedin_id": "",
+    "email_id": "mukul.kushwahaa@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/mukul.jpeg"
+  },
+  {
+    "Timestamp": "23/01/2026 16:06:41",
+    "name": "Surajit Das",
+    "committee": "EEC",
+    "linkedin_id": "",
+    "email_id": "surajitjack2002@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/surajit.jpeg"
+  },
+  {
+    "Timestamp": "24/01/2026 11:49:08",
+    "name": "Somnath Ratrey",
+    "committee": "ARC",
+    "linkedin_id": "Somnath Ratrey",
+    "email_id": "somnathratrey568@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/somnath.jpeg"
+  },
+  {
+    "Timestamp": "24/01/2026 11:50:22",
+    "name": "Jayram Rana",
+    "committee": "HRC",
+    "linkedin_id": "https://www.linkedin_id.com/in/jayram-rana-2832bb318/",
+    "email_id": "jayramrana8207@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/jayram.jpeg"
+  },
+  {
+    "Timestamp": "24/01/2026 13:40:49",
+    "name": "Rohit Bamniya",
+    "committee": "HRC",
+    "linkedin_id": "https://www.linkedin_id.com/in/rohit-bamniya-mcanitt?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
+    "email_id": "rohitbamniya4141@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/rohit.jpeg"
+  },
+  {
+    "Timestamp": "24/01/2026 13:43:07",
+    "name": "Abhishek Patidar",
+    "committee": "HRC",
+    "linkedin_id": "Abhishek Patidar",
+    "email_id": "Patelabhishekak47@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/abhishek.jpeg"
+  }
+]

@@ -5,8 +5,13 @@ import EventPopUp, {FullEventData} from "@/components/EventPopup";
 import AGIEventPoster, {EventCardData} from "@/components/event-poster";
 import { Search } from "lucide-react";
 
+interface OnlineEventData extends EventCardData {
+    registrationUrl?: string;
+    isOnline?: boolean;
+}
+
 const EventsPage = () => {
-    const [eventsData, setEventsData] = useState<EventCardData[]>([]);
+    const [eventsData, setEventsData] = useState<OnlineEventData[]>([]);
     const [filter, setFilter] = useState<'All' | 'Technical' | 'Non-Technical'>('All');
     const [selectedEvent, setSelectedEvent] = useState<EventCardData | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,14 +31,26 @@ const EventsPage = () => {
 
     useEffect(() => {
         // Read static JSON from /public folder instead of calling API
-        fetch('/data/events.json')
-            .then(res => (res.ok ? res.json() : []))
-            .then(data => {
-                setEventsData(data);
-            })
-            .catch(() => {
+        const fetchEvents = async () => {
+            try {
+                const eventsRes = await fetch('/data/events.json');
+                const events: OnlineEventData[] = eventsRes.ok ? await eventsRes.json() : [];
+                
+                // Sort events to put online events first
+                const sortedEvents = [...events].sort((a, b) => {
+                    if (a.isOnline && !b.isOnline) return -1;
+                    if (!a.isOnline && b.isOnline) return 1;
+                    return 0;
+                });
+
+                setEventsData(sortedEvents);
+            } catch (error) {
+                console.error("Error fetching events:", error);
                 setEventsData([]);
-            });
+            }
+        };
+
+        fetchEvents();
     }, []);
 
     const filteredEvents = useMemo(() => {

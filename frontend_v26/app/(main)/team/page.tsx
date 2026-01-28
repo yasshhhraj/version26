@@ -193,13 +193,6 @@ function MessageModal({ isOpen, onClose, message, name, title, image }: MessageM
     )
 }
 
-interface CommitteeData {
-    id: string
-    name: string
-    fullName: string
-    members: TeamMemberProps[]
-}
-
 interface Advisor {
     name: string;
     role: string;
@@ -220,13 +213,13 @@ export default function TeamPage() {
         advisors: Advisor[];
         cccMembers: TeamMemberProps[];
         coreTeam: TeamMemberProps[];
-        committees: CommitteeData[];
     }>({
         advisors: [],
         cccMembers: [],
-        coreTeam: [],
-        committees: []
+        coreTeam: []
     });
+
+    const [members, setMembers] = useState<TeamMemberProps[]>([]);
 
     useEffect(() => {
         fetch('/data/team.json')
@@ -235,6 +228,13 @@ export default function TeamPage() {
                 setTeamData(data);
             })
             .catch(err => console.error("Failed to load team data:", err));
+
+        fetch('/data/members.json')
+            .then(res => res.json())
+            .then(data => {
+                setMembers(data);
+            })
+            .catch(err => console.error("Failed to load members data:", err));
     }, []);
 
     const openMessage = (message: string, name: string, title: string, image: string) => {
@@ -342,34 +342,27 @@ export default function TeamPage() {
                     </section>
                 )}
 
-                {/* Committees */}
-                {/*<section className="mb-20">*/}
-                {/*    <div className="flex flex-col items-center gap-2 mb-12 text-center">*/}
-                {/*        <div className="flex items-center gap-2 text-[#4600be] mb-2">*/}
-                {/*            <div className="h-px w-8 bg-[#4600be]" />*/}
-                {/*            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Members</span>*/}
-                {/*            <div className="h-px w-8 bg-[#4600be]" />*/}
-                {/*        </div>*/}
-                {/*        <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">*/}
-                {/*            Our <span className="text-[#4600be] italic font-serif">Members</span>*/}
-                {/*        </h2>*/}
-                {/*    </div>*/}
+                {/* Members Section */}
+                {members.length > 0 && (
+                    <section className="mb-20">
+                        <div className="flex flex-col items-center gap-2 mb-12 text-center">
+                            <div className="flex items-center gap-2 text-[#4600be] mb-2">
+                                <div className="h-px w-8 bg-[#4600be]" />
+                                <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Members</span>
+                                <div className="h-px w-8 bg-[#4600be]" />
+                            </div>
+                            <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">
+                                Our <span className="text-[#4600be] italic font-serif">Members</span>
+                            </h2>
+                        </div>
 
-                {/*    {teamData.committees.map((committee) => (*/}
-                {/*        <div key={committee.id} className="mb-16">*/}
-                {/*            <div className="flex flex-col items-center gap-2 mb-8 text-center">*/}
-                {/*                <h3 className="text-xl font-bold tracking-tighter text-white uppercase opacity-80">*/}
-                {/*                    {committee.fullName.split(' ').slice(0, -1).join(' ')} <span className="text-[#4600be] italic font-serif">Committee</span>*/}
-                {/*                </h3>*/}
-                {/*            </div>*/}
-                {/*            <div className="flex flex-wrap justify-center gap-8">*/}
-                {/*                {committee.members.map((member, index) => (*/}
-                {/*                    <TeamMemberCard key={index} {...member} role={member.role} index={index} />*/}
-                {/*                ))}*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    ))}*/}
-                {/*</section>*/}
+                        <div className="flex flex-wrap justify-center gap-8">
+                            {members.map((member, index) => (
+                                <TeamMemberCard key={index} {...member} role={member.role} index={index} />
+                            ))}
+                        </div>
+                    </section>
+                )}
             </div>
 
             <MessageModal 

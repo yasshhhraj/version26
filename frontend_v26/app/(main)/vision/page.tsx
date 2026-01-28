@@ -184,46 +184,9 @@ export default function VisionPage() {
                     </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-20">
-                    {/* Capability Ratios */}
-                    <div className="lg:col-span-5 space-y-10">
-                        <h4 className="text-[10px] font-bold uppercase tracking-[0.4em] text-neutral-400 border-l-2 border-[#4600be] pl-4">
-                            {visionData.stats.subtitle}
-                        </h4>
-
-                        <div className="space-y-8">
-                            {visionData.stats.progress.map((item, i) => (
-                                <motion.div 
-                                    key={i} 
-                                    initial={{ opacity: 0, x: -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.1 }}
-                                    viewport={{ once: true }}
-                                    className="space-y-3"
-                                >
-                                    <div className="flex justify-between text-[10px] font-bold tracking-widest text-neutral-500">
-                                        <span>{item.label}</span>
-                                        <span className="text-white font-mono">{item.percentage}</span>
-                                    </div>
-
-                                    <div className="h-0.5 bg-white/5 rounded-full overflow-hidden shadow-inner">
-                                        <motion.div
-                                            initial={{ width: 0 }}
-                                            whileInView={{ width: item.percentage }}
-                                            transition={{ duration: 1.5, ease: "circOut" }}
-                                            viewport={{ once: true }}
-                                            className="h-full bg-linear-to-r from-purple-800 via-[#4600be] to-purple-400 relative"
-                                        >
-                                            <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                                        </motion.div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-
+                <div className="grid grid-cols-1 gap-20">
                     {/* Metrics Grid */}
-                    <div className="lg:col-span-7 grid grid-cols-2 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden shadow-2xl group/stats">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-2xl overflow-hidden shadow-2xl group/stats">
                         {visionData.stats.grid.map((stat, index) => (
                             <motion.div 
                                 key={index} 

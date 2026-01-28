@@ -25,18 +25,11 @@
   "stats": {
     "title": "Execution Metrics",
     "description": "Measured outcomes across participation, reliability, and program density. Verified archival data.",
-    "subtitle": "Operational Ratios",
-    "progress": [
-      { "label": "COMPLETION RATE", "percentage": "99%" },
-      { "label": "RETENTION INDEX", "percentage": "60%" },
-      { "label": "SLA COMPLIANCE", "percentage": "95%" },
-      { "label": "ADMISSION RATIO", "percentage": "41%" }
-    ],
     "grid": [
       { "value": "32", "label": "Editions Executed" },
-      { "value": "15+", "label": "Events per Edition" },
-      { "value": "2000+", "label": "Active Participants" },
-      { "value": "50L+", "label": "Rewards Pool" }
+      { "value": "10+", "label": "Events Every Edition" },
+      { "value": "500+", "label": "Active Participants Every Year" },
+      { "value": "30+", "label": "Colleges" }
     ]
   },
   "quote": {

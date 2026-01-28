@@ -1,4 +1,4 @@
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {EventCardData} from "@/components/event-poster";
 import {createPortal} from 'react-dom';
 import {X, Calendar, MapPin, Info, Link, Mail, LucideIcon} from 'lucide-react';
@@ -12,6 +12,8 @@ export interface FullEventData extends EventCardData {
     venue: string;
     platform: string;
     contact: string;
+    registrationUrl?: string;
+    isOnline?: boolean;
 }
 
 interface EventPopUpProps {
@@ -42,7 +44,6 @@ const InfoItem = ({icon: Icon, label, value}: { icon: LucideIcon; label: string;
 
 export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
     useBodyScrollLock(open);
-
 
     if (!open || !data) return null;
 
@@ -81,6 +82,14 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
                                 </h3>
                                 <p className="text-neutral-400 text-sm leading-relaxed whitespace-pre-line">{data.fullDescription}</p>
                             </section>
+
+                            {data.isOnline && (
+                                <section className="p-4 rounded-xl bg-purple-500/10 border border-purple-500/20">
+                                    <p className="text-purple-300 text-sm font-medium">
+                                        Note: Please ensure you have a <a href="https://www.hackerearth.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-purple-200">HackerEarth ID</a> created before the event.
+                                    </p>
+                                </section>
+                            )}
 
                             {data.rules?.length > 0 && (
                                 <section>

@@ -138,8 +138,7 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
 
     return (
         <div
-            onClick={onClick}
-            className={`relative max-w-72 aspect-3/4 bg-linear-to-br from-black via-purple-950 to-black rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(139,92,246,0.5)] group cursor-pointer ${className}`}
+            className={`relative max-w-72 aspect-3/4 bg-linear-to-br from-black via-purple-950 to-black rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(139,92,246,0.5)] group ${className}`}
         >
             {/* Background Image */}
             {imageUrl && (
@@ -240,7 +239,10 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
                         ))}
                     </div>
 
-                    <button className="group/btn relative px-6 py-3 bg-linear-to-r from-cyan-500 to-pink-500 rounded-full font-bold text-black text-sm tracking-wide shadow-[0_0_40px_rgba(0,255,255,0.6)] hover:shadow-[0_0_60px_rgba(0,255,255,0.8)] transition-all duration-300 hover:scale-105 overflow-hidden w-full">
+                    <button 
+                        onClick={onClick}
+                        className="group/btn relative px-6 py-3 bg-linear-to-r from-cyan-500 to-pink-500 rounded-full font-bold text-black text-sm tracking-wide shadow-[0_0_40px_rgba(0,255,255,0.6)] hover:shadow-[0_0_60px_rgba(0,255,255,0.8)] transition-all duration-300 hover:scale-105 overflow-hidden w-full"
+                    >
                         <span className="relative z-10">VIEW DETAILS</span>
                         <div className="absolute inset-0    bg-linear-to-r from-pink-500 to-cyan-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
                     </button>
