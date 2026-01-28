@@ -160,11 +160,7 @@ const HeroSection2 = memo(function HeroSection2({
               "flex flex-col lg:flex-row mt-8 gap-8 items-center lg:items-start"
             }
           >
-            <motion.div
-              initial={{ scale: 0, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
+            <div
               className={
                 "relative w-full lg:w-1/2 aspect-4/3 md:aspect-square h-auto max-h-64 md:max-h-136"
               }
@@ -178,16 +174,12 @@ const HeroSection2 = memo(function HeroSection2({
               >
                 <InfinityParticles3D />
               </Suspense>
-            </motion.div>
-            <motion.p
-              initial={{ x: 100, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-              viewport={{ once: true, amount: 0.3 }}
+            </div>
+            <p
               className="text-[#8F9999] text-lg md:text-xl lg:text-2xl w-full lg:w-1/2 leading-relaxed drop-shadow-md bg-black/5 border border-transparent p-6 md:p-8 rounded-2xl shadow-none text-center lg:text-left"
             >
               {data.description}
-            </motion.p>
+            </p>
           </div>
         </div>
       </div>

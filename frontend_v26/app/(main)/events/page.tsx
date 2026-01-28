@@ -4,12 +4,14 @@ import EventPopUp, {FullEventData} from "@/components/EventPopup";
 import AGIEventPoster, {EventCardData} from "@/components/event-poster";
 import { Search } from "lucide-react";
 import StarField from "@/components/StarField";
+import { motion } from "framer-motion";
 
 const EventsPage = () => {
     const [eventsData, setEventsData] = useState<EventCardData[]>([]);
     const [filter, setFilter] = useState<'All' | 'Technical' | 'Non-Technical'>('All');
     const [selectedEvent, setSelectedEvent] = useState<EventCardData | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [hoveredEventId, setHoveredEventId] = useState<string | null>(null);
 
     // Search State
     const [searchQuery, setSearchQuery] = useState('');
@@ -64,25 +66,17 @@ const EventsPage = () => {
     }, []);
 
     return (
-        <main className={'relative flex flex-col items-center justify-start h-dvh w-dvw overflow-hidden bg-[#0B0C0E]'}>
+        <main className={'relative min-h-screen w-full bg-[#0B0C0E] flex flex-col items-center justify-start overflow-x-hidden'}>
             {/* Dynamic Background */}
-            <div className="absolute inset-0 z-0 opacity-40">
-                <StarField />
+            <div className="fixed inset-0 z-0 opacity-40 pointer-events-none">
+                <StarField speedFactor={10} starCount={400} />
             </div>
             
             {/* Ambient Gradients */}
-            <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-version-indigo-ink/20 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
-            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-version-lavender-purple/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
+            <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-version-indigo-ink/20 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
+            <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-version-lavender-purple/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
             
-            {/* Subtle Grid Overlay */}
-            <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
-                 style={{
-                     backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
-                     backgroundSize: '50px 50px'
-                 }} 
-            />
-
-            <div className={'absolute h-full w-full flex flex-col items-center justify-start overflow-x-hidden'}>
+            <div className={'relative w-full flex flex-col items-center justify-start pb-32'}>
                 <div className={'w-full leading-none flex items-center justify-center shrink z-10 mt-24'}>
                     <p className={'font-bold text-[clamp(64px,20vw,256px)] text-version-mauve text-shadow-lg transition-all duration-300'}>EVENTS</p>
                 </div>
@@ -138,12 +132,23 @@ const EventsPage = () => {
                 <div className="w-full md:max-w-[1400px] px-4 sm:px-8 pb-20 z-10">
                     <div
                         className="relative grid place-items-center gap-6 md:gap-8 grid-cols-[repeat(auto-fit,minmax(260px,1fr))]"
+                        onMouseLeave={() => setHoveredEventId(null)}
                     >
                         {filteredEvents.map((event) => (
                             <div
                                 key={event.id}
-                                className="relative z-10"
+                                className="relative z-10 group"
+                                onMouseEnter={() => setHoveredEventId(event.id || null)}
                             >
+                                {hoveredEventId === event.id && (
+                                    <motion.div
+                                        layoutId="glass-hover-effect"
+                                        className="absolute -inset-4 bg-white/5 rounded-[2.5rem] border border-white/10 backdrop-blur-sm -z-10"
+                                        initial={{ opacity: 0, scale: 0.95 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                                    />
+                                )}
                                 <AGIEventPoster
                                     eventData={event}
                                     onClick={() => openDetails(event)}
