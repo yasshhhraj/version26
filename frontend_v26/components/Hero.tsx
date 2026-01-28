@@ -94,7 +94,7 @@ export default function Hero({ data, onContactClick }: HeroProps) {
       </div>
 
       {/* Overlay to hide potential watermark at bottom right with Version badge */}
-      <div className="absolute bottom-4 right-4 z-20 pointer-events-none hidden md:block">
+      <div className="absolute bottom-4 right-4 z-20 hidden md:block">
         <div className="bg-[#0E0E0F] px-10 py-4 rounded-lg border border-white/10 shadow-lg flex items-center gap-2">
           <span className="text-white/80 text-sm font-mono tracking-wider">
             version26

@@ -1,9 +1,9 @@
 'use client'
-import Image from "next/image";
-import React, {useEffect, useState, useRef, useCallback, useMemo} from "react";
+import React, {useEffect, useState, useCallback, useMemo} from "react";
 import EventPopUp, {FullEventData} from "@/components/EventPopup";
 import AGIEventPoster, {EventCardData} from "@/components/event-poster";
 import { Search } from "lucide-react";
+import StarField from "@/components/StarField";
 
 const EventsPage = () => {
     const [eventsData, setEventsData] = useState<EventCardData[]>([]);
@@ -14,15 +14,6 @@ const EventsPage = () => {
     // Search State
     const [searchQuery, setSearchQuery] = useState('');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-    // Hover Magnet Shadow State
-    const [shadowStyle, setShadowStyle] = useState<React.CSSProperties>({
-        opacity: 0,
-        transform: 'translate(0px, 0px)',
-        width: '0px',
-        height: '0px',
-    });
-    const gridRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         // Read static JSON from /public folder instead of calling API
@@ -72,40 +63,24 @@ const EventsPage = () => {
         setIsModalOpen(true);
     }, []);
 
-    // Magnet Shadow Logic
-    const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
-        updateShadowPosition(e.currentTarget);
-    };
-
-    const handleMouseLeaveGrid = () => {
-        setShadowStyle(prev => ({ ...prev, opacity: 0 }));
-    };
-
-    const updateShadowPosition = (target: HTMLElement) => {
-        if (!gridRef.current) return;
-
-        const gridRect = gridRef.current.getBoundingClientRect();
-        const cardRect = target.getBoundingClientRect();
-
-        const x = cardRect.left - gridRect.left;
-        const y = cardRect.top - gridRect.top;
-
-        setShadowStyle({
-            opacity: 1,
-            transform: `translate(${x}px, ${y}px)`,
-            width: `${cardRect.width}px`,
-            height: `${cardRect.height}px`,
-        });
-    };
-
     return (
-        <main className={'relative flex flex-col items-center justify-start h-dvh w-dvw overflow-hidden bg-black'}>
-            <div className={'absolute  h-[150%] w-1/2 sm:w-2/3 md:w-xl bg-blue-400 rounded-[100%] transform top-1/2 -translate-y-1/2 blur-[128px]'} />
-
-            <div className={'w-[250%] sm:w-[150%] md:w-4/5 aspect-square scale-x-120 bg-black absolute flex items-start justify-center top-[90%] sm:top-[85%] md:top-[80%] left-1/2 transform -translate-x-1/2 rounded-full border border-[#4A68FF]/20 transition-colors duration-300 pointer-events-none'}>
-                <Image src={'/Assets/shine.svg'} alt={'decorative shine'} width={1980} height={1000}
-                       className={'w-full scale-x-90 transform -translate-y-10 md-translate-y-5 md:-translate-x-5 opacity-50 transition-opacity duration-300'}/>
+        <main className={'relative flex flex-col items-center justify-start h-dvh w-dvw overflow-hidden bg-[#0B0C0E]'}>
+            {/* Dynamic Background */}
+            <div className="absolute inset-0 z-0 opacity-40">
+                <StarField />
             </div>
+            
+            {/* Ambient Gradients */}
+            <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-version-indigo-ink/20 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-version-lavender-purple/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
+            
+            {/* Subtle Grid Overlay */}
+            <div className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none" 
+                 style={{
+                     backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
+                     backgroundSize: '50px 50px'
+                 }} 
+            />
 
             <div className={'absolute h-full w-full flex flex-col items-center justify-start overflow-x-hidden'}>
                 <div className={'w-full leading-none flex items-center justify-center shrink z-10 mt-24'}>
@@ -162,20 +137,11 @@ const EventsPage = () => {
                 {/* Grid Layout */}
                 <div className="w-full md:max-w-[1400px] px-4 sm:px-8 pb-20 z-10">
                     <div
-                        ref={gridRef}
                         className="relative grid place-items-center gap-6 md:gap-8 grid-cols-[repeat(auto-fit,minmax(260px,1fr))]"
-                        onMouseLeave={handleMouseLeaveGrid}
                     >
-                        {/* Magnet Shadow Element */}
-                        <div
-                            className="absolute inset-0 bg-purple-500/10 rounded-3xl pointer-events-none transition-all duration-500 ease-[cubic-bezier(0.25,0.8,0.25,1)] z-0"
-                            style={shadowStyle}
-                        />
-
                         {filteredEvents.map((event) => (
                             <div
                                 key={event.id}
-                                onMouseEnter={(e) => handleMouseEnter(e)}
                                 className="relative z-10"
                             >
                                 <AGIEventPoster

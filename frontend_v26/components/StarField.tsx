@@ -75,7 +75,7 @@ export default function StarField() {
         };
 
         const resizeObserver = new ResizeObserver((entries) => {
-            for (let entry of entries) {
+            for (const entry of entries) {
                 const { width: w, height: h } = entry.contentRect;
                 width = canvas.width = w;
                 height = canvas.height = h;
@@ -86,7 +86,7 @@ export default function StarField() {
         resizeObserver.observe(parent);
 
         // Initial set ready
-        setReady(true);
+        requestAnimationFrame(() => setReady(true));
 
         function animate() {
             ctx!.clearRect(0, 0, width, height);
