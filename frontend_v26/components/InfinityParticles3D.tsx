@@ -1,11 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import { useInView } from 'framer-motion';
 
 export default function InfinityParticles3D() {
     const containerRef = useRef<HTMLDivElement>(null);
     const particlesRef = useRef<THREE.Group | null>(null);
     const [isHovering, setIsHovering] = useState(false);
     const [ready, setReady] = useState(false);
+
+    // Optimization: Track visibility to pause rendering
+    const isInView = useInView(containerRef, { amount: 0.1 });
+    const isInViewRef = useRef(isInView);
+
+    useEffect(() => {
+        isInViewRef.current = isInView;
+    }, [isInView]);
 
     useEffect(() => {
         const container = containerRef.current;
@@ -18,9 +27,15 @@ export default function InfinityParticles3D() {
         const height = container.clientHeight || 1;
 
         const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        
+        // Optimization 1 & 2: Disable antialias and limit pixel ratio for performance
+        const renderer = new THREE.WebGLRenderer({ 
+            antialias: false, 
+            alpha: true,
+            powerPreference: 'high-performance'
+        });
 
-        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(width, height);
         container.appendChild(renderer.domElement);
 
@@ -33,9 +48,9 @@ export default function InfinityParticles3D() {
         const particleCount = 400;
         const geometry = new THREE.BufferGeometry();
         const positions = new Float32Array(particleCount * 3);
-        const colors = new Float32Array(particleCount * 3);
         const sizes = new Float32Array(particleCount);
-        const phases = new Float32Array(particleCount);
+        // Optimization 3: Use 'progress' attribute for GPU-based coloring instead of CPU updates
+        const progresses = new Float32Array(particleCount);
 
         for (let i = 0; i < particleCount; i++) {
             const t = (i / particleCount) * Math.PI * 2;
@@ -51,60 +66,65 @@ export default function InfinityParticles3D() {
 
             // Varied sizes for depth
             sizes[i] = 0.01;
-            phases[i] = Math.random() * Math.PI * 2;
-
-            // Cyan to blue gradient with hints of purple
-            const progress = i / particleCount;
-            const color = new THREE.Color();
-            color.setHSL(0.55 + progress * 0.15, 0.8, 0.6);
-            colors[i * 3] = color.r;
-            colors[i * 3 + 1] = color.g;
-            colors[i * 3 + 2] = color.b;
+            progresses[i] = i / particleCount;
         }
 
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+        geometry.setAttribute('progress', new THREE.BufferAttribute(progresses, 1));
 
-        // Custom shader for flowing effect
+        // Custom shader for flowing effect with GPU-based coloring
         const material = new THREE.ShaderMaterial({
             uniforms: {
                 time: { value: 0 },
                 pixelRatio: { value: renderer.getPixelRatio() }
             },
             vertexShader: `
-        attribute float size;
-        attribute vec3 color;
-        varying vec3 vColor;
-        varying float vAlpha;
-        uniform float time;
-        
-        void main() {
-          vColor = color;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          
-          // Flowing wave effect along the path
-          float wave = sin(position.x * 2.0 + position.y * 2.0 + time * 2.0) * 0.5 + 0.5;
-          vAlpha = wave * 0.8 + 0.2;
-          
-          gl_PointSize = size * 8.0 * (1.0 + wave * 0.3) * (300.0 / -mvPosition.z);
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
+                attribute float size;
+                attribute float progress;
+                varying vec3 vColor;
+                varying float vAlpha;
+                uniform float time;
+                
+                // Helper function to convert HSL to RGB directly in shader
+                vec3 hsl2rgb(vec3 c) {
+                    vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
+                    return c.z + c.y * (rgb - 0.5) * (1.0 - abs(2.0 * c.z - 1.0));
+                }
+
+                void main() {
+                    // Calculate hue based on time and particle progress (replaces CPU loop)
+                    // Original logic: hue = 0.55 + sin(time * 0.15) * 0.15
+                    // Plus progress * 0.1 offset
+                    float hueBase = 0.55 + sin(time * 0.15) * 0.15;
+                    float finalHue = hueBase + progress * 0.15; // 0.15 matches original range
+                    
+                    vColor = hsl2rgb(vec3(finalHue, 0.8, 0.6));
+
+                    vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                    
+                    // Flowing wave effect along the path
+                    float wave = sin(position.x * 2.0 + position.y * 2.0 + time * 2.0) * 0.5 + 0.5;
+                    vAlpha = wave * 0.8 + 0.2;
+                    
+                    gl_PointSize = size * 8.0 * (1.0 + wave * 0.3) * (300.0 / -mvPosition.z);
+                    gl_Position = projectionMatrix * mvPosition;
+                }
+            `,
             fragmentShader: `
-        varying vec3 vColor;
-        varying float vAlpha;
-        
-        void main() {
-          // Circular particle shape with soft edges
-          vec2 center = gl_PointCoord - vec2(0.5);
-          float dist = length(center);
-          if (dist > 0.5) discard;
-          
-          float alpha = (1.0 - dist * 2.0) * vAlpha;
-          gl_FragColor = vec4(vColor, alpha);
-        }
-      `,
+                varying vec3 vColor;
+                varying float vAlpha;
+                
+                void main() {
+                    // Circular particle shape with soft edges
+                    vec2 center = gl_PointCoord - vec2(0.5);
+                    float dist = length(center);
+                    if (dist > 0.5) discard;
+                    
+                    float alpha = (1.0 - dist * 2.0) * vAlpha;
+                    gl_FragColor = vec4(vColor, alpha);
+                }
+            `,
             transparent: true,
             blending: THREE.AdditiveBlending,
             depthWrite: false
@@ -256,11 +276,9 @@ export default function InfinityParticles3D() {
         // Update rotation based on hover state
         window.updateHoverRotation = (hovering: boolean) => {
             if (hovering) {
-                // Top view on hover
                 targetRotationX = 0;
                 targetRotationY = 0;
             } else {
-                // Front view when not hovering
                 targetRotationX = Math.PI / 2;
                 targetRotationY = 0;
             }
@@ -272,24 +290,16 @@ export default function InfinityParticles3D() {
 
         const animate = () => {
             animationFrameId = requestAnimationFrame(animate);
+            
+            // Optimization 3: Skip rendering if not in view
+            if (!isInViewRef.current) return;
+
             const time = clock.getElapsedTime();
 
             // Update shader time
             material.uniforms.time.value = time;
 
-            // Slowly cycle colors through blue, pink, purple
-            const colorCycle = time * 0.15; // Slow color change
-            const hue = 0.55 + Math.sin(colorCycle) * 0.15; // 0.55 is blue, shifts to pink/purple
-            const particleColors = geometry.attributes.color.array as Float32Array;
-            for (let i = 0; i < particleCount; i++) {
-                const progress = i / particleCount;
-                const color = new THREE.Color();
-                color.setHSL(hue + progress * 0.1, 0.75, 0.6);
-                particleColors[i * 3] = color.r;
-                particleColors[i * 3 + 1] = color.g;
-                particleColors[i * 3 + 2] = color.b;
-            }
-            (geometry.attributes.color as THREE.BufferAttribute).needsUpdate = true;
+            // REMOVED: CPU-side color update loop (now handled in vertexShader)
 
             // Update thinking nodes positions - they travel along the path
             const nodePositions = nodes.geometry.attributes.position.array as Float32Array;
@@ -397,7 +407,7 @@ export default function InfinityParticles3D() {
             onMouseEnter={() => setIsHovering(true)}
             onMouseLeave={() => setIsHovering(false)}
         >
-            <div 
+             <div 
                 ref={containerRef} 
                 className={`w-full h-full transition-opacity duration-1000 ease-in-out ${ready ? 'opacity-100' : 'opacity-0'}`} 
             />
