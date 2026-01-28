@@ -57,19 +57,35 @@ export default function StarField() {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = window.innerHeight;
+        const parent = canvas.parentElement;
+        if (!parent) return;
+
+        let width = 0;
+        let height = 0;
         let animationId: number;
-
         const stars: Star[] = [];
-        const starCountInitial = Math.floor(CONFIG.STAR_COUNT * (width * height) / (1920 * 1080));
-        const actualCountInitial = Math.max(CONFIG.STAR_COUNT, starCountInitial);
 
-        for (let i = 0; i < actualCountInitial; i++) {
-            stars.push(new Star(ctx, width, height));
-        }
+        const initStars = () => {
+            stars.length = 0;
+            const starCount = Math.floor(CONFIG.STAR_COUNT * (width * height) / (1920 * 1080));
+            const actualCount = Math.max(CONFIG.STAR_COUNT, starCount);
+            for (let i = 0; i < actualCount; i++) {
+                stars.push(new Star(ctx, width, height));
+            }
+        };
 
-        // Mark as ready after initialization
+        const resizeObserver = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                const { width: w, height: h } = entry.contentRect;
+                width = canvas.width = w;
+                height = canvas.height = h;
+                initStars();
+            }
+        });
+
+        resizeObserver.observe(parent);
+
+        // Initial set ready
         setReady(true);
 
         function animate() {
@@ -83,24 +99,10 @@ export default function StarField() {
             animationId = requestAnimationFrame(animate);
         }
 
-        const handleResize = () => {
-            width = canvas!.width = window.innerWidth;
-            height = canvas!.height = window.innerHeight;
-            
-            // Re-initialize stars on resize to cover new area
-            stars.length = 0;
-            const starCount = Math.floor(CONFIG.STAR_COUNT * (width * height) / (1920 * 1080));
-            const actualCount = Math.max(CONFIG.STAR_COUNT, starCount);
-            for (let i = 0; i < actualCount; i++) {
-                stars.push(new Star(ctx!, width, height));
-            }
-        };
-
-        window.addEventListener('resize', handleResize);
         animate();
 
         return () => {
-            window.removeEventListener('resize', handleResize);
+            resizeObserver.disconnect();
             cancelAnimationFrame(animationId);
         };
     }, []);

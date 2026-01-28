@@ -158,24 +158,8 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
         updateInitialCount();
     }, []);
 
-    // Infinite scroll observer
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (entries[0].isIntersecting && visibleCount < photos.length) {
-                    setVisibleCount((prev) => Math.min(prev + 3, photos.length));
-                }
-            },
-            { threshold: 0.1, rootMargin: "200px" }
-        );
-
-        if (loaderRef.current) {
-            observer.observe(loaderRef.current);
-        }
-
-        return () => observer.disconnect();
-    }, [visibleCount]);
-
+    // Infinite scroll observer removed in favor of explicit "Load More" to fix Footer Trap
+    
     return (
         <section className="relative min-h-screen bg-transparent px-4 md:px-8 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
             {/* Ambient Background Glows */}
@@ -229,10 +213,18 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
                     ))}
                 </div>
 
-                {/* Sentinel for Infinite Scroll */}
+                {/* Load More Button */}
                 {visibleCount < photos.length && (
-                    <div ref={loaderRef} className="h-24 w-full flex items-center justify-center mt-12">
-                        <div className="h-2 w-2 rounded-full bg-[#4600be] animate-pulse" />
+                    <div className="flex justify-center mt-12">
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => setVisibleCount((prev) => Math.min(prev + 6, photos.length))}
+                            className="px-8 py-3 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white font-medium text-sm tracking-wide transition-colors backdrop-blur-md flex items-center gap-2 group"
+                        >
+                            <span>Load More Moments</span>
+                            <div className="w-1 h-1 rounded-full bg-purple-500 group-hover:shadow-[0_0_8px_rgba(168,85,247,0.8)] transition-shadow" />
+                        </motion.button>
                     </div>
                 )}
             </div>
@@ -258,6 +250,7 @@ function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick:
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
+            whileTap={{ scale: 0.98 }}
             viewport={{ once: true, margin: "-50px" }}
             transition={{ duration: 0.5, delay: index % 3 * 0.1 }}
             onClick={onClick}
@@ -300,7 +293,9 @@ function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick:
     );
 }
 
-// --- Lightbox Component ---
+import { createPortal } from "react-dom";
+
+// ... Lightbox Component ...
 function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
     React.useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -309,21 +304,24 @@ function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
         };
     }, []);
 
-    return (
+    // Ensure we are on client before rendering portal (though AGIGallery is client component, safe guard)
+    if (typeof document === 'undefined') return null;
+
+    return createPortal(
         <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 p-4 md:p-8 backdrop-blur-sm"
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 p-4 md:p-8 backdrop-blur-sm"
             onClick={onClose}
         >
             <div
-                className="relative max-h-full max-w-6xl w-full overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/90 shadow-2xl"
+                className="relative max-h-[95vh] max-w-7xl w-full overflow-hidden rounded-3xl border border-white/10 bg-zinc-900/90 shadow-2xl flex flex-col"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Modal Header */}
-                <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between bg-gradient-to-b from-black/80 to-transparent p-6">
-                    <div className="flex items-center gap-3">
+                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between bg-gradient-to-b from-black/80 to-transparent p-6 pointer-events-none">
+                    <div className="flex items-center gap-3 pointer-events-auto">
                         <div className="rounded-full bg-purple-500/20 p-2 border border-purple-500/30">
                             <Camera className="h-4 w-4 text-purple-400" />
                         </div>
@@ -331,14 +329,14 @@ function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
                     </div>
                     <button
                         onClick={onClose}
-                        className="rounded-full bg-white/10 p-3 text-white/70 hover:bg-white/20 hover:text-white transition-colors"
+                        className="rounded-full bg-white/10 p-3 text-white/70 hover:bg-white/20 hover:text-white transition-colors pointer-events-auto cursor-pointer"
                     >
                         <X size={20} />
                     </button>
                 </div>
 
                 {/* Image Section */}
-                <div className="relative flex min-h-[50vh] max-h-[85vh] w-full items-center justify-center bg-black">
+                <div className="relative flex w-full h-full min-h-[50vh] items-center justify-center bg-black">
                     <Image
                         src={photo.src}
                         alt={photo.alt}
@@ -349,6 +347,7 @@ function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
                     />
                 </div>
             </div>
-        </motion.div>
+        </motion.div>,
+        document.body
     );
 }

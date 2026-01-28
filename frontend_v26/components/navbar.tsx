@@ -29,6 +29,9 @@ function NavLink({
   isActive,
   isMobile = false,
   className,
+  onMouseEnter,
+  onMouseLeave,
+  isHovered,
 }: {
   href: string;
   children: React.ReactNode;
@@ -36,36 +39,57 @@ function NavLink({
   isActive: boolean;
   isMobile?: boolean;
   className?: string;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  isHovered?: boolean;
 }) {
   return (
     <Link
       href={href}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className={cn(
-        "group flex items-center gap-2 relative px-3 py-2 transition-colors duration-300",
+        "group flex items-center gap-2 relative px-4 py-2 rounded-full transition-colors duration-300",
         isActive
           ? "text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"
           : "text-white/80 hover:text-white",
         className,
       )}
     >
+      {/* Hover State Sliding Pill (Desktop Only) */}
+      {isHovered && !isActive && !isMobile && (
+        <motion.div
+            layoutId="navbar-hover"
+            className="absolute inset-0 bg-white/5 rounded-full"
+            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+        />
+      )}
+
+      {/* Active State Background Pill (Desktop Only) */}
+      {isActive && !isMobile && (
+        <>
+          <motion.div
+            layoutId="navbar-active-bg"
+            className="absolute inset-0 bg-white/10 border border-white/5 rounded-full"
+            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+          />
+          <motion.span
+            layoutId="navbar-active-underline"
+            className="absolute -bottom-2 left-3 right-3 h-[3px] bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)] rounded-t-full"
+            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+          />
+        </>
+      )}
+
       <Icon
         className={cn(
-          "w-4 h-4 transition-transform duration-300",
+          "w-4 h-4 transition-transform duration-300 relative z-10",
           isActive
             ? "scale-110 text-purple-400"
             : "group-hover:scale-110 group-hover:text-purple-400",
         )}
       />
-      <span className="relative font-medium tracking-wide">{children}</span>
-
-      {/* Active State Sliding Underline (Desktop Only) */}
-      {isActive && !isMobile && (
-        <motion.span
-          layoutId="navbar-active"
-          className="absolute bottom-[-10px] left-3 right-3 h-[3px] bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)] rounded-t-full"
-          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-        />
-      )}
+      <span className="relative z-10 font-medium tracking-wide">{children}</span>
     </Link>
   );
 }
@@ -73,6 +97,7 @@ function NavLink({
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
 
@@ -135,13 +160,15 @@ export default function Navbar() {
       </div>
 
       {/* 2. CENTER: NAVIGATION LINKS */}
-      <div className="hidden md:flex gap-6 font-semibold">
+      <div className="hidden md:flex gap-6 font-semibold" onMouseLeave={() => setHoveredPath(null)}>
         {NAV_LINKS.map((link) => (
           <NavLink
             key={link.label}
             href={link.href}
             icon={link.icon}
             isActive={pathname === link.href}
+            isHovered={hoveredPath === link.href}
+            onMouseEnter={() => setHoveredPath(link.href)}
           >
             {link.label}
           </NavLink>
