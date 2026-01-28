@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { FileText, Users, ShieldCheck, Mail, Linkedin, X } from "lucide-react"
+import {FileText, Users, ShieldCheck, Mail, X, Linkedin} from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState, useEffect } from "react"
 
@@ -253,7 +253,7 @@ export default function TeamPage() {
 
 
     return (
-        <section className="relative min-h-screen bg-black px-4 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-hidden">
+        <main className="relative min-h-screen bg-black px-4 py-24 text-neutral-100 selection:bg-purple-500/30 overflow-x-hidden">
              {/* Ambient Background Glows */}
              <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#4600be]/10 blur-[120px] rounded-full -z-10" />
             <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-purple-900/10 blur-[150px] rounded-full -z-10" />
@@ -343,33 +343,33 @@ export default function TeamPage() {
                 )}
 
                 {/* Committees */}
-                <section className="mb-20">
-                    <div className="flex flex-col items-center gap-2 mb-12 text-center">
-                        <div className="flex items-center gap-2 text-[#4600be] mb-2">
-                            <div className="h-px w-8 bg-[#4600be]" />
-                            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Members</span>
-                            <div className="h-px w-8 bg-[#4600be]" />
-                        </div>
-                        <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">
-                            Our <span className="text-[#4600be] italic font-serif">Members</span>
-                        </h2>
-                    </div>
+                {/*<section className="mb-20">*/}
+                {/*    <div className="flex flex-col items-center gap-2 mb-12 text-center">*/}
+                {/*        <div className="flex items-center gap-2 text-[#4600be] mb-2">*/}
+                {/*            <div className="h-px w-8 bg-[#4600be]" />*/}
+                {/*            <span className="text-[10px] font-bold uppercase tracking-[0.3em]">Members</span>*/}
+                {/*            <div className="h-px w-8 bg-[#4600be]" />*/}
+                {/*        </div>*/}
+                {/*        <h2 className="text-3xl font-bold tracking-tighter text-white uppercase">*/}
+                {/*            Our <span className="text-[#4600be] italic font-serif">Members</span>*/}
+                {/*        </h2>*/}
+                {/*    </div>*/}
 
-                    {teamData.committees.map((committee) => (
-                        <div key={committee.id} className="mb-16">
-                            <div className="flex flex-col items-center gap-2 mb-8 text-center">
-                                <h3 className="text-xl font-bold tracking-tighter text-white uppercase opacity-80">
-                                    {committee.fullName.split(' ').slice(0, -1).join(' ')} <span className="text-[#4600be] italic font-serif">Committee</span>
-                                </h3>
-                            </div>
-                            <div className="flex flex-wrap justify-center gap-8">
-                                {committee.members.map((member, index) => (
-                                    <TeamMemberCard key={index} {...member} role={member.role} index={index} />
-                                ))}
-                            </div>
-                        </div>
-                    ))}
-                </section>
+                {/*    {teamData.committees.map((committee) => (*/}
+                {/*        <div key={committee.id} className="mb-16">*/}
+                {/*            <div className="flex flex-col items-center gap-2 mb-8 text-center">*/}
+                {/*                <h3 className="text-xl font-bold tracking-tighter text-white uppercase opacity-80">*/}
+                {/*                    {committee.fullName.split(' ').slice(0, -1).join(' ')} <span className="text-[#4600be] italic font-serif">Committee</span>*/}
+                {/*                </h3>*/}
+                {/*            </div>*/}
+                {/*            <div className="flex flex-wrap justify-center gap-8">*/}
+                {/*                {committee.members.map((member, index) => (*/}
+                {/*                    <TeamMemberCard key={index} {...member} role={member.role} index={index} />*/}
+                {/*                ))}*/}
+                {/*            </div>*/}
+                {/*        </div>*/}
+                {/*    ))}*/}
+                {/*</section>*/}
             </div>
 
             <MessageModal 
@@ -380,6 +380,6 @@ export default function TeamPage() {
                 title={modalState.title}
                 image={modalState.image}
             />
-        </section>
+        </main>
     )
 }

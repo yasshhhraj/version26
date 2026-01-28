@@ -1,11 +1,12 @@
 'use client'
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import LoginComponent from "@/components/ui/LoginComponent";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const checkPopup = () => {
@@ -29,7 +30,21 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
+  // Close menu when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (navRef.current && !navRef.current.contains(event.target as Node)) {
+        setMenuOpen(false);
+      }
+    }
 
+    if (menuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [menuOpen]);
 
   // Close mobile menu on resize to avoid UI bugs
   useEffect(() => {
@@ -42,7 +57,9 @@ export default function Navbar() {
 
   return (
     // NAVBAR CONTAINER: Fixed, Transparent, High Z-Index
-    <nav className={
+    <nav 
+        ref={navRef}
+        className={
           "glassmorphism h-14"
         +" py-1 px-2 lg:px-6 lg:rounded-full fixed top-5 lg:top-8 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-50 flex items-center justify-between "
         +" rounded-lg transition-transform duration-500 "
@@ -85,14 +102,16 @@ export default function Navbar() {
 
 function Logo({ className }: { className?: string }) {
   return (
-    <div className={`relative w-32 lg:w-38 h-10 shrink-0 transition-all duration-500 ${className}`}>
-      <Image
-        src="/Assets/logo_version.png"
-        alt="Logo"
-        fill
-        className="object-contain object-left"
-        priority
-      />
+    <div  className={`relative w-32 lg:w-38 h-10 shrink-0 transition-all duration-500 ${className}`}>
+      <a href={'/'}>
+        <Image
+            src="/Assets/logo_version.png"
+            alt="Logo"
+            fill
+            className="object-contain object-left"
+            priority
+        />
+      </a>
     </div>
   );
 }

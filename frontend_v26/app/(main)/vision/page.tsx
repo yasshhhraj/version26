@@ -1,13 +1,13 @@
 "use client"
 
-import { ArrowUpRight, Zap, Target, Cpu, BarChart3, Quote, Info } from "lucide-react"
+import { Target, Cpu, BarChart3, Quote } from "lucide-react"
 import Image from "next/image"
 import visionData from "@/public/data/vision.json"
 import { motion } from "framer-motion"
 
 export default function VisionPage() {
     return (
-        <main className="min-h-screen bg-black text-white pt-20 transition-colors duration-300 selection:bg-purple-500/30 overflow-hidden">
+        <main className="relative min-h-screen bg-black text-white pt-20 transition-colors duration-300 selection:bg-purple-500/30 overflow-x-hidden">
             {/* Ambient Background Glows */}
             <div className="absolute top-0 left-1/4 w-[500px] h-[500px] bg-[#4600be]/20 blur-[120px] rounded-full -z-10 animate-pulse-glow" />
             <div className="absolute top-1/2 right-1/4 w-[600px] h-[600px] bg-purple-900/10 blur-[150px] rounded-full -z-10 animate-float" />
@@ -28,7 +28,7 @@ export default function VisionPage() {
                         initial={{ opacity: 0, x: -30 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-6xl md:text-8xl lg:text-[120px] font-bold tracking-tighter leading-none"
+                        className="text-5xl sm:text-6xl md:text-8xl lg:text-[120px] font-bold tracking-tighter leading-none break-words"
                     >
                         {visionData.hero.title} <span className="text-version-mauve italic font-serif text-glow">2026</span>
                     </motion.h1>
@@ -95,9 +95,9 @@ export default function VisionPage() {
                                 <div className="h-px w-12 bg-[#4600be]" />
                                 <span className="text-[10px] font-bold uppercase tracking-[0.3em]">{visionData.version.id}</span>
                             </div>
-                            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter mb-8 uppercase italic font-serif">
-                                {visionData.version.title}
-                            </h2>
+                                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mb-8 uppercase italic font-serif">
+                                    {visionData.version.title}
+                                </h2>
                             <div className="space-y-6 text-neutral-400  leading-relaxed text-justify max-w-2xl font-light">
                                 {visionData.version.content.map((paragraph, index) => (
                                     <p key={index}>{paragraph}</p>
@@ -123,9 +123,22 @@ export default function VisionPage() {
                                     <Cpu size={18} />
                                     <span className="text-[10px] font-bold tracking-[0.3em]">{visionData.agi.subtitle}</span>
                                 </div>
-                                <h2 className="text-5xl md:text-7xl font-bold tracking-tighter mb-8 uppercase leading-[0.9]">
-                                    {visionData.agi.title}
-                                </h2>
+                                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-8 mb-8">
+                                    <h2 className="text-4xl sm:text-5xl md:text-7xl font-bold tracking-tighter uppercase leading-[0.9] flex-1">
+                                        {visionData.agi.title}
+                                    </h2>
+                                    <motion.div 
+                                        initial={{ opacity: 0, x: 20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        className="hidden sm:block lg:hidden w-full max-w-[200px]"
+                                    >
+                                        <div className="relative aspect-square group">
+                                            <div className="absolute inset-0 bg-[#4600be]/20 blur-2xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-1000" />
+                                            <Image src={visionData.agi.image} alt="AGI Visualization" fill className="object-contain relative z-10 drop-shadow-[0_0_20px_rgba(70,0,190,0.4)] max-h-[150px]" />
+                                        </div>
+                                    </motion.div>
+                                </div>
                                 <p className="text-neutral-400 text-lg leading-relaxed mb-10 font-mono tracking-tight">
                                     {visionData.agi.description}
                                 </p>
@@ -139,7 +152,7 @@ export default function VisionPage() {
                             initial={{ opacity: 0, x: 40 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
-                            className="lg:col-span-5 order-1 lg:order-2"
+                            className="lg:col-span-5 order-1 lg:order-2 w-full max-w-md mx-auto lg:max-w-none sm:hidden lg:block"
                         >
                             <div className="relative aspect-square group">
                                 <div className="absolute inset-0 bg-[#4600be]/20 blur-3xl rounded-full scale-75 group-hover:scale-100 transition-transform duration-1000" />
@@ -193,13 +206,13 @@ export default function VisionPage() {
                                         <span className="text-white font-mono">{item.percentage}</span>
                                     </div>
 
-                                    <div className="h-[2px] bg-white/5 rounded-full overflow-hidden shadow-inner">
+                                    <div className="h-0.5 bg-white/5 rounded-full overflow-hidden shadow-inner">
                                         <motion.div
                                             initial={{ width: 0 }}
                                             whileInView={{ width: item.percentage }}
                                             transition={{ duration: 1.5, ease: "circOut" }}
                                             viewport={{ once: true }}
-                                            className="h-full bg-gradient-to-r from-purple-800 via-[#4600be] to-purple-400 relative"
+                                            className="h-full bg-linear-to-r from-purple-800 via-[#4600be] to-purple-400 relative"
                                         >
                                             <div className="absolute inset-0 bg-white/20 animate-pulse" />
                                         </motion.div>
@@ -220,13 +233,13 @@ export default function VisionPage() {
                                 <div className="absolute top-0 right-0 p-4 opacity-0 group-hover/item:opacity-100 transition-opacity">
                                     <div className="w-1 h-1 bg-purple-500 rounded-full animate-ping" />
                                 </div>
-                                <p className="text-5xl md:text-6xl font-bold tracking-tighter text-[#4600be] group-hover/item:text-purple-400 transition-colors">
+                                <p className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter text-[#4600be] group-hover/item:text-purple-400 transition-colors">
                                     {stat.value}
                                 </p>
                                 <p className="mt-2 text-[10px] font-bold uppercase tracking-[0.2em] text-neutral-400 group-hover/item:text-neutral-200 transition-colors">
                                     {stat.label}
                                 </p>
-                                <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-purple-500 group-hover/item:w-full transition-all duration-500" />
+                                <div className="absolute bottom-0 left-0 w-0 h-px bg-purple-500 group-hover/item:w-full transition-all duration-500" />
                             </motion.div>
                         ))}
                     </div>
@@ -237,7 +250,7 @@ export default function VisionPage() {
             <section className="relative py-48 border-t border-white/10 overflow-hidden group/quote">
                 <div className="absolute inset-0 opacity-30 pointer-events-none group-hover/quote:opacity-40 transition-opacity duration-1000">
                     <Image src={visionData.quote.image} alt="Background" fill className="object-cover scale-105 group-hover/quote:scale-100 transition-transform duration-[3s]" />
-                    <div className="absolute inset-0 bg-gradient-to-b from-black via-black/40 to-black" />
+                    <div className="absolute inset-0 bg-linear-to-b from-black via-black/40 to-black" />
                     <div className="absolute inset-0 bg-purple-900/20 mix-blend-color" />
                 </div>
 
@@ -252,9 +265,9 @@ export default function VisionPage() {
                             &ldquo;{visionData.quote.text}&rdquo;
                         </p>
                         <div className="mt-12 flex items-center justify-center gap-4">
-                            <div className="h-[1px] w-12 bg-white/20" />
+                            <div className="h-px w-12 bg-white/20" />
                             <span className="text-[10px] font-bold tracking-[0.4em] uppercase text-neutral-500">Official Directive</span>
-                            <div className="h-[1px] w-12 bg-white/20" />
+                            <div className="h-px w-12 bg-white/20" />
                         </div>
                     </motion.div>
                 </div>

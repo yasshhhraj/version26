@@ -10,7 +10,7 @@ export default function ForgotPasswordLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <>
+    <div className="relative overflow-x-hidden">
       {/* background blobs to match the auth layout theme */}
       <div
         className={
@@ -35,6 +35,6 @@ export default function ForgotPasswordLayout({
       >
         {children}
       </div>
-    </>
+    </div>
   );
 }

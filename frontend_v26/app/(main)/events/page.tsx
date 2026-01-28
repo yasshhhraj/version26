@@ -87,16 +87,15 @@ const EventsPage = () => {
     };
 
     return (
-        <div className={'relative flex flex-col items-center justify-start min-h-screen w-full overflow-hidden h-dvh bg-black'}>
+        <main className={'relative flex flex-col items-center justify-start h-dvh w-dvw overflow-hidden bg-black'}>
             <div className={'absolute  h-[150%] w-1/2 sm:w-2/3 md:w-xl bg-blue-400 rounded-[100%] transform top-1/2 -translate-y-1/2 blur-[128px]'} />
 
             <div className={'w-[250%] sm:w-[150%] md:w-4/5 aspect-square scale-x-120 bg-black absolute flex items-start justify-center top-[90%] sm:top-[85%] md:top-[80%] left-1/2 transform -translate-x-1/2 rounded-full border border-[#4A68FF]/20 transition-colors duration-300 pointer-events-none'}>
                 <Image src={'/Assets/shine.svg'} alt={'decorative shine'} width={1980} height={1000}
                        className={'w-full scale-x-90 transform -translate-y-10 md-translate-y-5 md:-translate-x-5 opacity-50 transition-opacity duration-300'}/>
             </div>
-            {/*<div className={"w-1 h-24 sm:h-36 md:h-44 border border-amber-50 shrink-0"}></div>*/}
 
-            <div className={' h-full w-full flex flex-col items-center justify-start overflow-y-auto'}>
+            <div className={'absolute h-full w-full flex flex-col items-center justify-start overflow-x-hidden'}>
                 <div className={'w-full leading-none flex items-center justify-center shrink z-10 mt-24'}>
                     <p className={'font-bold text-[clamp(64px,20vw,256px)] text-version-mauve text-shadow-lg transition-all duration-300'}>EVENTS</p>
                 </div>
@@ -179,7 +178,7 @@ const EventsPage = () => {
             </div>
             {/* Event Modal */}
             <EventPopUp open={isModalOpen} onClose={()=>setIsModalOpen(false)} data={selectedEvent as FullEventData}/>
-        </div>
+        </main>
     );
 }
 
