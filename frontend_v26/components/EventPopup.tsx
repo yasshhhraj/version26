@@ -66,6 +66,9 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
                             <Badge text={data.eventType??'undefined'} className="bg-purple-600"/>
                             <Badge text={data.participation}
                                    className="bg-white/10 backdrop-blur-md border border-white/10"/>
+                            {data.isOnline && (
+                                <Badge text="Online" className="bg-indigo-600 shadow-[0_0_15px_rgba(79,70,229,0.5)]" />
+                            )}
                         </div>
                         <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">{data.title}</h2>
                         <p className="text-purple-300 italic text-sm mt-1">{data.tagline}</p>

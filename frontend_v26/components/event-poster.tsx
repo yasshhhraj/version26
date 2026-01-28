@@ -14,6 +14,7 @@ export interface EventCardData {
     dateRangeText?: string
     locationType?:  string
     venue?: string
+    isOnline?: boolean
 }
 
 interface AGIEventPosterProps {
@@ -32,6 +33,7 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
         imageUrl,
         eventType,
         venue,
+        isOnline,
     } = eventData
 
     // Parse date to extract more details if needed
@@ -204,6 +206,11 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
                         </div>
                     </div>
 
+                    {isOnline && (
+                        <span className="inline-flex items-center rounded-full bg-indigo-50/10 px-2.5 py-0.5 text-xs font-medium text-indigo-300 ring-1 ring-inset ring-indigo-500/30 backdrop-blur-sm">
+                            Online
+                        </span>
+                    )}
                 </div>
 
                 {/* Main Content */}

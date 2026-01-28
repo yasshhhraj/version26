@@ -5,13 +5,8 @@ import EventPopUp, {FullEventData} from "@/components/EventPopup";
 import AGIEventPoster, {EventCardData} from "@/components/event-poster";
 import { Search } from "lucide-react";
 
-interface OnlineEventData extends EventCardData {
-    registrationUrl?: string;
-    isOnline?: boolean;
-}
-
 const EventsPage = () => {
-    const [eventsData, setEventsData] = useState<OnlineEventData[]>([]);
+    const [eventsData, setEventsData] = useState<EventCardData[]>([]);
     const [filter, setFilter] = useState<'All' | 'Technical' | 'Non-Technical'>('All');
     const [selectedEvent, setSelectedEvent] = useState<EventCardData | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -34,7 +29,7 @@ const EventsPage = () => {
         const fetchEvents = async () => {
             try {
                 const eventsRes = await fetch('/data/events.json');
-                const events: OnlineEventData[] = eventsRes.ok ? await eventsRes.json() : [];
+                const events: EventCardData[] = eventsRes.ok ? await eventsRes.json() : [];
                 
                 // Sort events to put online events first
                 const sortedEvents = [...events].sort((a, b) => {

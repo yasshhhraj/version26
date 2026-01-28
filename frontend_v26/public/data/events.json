@@ -1,5 +1,41 @@
 [
   {
+    "id": "on-01",
+    "title": "Code Clash",
+    "tagline": "Pre-event online coding competition.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.jpeg",
+    "eventType": "technical",
+    "date": "Feb 22",
+    "participation": "solo",
+    "fullDescription": "An online competitive programming contest to warm up for the main event. Test your algorithms and data structures skills.",
+    "rules": [
+      "No plagiarism",
+      "Individual participation only"
+    ],
+    "venue": "Online",
+    "registrationUrl": "https://example.com/register/codeclash",
+    "contact": "version26.nitt@gmail.com",
+    "isOnline": true
+  },
+  {
+    "id": "on-02",
+    "title": "CoreTex Blitz",
+    "tagline": "A fast-paced core CS quiz competition.",
+    "imageUrl": "/Assets/eventposters/event_placeholder.jpeg",
+    "eventType": "technical",
+    "date": "March 01",
+    "participation": "solo",
+    "fullDescription": "Similar to CoreTex but faster! Test your knowledge in CS core topics like OS, DBMS, and Networks in this rapid-fire online quiz.",
+    "rules": [
+      "Rapid fire format",
+      "Limited time per question"
+    ],
+    "venue": "Online",
+    "registrationUrl": "https://example.com/register/coretexblitz",
+    "contact": "version26.nitt@gmail.com",
+    "isOnline": true
+  },
+  {
     "id": "01",
     "title": "Workshop",
     "tagline": "A workshop closely tied to the theme of version'26.",
@@ -196,41 +232,5 @@
     "venue": "A2 Hall",
     "platform": "Stage",
     "contact": "version26.nitt@gmail.com"
-  },
-  {
-    "id": "on-01",
-    "title": "Code Clash",
-    "tagline": "Pre-event online coding competition.",
-    "imageUrl": "/Assets/eventposters/event_placeholder.jpeg",
-    "eventType": "technical",
-    "date": "Feb 22",
-    "participation": "solo",
-    "fullDescription": "An online competitive programming contest to warm up for the main event. Test your algorithms and data structures skills.",
-    "rules": [
-      "No plagiarism",
-      "Individual participation only"
-    ],
-    "venue": "Online",
-    "registrationUrl": "https://example.com/register/codeclash",
-    "contact": "version26.nitt@gmail.com",
-    "isOnline": true
-  },
-  {
-    "id": "on-02",
-    "title": "CoreTex Blitz",
-    "tagline": "A fast-paced core CS quiz competition.",
-    "imageUrl": "/Assets/eventposters/event_placeholder.jpeg",
-    "eventType": "technical",
-    "date": "March 01",
-    "participation": "solo",
-    "fullDescription": "Similar to CoreTex but faster! Test your knowledge in CS core topics like OS, DBMS, and Networks in this rapid-fire online quiz.",
-    "rules": [
-      "Rapid fire format",
-      "Limited time per question"
-    ],
-    "venue": "Online",
-    "registrationUrl": "https://example.com/register/coretexblitz",
-    "contact": "version26.nitt@gmail.com",
-    "isOnline": true
   }
 ]
