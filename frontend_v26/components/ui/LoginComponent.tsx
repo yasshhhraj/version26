@@ -45,7 +45,7 @@ export default function LoginComponent({
       {/* Mobile Hamburger */}
       <button
         onClick={toggleMenu}
-        className="lg:hidden flex flex-col gap-1.5 p-1 z-50"
+        className="md:hidden flex flex-col gap-1.5 p-1 z-50"
       >
         <span
           className={`block w-6 h-0.5 bg-white rounded transition-transform ${
@@ -71,7 +71,7 @@ function LoginButton() {
   return (
     <Link
       href="/auth"
-      className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-md transition-colors shadow-lg shadow-purple-900/20"
+      className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-full transition-colors shadow-lg shadow-purple-900/20"
     >
       Login
     </Link>
@@ -114,13 +114,13 @@ function ProfileBlock({
     <div className="relative" ref={ref}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 p-1 bg-black/10 shadow-2xl rounded-lg overflow-clip"
+        className="flex items-center gap-3 p-1 bg-black/10 shadow-2xl rounded-full overflow-clip"
       >
         <div className="text-right hidden sm:block">
           <div className="text-sm font-medium text-white">{user.fullName}</div>
           <div className="text-[10px] text-gray-400">{user.email}</div>
         </div>
-        <div className="w-8 h-8 rounded-md bg-gray-600 overflow-hidden relative flex items-center justify-center">
+        <div className="w-8 h-8 rounded-full bg-gray-600 overflow-hidden relative flex items-center justify-center">
           <div className="absolute inset-0 bg-linear-to-tr from-purple-500 to-indigo-500" />
           <span className="relative text-white font-bold text-sm uppercase">
             {user.fullName.charAt(0)}

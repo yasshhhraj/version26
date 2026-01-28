@@ -1,33 +1,113 @@
-'use client'
+"use client";
+
+import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 import LoginComponent from "@/components/ui/LoginComponent";
+import { Home, Calendar, Lightbulb, Users, LucideIcon } from "lucide-react";
+
+interface NavLinkItem {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+}
+
+const NAV_LINKS: NavLinkItem[] = [
+  { href: "/", label: "Home", icon: Home },
+  { href: "/events", label: "Event", icon: Calendar },
+  { href: "/vision", label: "Vision", icon: Lightbulb },
+  { href: "/team", label: "Team", icon: Users },
+];
+
+function NavLink({
+  href,
+  children,
+  icon: Icon,
+  isActive,
+  isMobile = false,
+  className,
+  onMouseEnter,
+  onMouseLeave,
+  isHovered,
+}: {
+  href: string;
+  children: React.ReactNode;
+  icon: LucideIcon;
+  isActive: boolean;
+  isMobile?: boolean;
+  className?: string;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
+  isHovered?: boolean;
+}) {
+  return (
+    <Link
+      href={href}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      className={cn(
+        "group flex items-center gap-2 relative px-4 py-2 rounded-full transition-colors duration-300",
+        isActive
+          ? "text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.5)]"
+          : "text-white/80 hover:text-white",
+        className,
+      )}
+    >
+      {/* Hover State Sliding Pill (Desktop Only) */}
+      {isHovered && !isActive && !isMobile && (
+        <motion.div
+            layoutId="navbar-hover"
+            className="absolute inset-0 bg-white/5 rounded-full"
+            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+        />
+      )}
+
+      {/* Active State Background Pill (Desktop Only) */}
+      {isActive && !isMobile && (
+        <>
+          <motion.div
+            layoutId="navbar-active-bg"
+            className="absolute inset-0 bg-white/10 border border-white/5 rounded-full"
+            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+          />
+          <motion.span
+            layoutId="navbar-active-underline"
+            className="absolute -bottom-2 left-3 right-3 h-[3px] bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)] rounded-t-full"
+            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+          />
+        </>
+      )}
+
+      <Icon
+        className={cn(
+          "w-4 h-4 transition-transform duration-300 relative z-10",
+          isActive
+            ? "scale-110 text-purple-400"
+            : "group-hover:scale-110 group-hover:text-purple-400",
+        )}
+      />
+      <span className="relative z-10 font-medium tracking-wide">{children}</span>
+    </Link>
+  );
+}
 
 export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isPopupVisible, setIsPopupVisible] = useState(false);
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
 
   useEffect(() => {
-    const checkPopup = () => {
-      setIsPopupVisible(document.body.style.overflow === 'hidden');
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
     };
 
-    // Initial check
-    checkPopup();
-
-    // Create a MutationObserver to watch for style changes on body
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.attributeName === 'style') {
-          checkPopup();
-        }
-      });
-    });
-
-    observer.observe(document.body, { attributes: true });
-
-    return () => observer.disconnect();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Close menu when clicking outside
@@ -46,96 +126,80 @@ export default function Navbar() {
     };
   }, [menuOpen]);
 
-  // Close mobile menu on resize to avoid UI bugs
+  // Close mobile menu on resize
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth >= 1024) setMenuOpen(false);
+      if (window.innerWidth >= 768) setMenuOpen(false);
     };
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
-    // NAVBAR CONTAINER: Fixed, Transparent, High Z-Index
-    <nav 
-        ref={navRef}
-        className={
-          "glassmorphism h-14"
-        +" py-1 px-2 lg:px-6 lg:rounded-full fixed top-5 lg:top-8 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-50 flex items-center justify-between "
-        +" rounded-lg transition-transform duration-500 "
-        + (isPopupVisible ? " -translate-y-[200%] " : " translate-y-0 ")
-    }>
-
-      {/* 1. LEFT: LOGO */}
-      {/* Invert logo in light mode to make white text black */}
-      <Logo className=" transition-all" />
-
-      {/* 2. CENTER: NAVIGATION LINKS (Absolute Center)
-          Hidden on mobile (md:flex), positioned absolutely to be perfectly centered regardless of Logo width.
-      */}
-      <div className="hidden lg:flex items-center gap-8 absolute left-1/2 -translate-x-1/2">
-        <NavItem icon="home.svg" path="/" label="Home" />
-        <NavItem icon="bill.svg" path="/events" label="Event" />
-        <NavItem icon="bulb.svg" path="/vision" label="Vision" />
-        <NavItem icon="team.svg" path="/team" label="Team" />
-      </div>
-
-      {/* 3. RIGHT: PROFILE & MOBILE TOGGLE */}
-      <LoginComponent menuOpen={menuOpen} toggleMenu={() => setMenuOpen((prev) => !prev)} />
-
-      {/* 4. MOBILE MENU DROPDOWN
-          Renders outside the flow, aligned to the right.
-      */}
-      {menuOpen && (
-        <div className=" glassmorphism absolute lg:hidden top-15 right-0 bg-black/55  border border-[#2E2F2F] w-48 flex flex-col gap-2 animate-in slide-in-from-top-2 fade-in rounded-lg  lg:rounded-full">
-          <NavItem icon="home.svg" path="/" label="Home" mobile />
-          <NavItem icon="bill.svg" path="/events" label="Event" mobile />
-          <NavItem icon="bulb.svg" path="/vision" label="Vision" mobile />
-          <NavItem icon="team.svg" path="/team" label="Team" mobile />
-        </div>
+    <nav
+      ref={navRef}
+      className={cn(
+        "fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-7xl flex justify-between items-center px-2 py-2 rounded-full transition-all duration-500 ease-in-out border border-white/10",
+        scrolled
+          ? "bg-white/5 backdrop-blur-md shadow-md text-white"
+          : "bg-transparent text-white",
+        menuOpen && "bg-black/90", // Ensure background when menu is open on mobile
       )}
-    </nav>
-  );
-}
-
-/* ---------------- Sub-Components ---------------- */
-
-function Logo({ className }: { className?: string }) {
-  return (
-    <div  className={`relative w-32 lg:w-38 h-10 shrink-0 transition-all duration-500 ${className}`}>
-      <a href={'/'}>
-        <Image
+    >
+      {/* 1. LEFT: LOGO */}
+      <div className="relative w-32 h-10 shrink-0">
+        <Link href="/">
+          <Image
             src="/Assets/logo_version.png"
             alt="Logo"
             fill
             className="object-contain object-left"
             priority
-        />
-      </a>
-    </div>
-  );
-}
+          />
+        </Link>
+      </div>
 
-function NavItem({ icon, label, path='#', mobile = false }: { icon: string; path: string; label: string; mobile?: boolean }) {
-  return (
-    <a
-      href={path}
-      className={`group flex items-center gap-2 transition-colors duration-200 ${
-        mobile ? "p-3 hover:bg-[#2E2F2F]/20 rounded-md" : "hover:text-purple-400"
-      }`}
-    >
-      {/* Icon Masking Technique */}
-      <div
-        className={`bg-white group-hover:bg-purple-400 transition-colors duration-200 ${mobile ? "w-5 h-5" : "w-5 h-5"}`}
-        style={{
-          maskImage: `url(/icons/${icon})`,
-          maskSize: "contain",
-          maskRepeat: "no-repeat",
-        }}
-      />
-      <span className="text-xl md:font-medium text-white group-hover:text-purple-400 transition-colors">
-        {label}
-      </span>
-    </a>
+      {/* 2. CENTER: NAVIGATION LINKS */}
+      <div className="hidden md:flex gap-6 font-semibold" onMouseLeave={() => setHoveredPath(null)}>
+        {NAV_LINKS.map((link) => (
+          <NavLink
+            key={link.label}
+            href={link.href}
+            icon={link.icon}
+            isActive={pathname === link.href}
+            isHovered={hoveredPath === link.href}
+            onMouseEnter={() => setHoveredPath(link.href)}
+          >
+            {link.label}
+          </NavLink>
+        ))}
+      </div>
+
+      {/* 3. RIGHT: AUTH & HAMBURGER */}
+      <div className="flex gap-4">
+        <LoginComponent
+          menuOpen={menuOpen}
+          toggleMenu={() => setMenuOpen(!menuOpen)}
+        />
+      </div>
+
+      {/* 4. MOBILE MENU DROPDOWN */}
+      {menuOpen && (
+        <div className="absolute top-20 right-0 left-0 mx-auto w-[95%] bg-[#0E0E0F] border border-white/10 rounded-2xl flex flex-col p-4 gap-2 md:hidden animate-in slide-in-from-top-2 fade-in shadow-2xl">
+          {NAV_LINKS.map((link) => (
+            <NavLink
+              key={link.label}
+              href={link.href}
+              icon={link.icon}
+              isActive={pathname === link.href}
+              isMobile={true}
+              className="w-full py-3 px-4 flex items-center justify-center hover:bg-white/5 rounded-lg text-lg font-medium"
+            >
+              {link.label}
+            </NavLink>
+          ))}
+        </div>
+      )}
+    </nav>
   );
 }
