@@ -10,7 +10,7 @@ export default function ForgotPasswordPage() {
   const { forgotPasswordRequestOtp, resetPassword } = useAuth();
 
   const [email, setEmail] = useState("");
-  const [stage, setStage] = useState<"email" | "otp">("otp"); // merged stage reset into otp
+  const [stage, setStage] = useState<"email" | "otp">("email"); // merged stage reset into otp
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const otpRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [newPassword, setNewPassword] = useState("");
