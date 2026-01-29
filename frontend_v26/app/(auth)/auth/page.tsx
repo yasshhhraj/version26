@@ -23,13 +23,13 @@ export default function AuthPage() {
               <div className="w-1/3 h-full justify-start">
                   {/* Empty space to balance the Home icon in the grid */}
               </div>
-              <div className="w-2/3flexx items-center justify-center">
+              <div className="w-2/3 flex items-center justify-center">
                   <Image 
                       src={'/Assets/logo_version.png'}
                       alt={'version logo'} 
                       width={512} 
                       height={256} 
-                      className={'w-64 object-contain'}
+                      className={'w-auto max-w-64 md:max-w-80 h-auto'}
                   />
               </div>
               <div className="w-1/3 h-full flex items-center justify-end">
