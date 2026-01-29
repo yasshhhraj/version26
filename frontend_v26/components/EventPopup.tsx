@@ -35,9 +35,9 @@ const useBodyScrollLock = (isLocked: boolean) => {
 const InfoItem = ({icon: Icon, label, value}: { icon: LucideIcon; label: string; value: string }) => (
     <div className="flex items-start gap-3">
         <Icon className="text-purple-500 shrink-0" size={18}/>
-        <div>
+        <div className="min-w-0 flex-1">
             <p className="text-[10px] text-neutral-500 uppercase font-bold tracking-widest">{label}</p>
-            <p className="text-sm text-neutral-200 leading-tight">{value}</p>
+            <p className="text-sm text-neutral-200 leading-tight break-words">{value}</p>
         </div>
     </div>
 );
@@ -51,7 +51,7 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
         <div
             className="fixed  inset-0 z-9999 flex items-center sm:items-center justify-center bg-black/90 backdrop-blur-md p-0 sm:p-4">
             <div
-                className="relative  w-[90vw] sm:w-[80vw] lg:w-1/2 max-h-[90vh] bg-neutral-950 border-t sm:border border-white/10 rounded-t-4xl sm:rounded-4xl overflow-hidden flex flex-col  shadow-2xl">
+                className="relative  w-[90vw] sm:w-[85vw] lg:w-[60vw] xl:w-[50vw] max-h-[90vh] bg-neutral-950 border-t sm:border border-white/10 rounded-t-4xl sm:rounded-4xl overflow-hidden flex flex-col  shadow-2xl">
                 {/* Header */}
                 <header className="relative h-56 shrink-0">
                     <Image src={data.imageUrl??''} width={1024} height={1024}  className="w-full h-full object-cover opacity-50" alt={data.title??'undefined'}/>
@@ -77,8 +77,8 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
 
                 {/* Content */}
                 <div className="flex-1 overflow-y-auto p-6 sm:p-10 space-y-8 custom-scrollbar bg-neutral-950">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        <div className="md:col-span-2 space-y-8">
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+                        <div className="md:col-span-3 space-y-8">
                             <section>
                                 <h3 className="text-white font-semibold flex items-center gap-2 mb-3 text-lg">
                                     <Info size={18} className="text-purple-500"/> Description
@@ -110,7 +110,7 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
                             )}
                         </div>
 
-                        <aside className="space-y-4">
+                        <aside className="md:col-span-2 space-y-4">
                             <div className="p-5 rounded-2xl bg-white/5 border border-white/5 space-y-5">
                                 <InfoItem icon={Calendar} label="Date" value={data.date??'undefined'}/>
                                 <InfoItem icon={MapPin} label="Venue" value={data.venue}/>
@@ -120,8 +120,9 @@ export default function EventPopUp({open, onClose, data}: EventPopUpProps) {
                                 <div className="p-5 rounded-2xl bg-purple-600/5 border border-purple-500/10">
                                     <p className="text-[10px] text-purple-400 uppercase font-bold tracking-widest mb-2">Queries</p>
                                     <a href={`mailto:${data.contact}`}
-                                       className="flex items-center gap-2 text-white text-sm hover:underline">
-                                        <Mail size={14}/> {data.contact}
+                                       className="flex items-center gap-2 text-white text-sm hover:underline break-words min-w-0">
+                                        <Mail size={14} className="shrink-0" />
+                                        <span className="break-all">{data.contact}</span>
                                     </a>
                                 </div>
                             )}

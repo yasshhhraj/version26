@@ -210,7 +210,7 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
                 <div className="flex-1 flex flex-col justify-center">
                     <div className="space-y-2">
                         {/* Main Title */}
-                        <h1 className="text-4xl sm:text-4xl font-black leading-none tracking-tighter bg-linear-to-r from-white via-cyan-200 to-purple-400 bg-clip-text text-transparent">
+                        <h1 className="text-2xl sm:text-2xl font-black leading-none tracking-tighter bg-linear-to-r from-white via-cyan-200 to-purple-400 bg-clip-text text-transparent">
                             {title}
                         </h1>
 
