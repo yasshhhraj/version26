@@ -19,22 +19,28 @@ export default function AuthPage() {
       <div className="min-h-screen w-full flex flex-col items-center justify-between bg-linear-to-b from-slate-900 via-blue-950 to-black overflow-hidden overflow-y-auto">
           
           {/* Header */}
-          <div className="w-full pt-8 px-8 flex items-center justify-between relative z-10">
-              <div className="w-10"></div> {/* Spacer */}
-              <Image 
-                  src={'/Assets/logo_version.png'}
-                  alt={'version logo'} 
-                  width={512} 
-                  height={256} 
-                  className={'h-16 w-auto md:h-20 object-contain'} 
-              />
-              <Link
-                  href="/"
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors group"
-                  aria-label="Home"
-              >
-                  <Home className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
-              </Link>
+          <div className="w-full pt-8 px-8 grid grid-cols-3 items-center relative z-10">
+              <div className="flex justify-start">
+                  {/* Empty space to balance the Home icon in the grid */}
+              </div>
+              <div className="flex justify-center">
+                  <Image 
+                      src={'/Assets/logo_version.png'}
+                      alt={'version logo'} 
+                      width={512} 
+                      height={256} 
+                      className={'h-24 w-auto md:h-28 object-contain'}
+                  />
+              </div>
+              <div className="flex justify-end">
+                  <Link
+                      href="/"
+                      className="p-2 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur-sm transition-colors group flex items-center justify-center"
+                      aria-label="Home"
+                  >
+                      <Home className="w-6 h-6 text-white group-hover:scale-110 transition-transform" />
+                  </Link>
+              </div>
           </div>
 
           {/* Main Content */}
