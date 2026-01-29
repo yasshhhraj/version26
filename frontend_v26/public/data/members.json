@@ -5,7 +5,8 @@
     "committee": "EEC",
     "image": "/Assets/team/members/yashvant.jpeg",
     "linkedin_id": "www.linkedin_id.com/in/ yashvant-gautam",
-    "email_id": "yashvant.2003@gmail.com"
+    "email_id": "yashvant.2003@gmail.com",
+    "show": true
   },
   {
     "name": "Vishesh Sharma",
@@ -13,7 +14,8 @@
     "committee": "EEC",
     "image": "/Assets/team/members/vishesh.jpeg",
     "linkedin_id": "https://www.linkedin_id.com/in/vishesh3569",
-    "email_id": "vishesh059@gmail.com"
+    "email_id": "vishesh059@gmail.com",
+    "show": true
   },
   {
     "name": "Shivam Das",
@@ -21,7 +23,8 @@
     "committee": "EEC",
     "image": "/Assets/team/members/shivam.jpeg",
     "linkedin_id": "https://www.linkedin_id.com/in/shivam-das-614b8121b",
-    "email_id": "shivamdas16122002@gmail.com"
+    "email_id": "shivamdas16122002@gmail.com",
+    "show": true
   },
   {
     "name": "Tanmoy Roy",
@@ -29,7 +32,8 @@
     "committee": "EEC",
     "image": "/Assets/team/members/tanmoy.jpeg",
     "linkedin_id": "https://www.linkedin_id.com/in/tempewda",
-    "email_id": "205124100@nitt.edu"
+    "email_id": "205124100@nitt.edu",
+    "show": true
   },
   {
     "name": "Prakhar Srivastava ",
@@ -37,7 +41,8 @@
     "committee": "EEC",
     "image": "/Assets/team/members/prakhar.jpeg",
     "linkedin_id": "https://www.linkedin_id.com/in/prakhar-srivastava-42a5a3319/",
-    "email_id": "Mathsmaticprakhar@gmail.com"
+    "email_id": "Mathsmaticprakhar@gmail.com",
+    "show": true
   },
   {
     "name": "Kumar Manglam ",
@@ -45,7 +50,8 @@
     "committee": "EEC",
     "image": "/Assets/team/members/manglam.jpeg",
     "linkedin_id": "https://www.linkedin_id.com/in/kumar-manglam-760142364?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-    "email_id": "kr.manglam1010@gmail.com"
+    "email_id": "kr.manglam1010@gmail.com",
+    "show": true
   },
   {
     "name": "INDERPREET SINGH",
@@ -53,7 +59,8 @@
     "committee": "EEC",
     "image": "/Assets/team/members/inderpreet.jpeg",
     "linkedin_id": "https://www.linkedin_id.com/in/inderpreet-singh-659354323",
-    "email_id": "inderpreetsingh74188@gmail.com"
+    "email_id": "inderpreetsingh74188@gmail.com",
+    "show": true
   },
   {
     "name": "Lokendra Patidar",
@@ -61,7 +68,8 @@
     "committee": "EEC",
     "image": "/Assets/team/members/lokendra.jpeg",
     "linkedin_id": "https://www.linkedin_id.com/in/lokendra-patidar-b55b10341/",
-    "email_id": "lokinitt7@gmail.com"
+    "email_id": "lokinitt7@gmail.com",
+    "show": false
   },
   {
     "Timestamp": "23/01/2026 10:34:51",
@@ -70,7 +78,8 @@
     "linkedin_id": "https://www.linkedin_id.com/in/divyanshirajput0405/",
     "email_id": "divyanshirajput02003@gmail.com",
     "heads": "",
-    "image": "/Assets/team/members/divyanshi.jpeg"
+    "image": "/Assets/team/members/divyanshi.jpeg",
+    "show": true
   },
   {
     "Timestamp": "24/01/2026 09:36:27",
@@ -79,7 +88,8 @@
     "linkedin_id": "https://www.linkedin_id.com/in/hari-narayan-138a401a4?utm_source=share_via&utm_content=profile&utm_medium=member_android",
     "email_id": "harry21sidar@gmail.com",
     "heads": "",
-    "image": "/Assets/team/members/harinarayan.jpeg"
+    "image": "/Assets/team/members/harinarayan.jpeg",
+    "show": false
   },
   {
     "Timestamp": "24/01/2026 11:18:34",
@@ -88,7 +98,8 @@
     "linkedin_id": "",
     "email_id": "mukul.kushwahaa@gmail.com",
     "heads": "",
-    "image": "/Assets/team/members/mukul.jpeg"
+    "image": "/Assets/team/members/mukul.jpeg",
+    "show": true
   },
   {
     "Timestamp": "23/01/2026 16:06:41",
@@ -97,16 +108,18 @@
     "linkedin_id": "",
     "email_id": "surajitjack2002@gmail.com",
     "heads": "",
-    "image": "/Assets/team/members/surajit.jpeg"
+    "image": "/Assets/team/members/surajit.jpeg",
+    "show": true
   },
   {
     "Timestamp": "24/01/2026 11:49:08",
     "name": "Somnath Ratrey",
-    "committee": "ARC",
+    "committee": "HRC",
     "linkedin_id": "Somnath Ratrey",
     "email_id": "somnathratrey568@gmail.com",
     "heads": "",
-    "image": "/Assets/team/members/somnath.jpeg"
+    "image": "/Assets/team/members/somnath.jpeg",
+    "show": true
   },
   {
     "Timestamp": "24/01/2026 11:50:22",
@@ -115,7 +128,8 @@
     "linkedin_id": "https://www.linkedin_id.com/in/jayram-rana-2832bb318/",
     "email_id": "jayramrana8207@gmail.com",
     "heads": "",
-    "image": "/Assets/team/members/jayram.jpeg"
+    "image": "/Assets/team/members/jayram.jpeg",
+    "show": true
   },
   {
     "Timestamp": "24/01/2026 13:40:49",
@@ -124,7 +138,8 @@
     "linkedin_id": "https://www.linkedin_id.com/in/rohit-bamniya-mcanitt?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
     "email_id": "rohitbamniya4141@gmail.com",
     "heads": "",
-    "image": "/Assets/team/members/rohit.jpeg"
+    "image": "/Assets/team/members/rohit.jpeg",
+    "show": false
   },
   {
     "Timestamp": "24/01/2026 13:43:07",
@@ -133,6 +148,37 @@
     "linkedin_id": "Abhishek Patidar",
     "email_id": "Patelabhishekak47@gmail.com",
     "heads": "",
-    "image": "/Assets/team/members/abhishek.jpeg"
+    "image": "/Assets/team/members/abhishek.jpeg",
+    "show": false
+  },
+  {
+    "Timestamp": "24/01/2026 13:43:07",
+    "name": "Divyanshi Verma",
+    "committee": "PPC",
+    "linkedin_id": "",
+    "email_id": "",
+    "heads": "",
+    "image": "/Assets/team/members/divyanshiverma.jpeg",
+    "show": true
+  },
+  {
+    "Timestamp": "24/01/2026 13:43:07",
+    "name": "Muskan Chaurasia",
+    "committee": "ARC",
+    "linkedin_id": "www.linkedin.com/in/muskan-p23m25",
+    "email_id": "muskanchaurasia2512@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/muskan.jpeg",
+    "show": true
+  },
+  {
+    "Timestamp": "24/01/2026 13:43:07",
+    "name": "Kumar Aditya ",
+    "committee": "PRC",
+    "linkedin_id": "",
+    "email_id": "kumaradityabgp9@gmail.com",
+    "heads": "",
+    "image": "/Assets/team/members/kumaraditya.jpeg",
+    "show": true
   }
 ]

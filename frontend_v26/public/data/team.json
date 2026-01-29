@@ -4,13 +4,15 @@
       "name": "Dr. S. Domnic",
       "role": "Head of Department",
       "image": "/Assets/team/hod.jpeg",
-      "message": "Welcome to Version'26. As we embark on this journey of innovation and technical excellence, I am proud to see the dedication and creativity of our students.\n\nThis event stands as a testament to the department's commitment to fostering technological advancement and holistic development. I encourage all participants to make the most of this platform to learn, compete, and grow."
+      "message": "Welcome to Version'26. As we embark on this journey of innovation and technical excellence, I am proud to see the dedication and creativity of our students.\n\nThis event stands as a testament to the department's commitment to fostering technological advancement and holistic development. I encourage all participants to make the most of this platform to learn, compete, and grow.",
+      "show": true
     },
     {
       "name": "Dr. S. Sangeetha",
       "role": "Staff Advisor",
       "image": "/Assets/team/staff_advisor.jpeg",
-      "message": "Version has always been more than just a technical fest; it's a celebration of ideas and innovation. The team has worked tirelessly to curate events that challenge and inspire.\n\nI wish all the participants the very best. May this event spark new ideas and forge lasting connections in our technical community."
+      "message": "Version has always been more than just a technical fest; it's a celebration of ideas and innovation. The team has worked tirelessly to curate events that challenge and inspire.\n\nI wish all the participants the very best. May this event spark new ideas and forge lasting connections in our technical community.",
+      "show": true
     }
   ],
   "cccMembers": [
@@ -20,7 +22,8 @@
       "image": "/Assets/team/rohit.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
-      "email_id": ""
+      "email_id": "",
+      "show": true
     },
     {
       "name": "Vivek Kumar",
@@ -28,7 +31,8 @@
       "image": "/Assets/team/vivek.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
-      "email_id": ""
+      "email_id": "",
+      "show": true
     },
     {
       "name": "Astik Verma",
@@ -36,7 +40,8 @@
       "image": "/Assets/team/astik.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
-      "email_id": ""
+      "email_id": "",
+      "show": true
     },
     {
       "name": "Nitin Pandey",
@@ -44,7 +49,8 @@
       "image": "/Assets/team/nitin.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
-      "email_id": ""
+      "email_id": "",
+      "show": true
     },
     {
       "name": "Amandeep",
@@ -52,7 +58,8 @@
       "image": "/Assets/team/amandeep.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
-      "email_id": ""
+      "email_id": "",
+      "show": true
     },
     {
       "name": "Sahil Kumar",
@@ -60,7 +67,8 @@
       "image": "/Assets/team/sahil.jpeg",
       "committee": "CCC",
       "linkedin_id": "",
-      "email_id": ""
+      "email_id": "",
+      "show": true
     }
   ],
   "coreTeam": [
@@ -69,77 +77,88 @@
       "role": "SECRETARY",
       "image": "/Assets/team/alok.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/alok-solanky-648b4816b",
-      "email_id": "aloksolanky1@gmail.com"
+      "email_id": "aloksolanky1@gmail.com",
+      "show": true
     },
     {
       "name": "Sudhir Kumar",
       "role": "TREASURER",
       "image": "/Assets/team/sudhir.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/sudiirkumar",
-      "email_id": "sudhir9122kumar@gmail.com"
+      "email_id": "sudhir9122kumar@gmail.com",
+      "show": true
     },
     {
       "name": "Yashraj Jangir",
       "role": "HEAD - EEC",
       "image": "/Assets/team/yashraj.jpeg",
       "linkedin_id": "https://in.linkedin.com/in/yashraj-jangir-a6111512b",
-      "email_id": "Yashraj.jangir69@gmail.com"
+      "email_id": "Yashraj.jangir69@gmail.com",
+      "show": true
     },
     {
       "name": "Vanshu Galhotra",
       "role": "HEAD - EEC",
       "image": "/Assets/team/vanshu.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/vanshugalhotra/",
-      "email_id": "205124107@nitt.edu"
+      "email_id": "205124107@nitt.edu",
+      "show": true
     },
     {
       "name": "Rishu Kumar",
       "role": "HEAD - PPC",
       "image": "/Assets/team/rishu.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/rishu-kumar-71a509287?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-      "email_id": "rishurk9955@gmail.com"
+      "email_id": "rishurk9955@gmail.com",
+      "show": true
     },
     {
       "name": "Harsh Pathekar",
       "role": "HEAD - PPC",
       "image": "/Assets/team/harsh.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/harsh-pathekar-42b7971b8/",
-      "email_id": "pathekarharsh@gmail.com"
+      "email_id": "pathekarharsh@gmail.com",
+      "show": true
     },
     {
       "name": "Rohit Kumar",
       "role": "HEAD - PRC",
       "image": "/Assets/team/rohit1.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/rohit-kumar-243764346/",
-      "email_id": "rohitgyl787@gmail.com"
+      "email_id": "rohitgyl787@gmail.com",
+      "show": true
     },
     {
       "name": "Sachin Panwar",
       "role": "HEAD - PRC",
       "image": "/Assets/team/sachin.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/sachin-panwar-7b10b7346/",
-      "email_id": "sp970000@gmail.com"
+      "email_id": "sp970000@gmail.com",
+      "show": true
     },
     {
       "name": "Anshika Mishra",
       "role": "HEAD - ARC",
       "image": "/Assets/team/anshika.jpeg",
       "linkedin_id": "www.linkedin.com/in/anshika-mishra-440415230",
-      "email_id": "anshikamishra2313@gmail.com"
+      "email_id": "anshikamishra2313@gmail.com",
+      "show": true
     },
     {
       "name": "Avika Sachan",
       "role": "HEAD - HRC",
       "image": "/Assets/team/avika.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/avika-sachan",
-      "email_id": "avikasachan0909@gmail.com"
+      "email_id": "avikasachan0909@gmail.com",
+      "show": true
     },
     {
       "name": "Pradeep Yadav",
       "role": "HEAD - HRC",
       "image": "/Assets/team/pradeep.jpeg",
       "linkedin_id": "https://www.linkedin.com/in/pradeepyadav5137?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app",
-      "email_id": "pradeepapex27@gmail.com"
+      "email_id": "pradeepapex27@gmail.com",
+      "show": true
     }
   ]
 }

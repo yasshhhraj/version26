@@ -13,6 +13,7 @@ interface TeamMemberProps {
     linkedin_id?: string
     email_id?: string
     className?: string
+    show?: boolean
 }
 
 
@@ -198,6 +199,7 @@ interface Advisor {
     role: string;
     image: string;
     message: string;
+    show?: boolean;
 }
 
 export default function TeamPage() {
@@ -225,14 +227,21 @@ export default function TeamPage() {
         fetch('/data/team.json')
             .then(res => res.json())
             .then(data => {
-                setTeamData(data);
+                // Filter all categories by show field
+                const filteredData = {
+                    advisors: (data.advisors || []).filter((a: Advisor) => a.show !== false),
+                    cccMembers: (data.cccMembers || []).filter((m: TeamMemberProps) => m.show !== false),
+                    coreTeam: (data.coreTeam || []).filter((m: TeamMemberProps) => m.show !== false)
+                };
+                setTeamData(filteredData);
             })
             .catch(err => console.error("Failed to load team data:", err));
 
         fetch('/data/members.json')
             .then(res => res.json())
             .then(data => {
-                setMembers(data);
+                const filteredMembers = (data || []).filter((m: TeamMemberProps) => m.show !== false);
+                setMembers(filteredMembers);
             })
             .catch(err => console.error("Failed to load members data:", err));
     }, []);
