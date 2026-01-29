@@ -140,7 +140,7 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
 
     return (
         <div
-            className={`relative max-w-72 aspect-3/4 bg-linear-to-br from-black via-purple-950 to-black rounded-3xl overflow-hidden shadow-[0_0_100px_rgba(139,92,246,0.5)] group ${className}`}
+            className={`relative max-w-72 aspect-3/4 bg-linear-to-br from-black via-purple-950 to-black rounded-3xl overflow-hidden group border border-white/10 ${className}`}
         >
             {/* Background Image */}
             {imageUrl && (
@@ -154,7 +154,7 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
             <canvas ref={canvasRef} className="absolute inset-0 w-full h-full opacity-40" />
 
             {/* Gradient Overlay */}
-            <div className="absolute inset-0 bg-linear-to-br from-cyan-500/20 via-transparent to-pink-500/20" />
+            <div className="absolute inset-0 bg-linear-to-br from-cyan-500/10 via-transparent to-pink-500/10" />
 
             {/* Grid Pattern */}
             <div
@@ -168,19 +168,12 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
                 }}
             />
 
-            {/* Glowing Orbs */}
-            <div className="absolute top-0 right-0 w-96 h-96 bg-cyan-400/30 rounded-full blur-[120px] animate-pulse" />
-            <div
-                className="absolute bottom-0 left-0 w-96 h-96 bg-pink-400/30 rounded-full blur-[120px] animate-pulse"
-                style={{ animationDelay: "1s" }}
-            />
-
             {/* Content */}
             <div className="relative z-10 h-full flex flex-col p-6 sm:p-8">
                 {/* Header */}
                 <div className="flex items-start justify-between mb-4 flex-wrap gap-2">
                     <div className="flex items-center gap-2">
-                        <div className="relative w-10 h-10 rounded-xl bg-linear-to-br from-cyan-400 to-pink-500 flex items-center justify-center shadow-[0_0_40px_rgba(0,255,255,0.6)]">
+                        <div className="relative w-10 h-10 rounded-xl bg-linear-to-br from-cyan-400 to-pink-500 flex items-center justify-center">
                             <div className="absolute inset-0.5 bg-black rounded-lg flex items-center justify-center">
                                 <svg
                                     className="w-5 h-5"
@@ -217,7 +210,7 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
                 <div className="flex-1 flex flex-col justify-center">
                     <div className="space-y-2">
                         {/* Main Title */}
-                        <h1 className="text-4xl sm:text-4xl font-black leading-none tracking-tighter bg-linear-to-r from-white via-cyan-200 to-purple-400 bg-clip-text text-transparent drop-shadow-[0_0_80px_rgba(0,255,255,0.5)]">
+                        <h1 className="text-4xl sm:text-4xl font-black leading-none tracking-tighter bg-linear-to-r from-white via-cyan-200 to-purple-400 bg-clip-text text-transparent">
                             {title}
                         </h1>
 
@@ -248,7 +241,7 @@ export default function AGIEventPoster({ eventData, className, onClick }: AGIEve
 
                     <button 
                         onClick={onClick}
-                        className="group/btn relative px-6 py-3 bg-linear-to-r from-cyan-500 to-pink-500 rounded-full font-bold text-black text-sm tracking-wide shadow-[0_0_40px_rgba(0,255,255,0.6)] hover:shadow-[0_0_60px_rgba(0,255,255,0.8)] transition-all duration-300 hover:scale-105 overflow-hidden w-full"
+                        className="group/btn relative px-6 py-3 bg-linear-to-r from-cyan-500 to-pink-500 rounded-full font-bold text-black text-sm tracking-wide transition-all duration-300 hover:scale-105 overflow-hidden w-full"
                     >
                         <span className="relative z-10">VIEW DETAILS</span>
                         <div className="absolute inset-0    bg-linear-to-r from-pink-500 to-cyan-500 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />

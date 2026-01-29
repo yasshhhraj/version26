@@ -2,10 +2,10 @@
 
 import { useEffect, useRef, useState } from 'react'
 
-const CONFIG = {
-    STAR_COUNT: 200,
-    BACKGROUND_ALPHA: 0.15, // Optional: if we want trails, otherwise 1 for clear
-};
+interface StarFieldProps {
+    speedFactor?: number;
+    starCount?: number;
+}
 
 class Star {
     x: number;
@@ -17,7 +17,7 @@ class Star {
     width: number;
     height: number;
 
-    constructor(ctx: CanvasRenderingContext2D, width: number, height: number) {
+    constructor(ctx: CanvasRenderingContext2D, width: number, height: number, speedFactor: number) {
         this.ctx = ctx;
         this.width = width;
         this.height = height;
@@ -25,7 +25,7 @@ class Star {
         this.y = Math.random() * height;
         this.size = Math.random() * 1.5;
         this.brightness = Math.random();
-        this.speed = Math.random() * 0.05;
+        this.speed = (Math.random() * 0.05) * speedFactor;
     }
 
     update() {
@@ -46,7 +46,7 @@ class Star {
     }
 }
 
-export default function StarField() {
+export default function StarField({ speedFactor = 1, starCount = 200 }: StarFieldProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [ready, setReady] = useState(false);
 
@@ -67,15 +67,15 @@ export default function StarField() {
 
         const initStars = () => {
             stars.length = 0;
-            const starCount = Math.floor(CONFIG.STAR_COUNT * (width * height) / (1920 * 1080));
-            const actualCount = Math.max(CONFIG.STAR_COUNT, starCount);
+            const calculatedCount = Math.floor(starCount * (width * height) / (1920 * 1080));
+            const actualCount = Math.max(starCount, calculatedCount);
             for (let i = 0; i < actualCount; i++) {
-                stars.push(new Star(ctx, width, height));
+                stars.push(new Star(ctx, width, height, speedFactor));
             }
         };
 
         const resizeObserver = new ResizeObserver((entries) => {
-            for (let entry of entries) {
+            for (const entry of entries) {
                 const { width: w, height: h } = entry.contentRect;
                 width = canvas.width = w;
                 height = canvas.height = h;
@@ -86,7 +86,7 @@ export default function StarField() {
         resizeObserver.observe(parent);
 
         // Initial set ready
-        setReady(true);
+        requestAnimationFrame(() => setReady(true));
 
         function animate() {
             ctx!.clearRect(0, 0, width, height);
@@ -105,7 +105,7 @@ export default function StarField() {
             resizeObserver.disconnect();
             cancelAnimationFrame(animationId);
         };
-    }, []);
+    }, [speedFactor, starCount]);
 
     return (
         <canvas 

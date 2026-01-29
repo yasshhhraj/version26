@@ -3,6 +3,7 @@ import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { ReactNode } from "react";
 import { AuthProvider } from "@/src/auth/auth.provider";
+import SmoothScroll from "@/components/SmoothScroll";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -24,7 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.className} antialiased w-full overflow-x-clip`}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+            <SmoothScroll>
+                {children}
+            </SmoothScroll>
+        </AuthProvider>
       </body>
     </html>
   );
