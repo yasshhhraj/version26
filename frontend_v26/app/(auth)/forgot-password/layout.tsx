@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { ReactNode } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Forgot Password | Version'26",
@@ -10,7 +12,7 @@ export default function ForgotPasswordLayout({
   children,
 }: Readonly<{ children: ReactNode }>) {
   return (
-    <div className="relative overflow-x-hidden">
+    <div className="relative h-dvh flex flex-col items-center justify-start overflow-hidden">
       {/* background blobs to match the auth layout theme */}
       <div
         className={
@@ -28,13 +30,19 @@ export default function ForgotPasswordLayout({
         }
       />
 
-      <div
-        className={
-          "w-full md:h-[80%] gap-8 flex flex-col items-center justify-center"
-        }
-      >
-        {children}
-      </div>
+        <div className={'h-full w-full flex flex-col overflow-x-clip overflow-y-auto'}>
+            <div className={' h-30 w-full flex items-center justify-center bg-transparent '}>
+                <Link href={'/'}>
+                    <Image src={'/Assets/logo_version.png'} alt={'Logo'} width={512} height={256} className={'w-auto max-w-64 md:max-w-80 h-auto'}/>
+                </Link>
+            </div>
+
+            <div
+                className={"w-full  flex-1 flex flex-col items-center justify-start  overflow-visible"}
+            >
+                {children}
+            </div>
+        </div>
     </div>
   );
 }
