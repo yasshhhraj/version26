@@ -1,37 +1,35 @@
 [
   {
     "id": "on-01",
-    "title": "Code Clash",
+    "title": "CodeRush",
     "tagline": "Pre-event online coding competition.",
     "imageUrl": "/Assets/eventposters/event_placeholder.jpeg",
     "eventType": "technical",
     "date": "Feb 22",
     "participation": "solo",
-    "fullDescription": "An online competitive programming contest to warm up for the main event. Test your algorithms and data structures skills.",
+    "fullDescription": "An online competitive programming challenge designed as a precursor to the main event. Participants will solve carefully curated DSA problems in a fast-paced environment, testing their logic, efficiency, and problem-solving skills.",
     "rules": [
       "No plagiarism",
       "Individual participation only"
     ],
     "venue": "Online",
-    "registrationUrl": "https://example.com/register/codeclash",
     "contact": "version26.nitt@gmail.com",
     "isOnline": true
   },
   {
     "id": "on-02",
-    "title": "CoreTex Blitz",
+    "title": "NeuroCore",
     "tagline": "A fast-paced core CS quiz competition.",
     "imageUrl": "/Assets/eventposters/event_placeholder.jpeg",
     "eventType": "technical",
     "date": "March 01",
     "participation": "solo",
-    "fullDescription": "Similar to CoreTex but faster! Test your knowledge in CS core topics like OS, DBMS, and Networks in this rapid-fire online quiz.",
+    "fullDescription": "An online MCQ-based technical quiz designed to assess participants understanding of core computer science subjects, including Artificial Intelligence and Machine Learning. Conducted under time constraints, the competition emphasizes accuracy, conceptual clarity, and quick thinking, making it an engaging challenge for students aiming to test and strengthen their technical foundations.",
     "rules": [
       "Rapid fire format",
       "Limited time per question"
     ],
     "venue": "Online",
-    "registrationUrl": "https://example.com/register/coretexblitz",
     "contact": "version26.nitt@gmail.com",
     "isOnline": true
   },
