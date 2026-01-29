@@ -7,10 +7,10 @@ import { useAuth } from "@/src/auth/use-auth";
 
 export default function LoginComponent({
   menuOpen,
-  toggleMenu,
+  toggleMenuAction,
 }: {
   menuOpen: boolean;
-  toggleMenu: () => void;
+  toggleMenuAction: () => void;
 }) {
   const { user, logout: authLogout, refreshUser } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -37,15 +37,19 @@ export default function LoginComponent({
   return (
     <div className="flex items-center gap-4">
       {user ? (
-        <ProfileBlock user={user} logout={handleLogout} />
+        <ProfileBlock
+          user={user}
+          logout={handleLogout}
+          onNavClick={() => menuOpen && toggleMenuAction()}
+        />
       ) : (
-        <LoginButton />
+        <LoginButton onClick={() => menuOpen && toggleMenuAction()} />
       )}
 
       {/* Mobile Hamburger */}
       <button
-        onClick={toggleMenu}
-        className="md:hidden flex flex-col gap-1.5 p-1 z-50"
+        onClick={toggleMenuAction}
+        className="md:hidden flex flex-col gap-1.5 p-1 mr-2 z-50"
       >
         <span
           className={`block w-6 h-0.5 bg-white rounded transition-transform ${
@@ -67,10 +71,11 @@ export default function LoginComponent({
   );
 }
 
-function LoginButton() {
+function LoginButton({ onClick }: { onClick?: () => void }) {
   return (
     <Link
       href="/auth"
+      onClick={onClick}
       className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-full transition-colors shadow-lg shadow-purple-900/20"
     >
       Login
@@ -81,9 +86,11 @@ function LoginButton() {
 function ProfileBlock({
   user,
   logout,
+  onNavClick,
 }: {
   user: { fullName: string; email: string };
   logout: () => Promise<void>;
+  onNavClick?: () => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
@@ -107,6 +114,7 @@ function ProfileBlock({
     } finally {
       setIsLoggingOut(false);
       setIsOpen(false);
+      if (onNavClick) onNavClick();
     }
   };
 
@@ -138,6 +146,10 @@ function ProfileBlock({
 
           <Link
             href="/profile"
+            onClick={() => {
+              setIsOpen(false);
+              if (onNavClick) onNavClick();
+            }}
             className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-200 hover:bg-[#2E2F2F] transition-colors"
           >
             Profile
