@@ -1,15 +1,8 @@
 import { Injectable, Scope } from '@nestjs/common';
-import pino, {
-  Logger as PinoLogger,
-  DestinationStream,
-  StreamEntry,
-} from 'pino';
-import { existsSync, mkdirSync } from 'fs';
+import pino, { Logger as PinoLogger, StreamEntry } from 'pino';
+import { existsSync, mkdirSync, createWriteStream } from 'fs';
 import { join } from 'path';
 import { ConfigService } from 'src/config/config.service';
-import createStream, {
-  PinoRotatingFileStreamOptions,
-} from 'pino-rotating-file-stream';
 
 export interface LogContext {
   entity: string;
@@ -29,12 +22,10 @@ export class LoggerService {
     const logLevel =
       this.configService.get('LOG_LEVEL') || (isProduction ? 'info' : 'debug');
 
-    // Create logs directory if file logging is enabled
-    if (logToFile) {
-      const logDir = this.configService.get('LOG_DIR') || './logs';
-      if (!existsSync(logDir)) {
-        mkdirSync(logDir, { recursive: true });
-      }
+    const logDir = this.configService.get('LOG_DIR') || './logs';
+
+    if (logToFile && !existsSync(logDir)) {
+      mkdirSync(logDir, { recursive: true });
     }
 
     const pinoConfig = {
@@ -42,89 +33,55 @@ export class LoggerService {
       timestamp: pino.stdTimeFunctions.isoTime,
     };
 
-    // Add file streams if enabled
-    if (logToFile) {
-      const logDir = this.configService.get('LOG_DIR') || './logs';
-      const maxSize =
-        Number(this.configService.get('LOG_MAX_SIZE') || '10') * 1024 * 1024;
-      const retentionDays = Number(
-        this.configService.get('LOG_RETENTION_DAYS') || '30',
-      );
-
-      // Create streams for different log levels
+    // ---------------- PROD: FILE LOGGING ----------------
+    if (logToFile && isProduction) {
       const streams: StreamEntry[] = [
+        // Access log → EVERYTHING
         {
-          stream: isProduction
-            ? process.stdout
-            : (pino.transport({
-                target: 'pino-pretty',
-                options: { colorize: true },
-              }) as DestinationStream),
           level: logLevel,
+          stream: createWriteStream(join(logDir, 'access.log'), {
+            flags: 'a',
+          }),
         },
-        // File stream for all logs
+        // Error log → ONLY errors
         {
-          stream: this.createFileStream('app', logDir, maxSize, retentionDays),
-          level: logLevel,
-        },
-        // File stream for errors only
-        {
-          stream: this.createFileStream(
-            'error',
-            logDir,
-            maxSize,
-            retentionDays,
-          ),
           level: 'error',
+          stream: createWriteStream(join(logDir, 'error.log'), {
+            flags: 'a',
+          }),
         },
       ];
 
       this.logger = pino(pinoConfig, pino.multistream(streams));
-    } else {
-      // Original simple logger
-      this.logger = pino({
-        ...pinoConfig,
-        transport: !isProduction
-          ? {
-              target: 'pino-pretty',
-              options: {
-                colorize: true,
-                translateTime: 'HH:MM:ss',
-                ignore: 'pid,hostname',
-              },
-            }
-          : undefined,
-      });
+      return;
     }
-  }
 
-  private createFileStream(
-    name: string,
-    logDir: string,
-    maxSizeBytes: number,
-    retentionDays: number,
-  ): DestinationStream {
-    const options: PinoRotatingFileStreamOptions = {
-      filename: join(logDir, `${name}.log`),
-      path: logDir,
-      size: `${maxSizeBytes}B`,
-      interval: '1d',
-      compress: true,
-      maxFiles: Math.ceil(retentionDays * 1.5),
-    };
-    return createStream(options);
+    // ---------------- DEV: PRETTY CONSOLE ----------------
+    this.logger = pino({
+      ...pinoConfig,
+      transport: !isProduction
+        ? {
+            target: 'pino-pretty',
+            options: {
+              colorize: true,
+              translateTime: 'HH:MM:ss',
+              ignore: 'pid,hostname',
+            },
+          }
+        : undefined,
+    });
   }
 
   info(msg: string, meta?: Record<string, unknown>) {
     this.logger.info(meta, msg);
   }
 
-  error(msg: string, meta?: Record<string, unknown>) {
-    this.logger.error(meta, msg);
-  }
-
   warn(msg: string, meta?: Record<string, unknown>) {
     this.logger.warn(meta, msg);
+  }
+
+  error(msg: string, meta?: Record<string, unknown>) {
+    this.logger.error(meta, msg);
   }
 
   debug(msg: string, meta?: Record<string, unknown>) {
@@ -132,41 +89,37 @@ export class LoggerService {
   }
 
   logInfo(msg: string, context: LogContext) {
-    const contextStr =
-      `[${context.entity}][${context.action}]` +
-      (this.logDetail && context.additional
-        ? ` ${JSON.stringify(context.additional)}`
-        : '');
-    this.logger.info(`${contextStr} ${msg}`);
+    this.logger.info(this.formatContext(context, msg));
   }
 
   logDebug(msg: string, context: LogContext) {
-    const contextStr =
-      `[${context.entity}][${context.action}]` +
-      (this.logDetail && context.additional
-        ? ` ${JSON.stringify(context.additional)}`
-        : '');
-    this.logger.debug(`${contextStr} ${msg}`);
+    this.logger.debug(this.formatContext(context, msg));
   }
 
   logWarn(msg: string, context: LogContext) {
-    const contextStr =
-      `[${context.entity}][${context.action}]` +
-      (this.logDetail && context.additional
-        ? ` ${JSON.stringify(context.additional)}`
-        : '');
-    this.logger.warn(`${contextStr} ${msg}`);
+    this.logger.warn(this.formatContext(context, msg));
   }
 
   logError(msg: string, context: LogContext, error?: unknown) {
-    const contextStr =
-      `[${context.entity}][${context.action}]` +
-      (this.logDetail && context.additional
-        ? ` ${JSON.stringify(context.additional)}`
-        : '');
-    const errorMsg = error instanceof Error ? error.message : String(error);
-    this.logger.error(
-      `${contextStr} ${msg}${errorMsg ? ' | Error: ' + errorMsg : ''}`,
-    );
+    const errorMsg = error instanceof Error ? error.stack : String(error);
+    this.logger.error(this.formatContext(context, msg, errorMsg));
+  }
+
+  private formatContext(
+    context: LogContext,
+    msg: string,
+    error?: string,
+  ): string {
+    let base = `[${context.entity}][${context.action}] ${msg}`;
+
+    if (this.logDetail && context.additional) {
+      base += ` | ${JSON.stringify(context.additional)}`;
+    }
+
+    if (error) {
+      base += ` | ERROR: ${error}`;
+    }
+
+    return base;
   }
 }
