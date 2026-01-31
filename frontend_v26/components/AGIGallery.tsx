@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, Camera, Play, Layers, Terminal } from "lucide-react";
+import { X, ZoomIn, Camera, Play} from "lucide-react";
 import Image from "next/image";
 
 
@@ -141,9 +141,8 @@ const photos: Photo[] = [
 export default function AGIGallery({ videoData }: { videoData?: { src: string; title: string } }) {
     const [selectedId, setSelectedId] = useState<string | null>(null);
     const [visibleCount, setVisibleCount] = useState(6);
-    const loaderRef = useRef<HTMLDivElement>(null);
-
-    // Initial load adjustment based on screen size
+    useRef<HTMLDivElement>(null);
+// Initial load adjustment based on screen size
     useEffect(() => {
         const updateInitialCount = () => {
             if (window.innerWidth >= 1024) {
@@ -174,7 +173,7 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
                         <span>VERSION&apos;26 ARCHIVE</span>
                     </div>
                     <h2 className="text-5xl font-bold tracking-tighter text-white md:text-7xl lg:text-8xl mb-6">
-                        Event <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4600be] to-purple-400 italic">Gallery</span>
+                        Event <span className="text-transparent bg-clip-text bg-linear-to-r from-[#4600be] to-purple-400 italic">Gallery</span>
                     </h2>
                     <p className="max-w-xl text-neutral-400 text-lg">
                         Explore the defining moments of the 33rd edition. A curated collection of innovation, community, and technological breakthroughs.
@@ -267,7 +266,7 @@ function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick:
                     className={`object-cover ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-500`}
                 />
                 {/* Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
             </div>
 
             {/* Content */}
@@ -285,7 +284,7 @@ function Card({ photo, index, onClick }: { photo: Photo; index: number; onClick:
                 </div>
                 
                 {/* Icon Button */}
-                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-[-10px] group-hover:translate-y-0">
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 transform -translate-y-2.5 group-hover:translate-y-0">
                     <ZoomIn className="w-4 h-4 text-white" />
                 </div>
             </div>
@@ -312,7 +311,7 @@ function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/95 p-4 md:p-8 backdrop-blur-sm"
+            className="fixed inset-0 z-9999 flex items-center justify-center bg-black/95 p-4 md:p-8 backdrop-blur-sm"
             onClick={onClose}
         >
             <div
@@ -320,7 +319,7 @@ function Lightbox({ photo, onClose }: { photo: Photo; onClose: () => void }) {
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Modal Header */}
-                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between bg-gradient-to-b from-black/80 to-transparent p-6 pointer-events-none">
+                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between bg-linear-to-b from-black/80 to-transparent p-6 pointer-events-none">
                     <div className="flex items-center gap-3 pointer-events-auto">
                         <div className="rounded-full bg-purple-500/20 p-2 border border-purple-500/30">
                             <Camera className="h-4 w-4 text-purple-400" />

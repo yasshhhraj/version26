@@ -18,7 +18,7 @@ import ContactPopup from "@/components/ContactPopup";
 import { Loader } from "@/components/ui/Loader";
 
 const InfinityParticles3D = dynamic(
-  () => import("@/components/InfinityParticles3D"),
+  () => import("@/components/RingInfinity"),
   {
     ssr: false,
     loading: () => (

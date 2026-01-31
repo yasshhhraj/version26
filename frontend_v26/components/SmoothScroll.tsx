@@ -1,13 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Lenis from "lenis";
 
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
-  const [lenis, setLenis] = useState<Lenis | null>(null);
-
   useEffect(() => {
-    const newLenis = new Lenis({
+    const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: "vertical",
@@ -17,18 +15,15 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       touchMultiplier: 2,
     });
 
-    setLenis(newLenis);
-
     function raf(time: number) {
-      newLenis.raf(time);
+      lenis.raf(time);
       requestAnimationFrame(raf);
     }
 
     requestAnimationFrame(raf);
 
     return () => {
-      newLenis.destroy();
-      setLenis(null);
+      lenis.destroy();
     };
   }, []);
 

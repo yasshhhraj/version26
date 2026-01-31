@@ -2,7 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { useInView } from 'framer-motion';
 
-export default function InfinityParticles3D() {
+declare global {
+    interface Window {
+        updateHoverRotation?: (hovering: boolean) => void;
+        setParticleRotation?: (x: number, y: number) => void;
+    }
+}
+
+export default function RingInfinity() {
     const containerRef = useRef<HTMLDivElement>(null);
     const particlesRef = useRef<THREE.Group | null>(null);
     const [isHovering, setIsHovering] = useState(false);
@@ -365,7 +372,7 @@ export default function InfinityParticles3D() {
         };
 
         animate();
-        setReady(true);
+        setTimeout(() => setReady(true), 0);
 
         // Expose rotation control
         window.setParticleRotation = (x: number, y: number) => {
