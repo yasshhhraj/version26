@@ -172,11 +172,11 @@ export default function AGIGallery({ videoData }: { videoData?: { src: string; t
                         <Camera size={14} />
                         <span>VERSION&apos;26 ARCHIVE</span>
                     </div>
-                    <h2 className="text-5xl font-bold tracking-tighter text-white md:text-7xl lg:text-8xl mb-6">
-                        Event <span className="text-transparent bg-clip-text bg-linear-to-r from-[#4600be] to-purple-400 italic">Gallery</span>
+                    <h2 className="text-5xl font-bold tracking-tighter text-white pl-4 md:text-7xl lg:text-8xl mb-6">
+                        Event <span className="text-transparent bg-clip-text pr-4 bg-linear-to-r from-[#4600be] to-purple-400 italic">{"Gallery"}</span>
                     </h2>
                     <p className="max-w-xl text-neutral-400 text-lg">
-                        Explore the defining moments of the 33rd edition. A curated collection of innovation, community, and technological breakthroughs.
+                        Explore the defining moments of Version&apos;25. A curated collection of innovation, community, and technological breakthroughs.
                     </p>
                 </div>
 
