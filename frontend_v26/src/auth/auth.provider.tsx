@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { AuthContext } from "./auth.context";
 import { authApi } from "@/lib/auth.api";
 import type {

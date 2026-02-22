@@ -19,10 +19,9 @@ export default function VisionPage() {
         <div className="absolute inset-0 w-full h-full z-0">
           <iframe
             src="https://my.spline.design/boxeshover-DPwvWCqp50AityE6acOm77bf/"
-            frameBorder="0"
             width="100%"
             height="100%"
-            className="w-full h-full opacity-60" // Removed pointer-events-none to allow hover interaction
+            className="w-full h-full opacity-60 border-0" // Removed pointer-events-none to allow hover interaction
           ></iframe>
         </div>
 
@@ -39,7 +38,7 @@ export default function VisionPage() {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-5xl sm:text-6xl md:text-8xl lg:text-[120px] font-bold tracking-tighter leading-none break-words drop-shadow-2xl "
+            className="text-5xl sm:text-6xl md:text-8xl lg:text-[120px] font-bold tracking-tighter leading-none wrap-break-word drop-shadow-2xl "
           >
             {visionData.hero.title}{" "}
             <span className="text-version-mauve italic font-serif text-glow">
