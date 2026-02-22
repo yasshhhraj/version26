@@ -53,7 +53,11 @@ async function bootstrap() {
   // ----------------------
   // CORS
   // ----------------------
-  const allowedOrigins = configService.get('ALLOWED_ORIGINS')?.split(',') || [];
+  const allowedOrigins =
+    configService
+      .get('ALLOWED_ORIGINS')
+      ?.split(',')
+      .map((o) => o.trim()) || [];
 
   app.enableCors({
     origin: (
