@@ -50,12 +50,33 @@ async function bootstrap() {
   // ----------------------
   // CORS
   // ----------------------
-  const allowedOrigins = configService.get('ALLOWED_ORIGINS')?.split(',') || [];
+  // ----------------------
+  // CORS
+  // ----------------------
+  const allowedOrigins =
+    configService
+      .get('ALLOWED_ORIGINS')
+      ?.split(',')
+      .map((o) => o.trim()) || [];
+
   app.enableCors({
-    origin: allowedOrigins.length ? allowedOrigins : 'http://localhost:3000',
+    origin: (
+      origin: string | undefined,
+      callback: (err: Error | null, allow?: boolean) => void,
+    ) => {
+      // Logic: Allow if no origin (local/server) or if it's in our white-list
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        // Logging the origin as a string safely
+        console.warn(
+          `CORS blocked for origin: ${String(origin)}. Update ALLOWED_ORIGINS in .env`,
+        );
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
   });
 
   // ----------------------
