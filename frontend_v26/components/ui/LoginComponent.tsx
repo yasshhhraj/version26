@@ -131,7 +131,7 @@ function ProfileBlock({
         <div className="w-8 h-8 rounded-full bg-gray-600 overflow-hidden relative flex items-center justify-center">
           <div className="absolute inset-0 bg-linear-to-tr from-purple-500 to-indigo-500" />
           <span className="relative text-white font-bold text-sm uppercase">
-            {user.fullName.charAt(0)}
+            {user.fullName?.charAt(0)??''}
           </span>
         </div>
       </button>

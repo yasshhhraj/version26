@@ -15,6 +15,37 @@
       "show": true
     }
   ],
+  "Guests": [
+    {
+      "name": "Dr. S. chandramouli",
+      "role": " Associate Director Cognizant ",
+      "image": "/Assets/team/s ch.png",
+      "committee": "Guest",
+      "linkedin_id": "https://www.linkedin.com/in/chandramoulisubramanian/",
+      "email_id": "",
+      "show": true
+    },
+    {
+      "name": "Roshann Vadassery",
+      "role": "chief @permissionless",
+      "image": "/Assets/team/roshann.jpeg",
+      "committee": "Guest",
+      "linkedin_id": "https://www.linkedin.com/in/roshan-vadassery/",
+      "email_id": "",
+      "show": true
+    }
+  ],
+  "onlineJudge": [
+    {
+      "name": "Parminder Singh (Alumnus Batch 2009)",
+      "role": "Online Judge",
+      "image": "/Assets/team/parminder.jpeg",
+      "committee": "Sr Technical Program Leader @ Amazon",
+      "linkedin_id": "https://www.linkedin.com/in/parmindersingh11may85/",
+      "email_id": "",
+      "show": true
+    }
+  ],
   "cccMembers": [
     {
       "name": "Rohit Kumar Mishra",
